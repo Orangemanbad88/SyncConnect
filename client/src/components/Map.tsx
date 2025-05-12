@@ -51,7 +51,7 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
         ref={mapRef}
         className="w-full h-full bg-cover bg-center transition-transform duration-300"
         style={{
-          backgroundImage: "url('https://api.mapbox.com/styles/v1/mapbox/light-v10/static/-96.7970,32.7767,12,0/1200x800?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA')",
+          backgroundImage: `url('https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v11/static/${userCoords ? `${userCoords.longitude},${userCoords.latitude}` : '-96.7970,32.7767'},12,0/1200x800?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA')`,
           filter: "contrast(1.1) saturate(1.2)",
           transform: `scale(${zoom})`,
           transformOrigin: "center"
@@ -85,16 +85,24 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
                 onClick={() => onUserClick(user)}
               >
                 <div className="relative">
-                  <img
-                    src={user.profileImage}
-                    alt={`${user.fullName}, ${user.age}`}
-                    className="w-12 h-12 rounded-full border-2 border-white object-cover shadow-md"
-                  />
+                  <div className="relative">
+                    <img
+                      src={user.profileImage}
+                      alt={`${user.fullName}, ${user.age}`}
+                      className="w-14 h-14 rounded-full border-3 border-white object-cover shadow-lg"
+                      style={{ boxShadow: '0 0 0 2px rgba(0,0,0,0.3), 0 4px 10px rgba(0,0,0,0.3)' }}
+                    />
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-b from-transparent to-black opacity-20 pointer-events-none"></div>
+                  </div>
                   <span
-                    className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border border-white ${
-                      user.isOnline ? "online-indicator" : "offline-indicator"
+                    className={`absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-white ${
+                      user.isOnline ? "bg-green-500" : "bg-gray-400"
                     }`}
+                    style={{ boxShadow: '0 0 0 1px rgba(0,0,0,0.2)' }}
                   ></span>
+                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded-full whitespace-nowrap">
+                    {user.fullName.split(' ')[0]}, {user.age}
+                  </div>
                 </div>
               </div>
             );

@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import Header from "@/components/Header";
 import Map from "@/components/Map";
 import DiscoverySidebar from "@/components/DiscoverySidebar";
 import BottomNavigation from "@/components/BottomNavigation";
@@ -33,33 +32,19 @@ const Home = () => {
         { id: 101, fullName: 'Jessica Chen', age: 26, profileImage: 'https://randomuser.me/api/portraits/women/44.jpg', latitude: coords.latitude - 0.008, longitude: coords.longitude + 0.005, isOnline: true },
         { id: 102, fullName: 'Michael Lee', age: 31, profileImage: 'https://randomuser.me/api/portraits/men/22.jpg', latitude: coords.latitude + 0.005, longitude: coords.longitude - 0.012, isOnline: false },
         { id: 103, fullName: 'Sarah Park', age: 24, profileImage: 'https://randomuser.me/api/portraits/women/67.jpg', latitude: coords.latitude - 0.015, longitude: coords.longitude - 0.008, isOnline: true },
+        { id: 104, fullName: 'Emma Wilson', age: 29, profileImage: 'https://randomuser.me/api/portraits/women/33.jpg', latitude: coords.latitude + 0.003, longitude: coords.longitude + 0.018, isOnline: true },
+        { id: 105, fullName: 'David Kim', age: 32, profileImage: 'https://randomuser.me/api/portraits/men/45.jpg', latitude: coords.latitude - 0.012, longitude: coords.longitude + 0.009, isOnline: true },
+        { id: 106, fullName: 'Sophia Garcia', age: 27, profileImage: 'https://randomuser.me/api/portraits/women/28.jpg', latitude: coords.latitude + 0.007, longitude: coords.longitude - 0.005, isOnline: true },
+        { id: 107, fullName: 'James Johnson', age: 30, profileImage: 'https://randomuser.me/api/portraits/men/55.jpg', latitude: coords.latitude - 0.006, longitude: coords.longitude - 0.014, isOnline: false },
+        { id: 108, fullName: 'Olivia Brown', age: 25, profileImage: 'https://randomuser.me/api/portraits/women/90.jpg', latitude: coords.latitude + 0.016, longitude: coords.longitude + 0.002, isOnline: true },
+        { id: 109, fullName: 'Ryan Miller', age: 33, profileImage: 'https://randomuser.me/api/portraits/men/78.jpg', latitude: coords.latitude - 0.018, longitude: coords.longitude + 0.016, isOnline: false },
+        { id: 110, fullName: 'Ava Martinez', age: 24, profileImage: 'https://randomuser.me/api/portraits/women/63.jpg', latitude: coords.latitude + 0.009, longitude: coords.longitude - 0.019, isOnline: true },
       ];
       setDistributedUsers(placeholderUsers);
     }
   }, [nearbyUsers, coords]);
   
-  // We'll set up an effect to automatically fade the header
-  useEffect(() => {
-    // Start a timer to slowly fade out the header
-    const fadeTimer = setTimeout(() => {
-      // Fade out over 5 seconds
-      const fadeInterval = setInterval(() => {
-        setHeaderOpacity(prevOpacity => {
-          const newOpacity = Math.max(0, prevOpacity - 0.01);
-          
-          if (newOpacity <= 0) {
-            clearInterval(fadeInterval);
-          }
-          
-          return newOpacity;
-        });
-      }, 50); // 20 steps per second
-      
-      return () => clearInterval(fadeInterval);
-    }, 3000); // Start fading after 3 seconds
-    
-    return () => clearTimeout(fadeTimer);
-  }, []);
+  // Removed fade timer effect
 
   const handleUserClick = (user: any) => {
     selectUser(user);
@@ -77,8 +62,6 @@ const Home = () => {
 
   return (
     <div className="flex flex-col h-screen overflow-hidden transition-colors duration-1000" style={{ backgroundColor: background }}>
-      <Header />
-      
       <main className="flex-1 flex relative">
         {/* Map and sidebar */}
         <div className="flex w-full h-full z-0">
