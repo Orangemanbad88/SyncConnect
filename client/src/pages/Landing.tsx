@@ -48,14 +48,14 @@ const Landing = () => {
           <div className="flex justify-center">
             <Button 
               onClick={() => setLocation('/home')}
-              className="px-10 py-6 rounded-full text-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg"
+              className="px-10 py-6 rounded-full text-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-blue-800"
               style={{ 
-                backgroundColor: 'var(--primary-blue)',
+                backgroundColor: '#2563EB', // Darker blue
                 color: 'white',
-                boxShadow: '0 4px 14px rgba(59, 130, 246, 0.4)'
+                boxShadow: '0 4px 14px rgba(37, 99, 235, 0.5)'
               }}
             >
-              Get Started
+              Come Vibe
             </Button>
           </div>
         </div>
