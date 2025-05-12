@@ -7,6 +7,7 @@ import BottomNavigation from "@/components/BottomNavigation";
 import ProfileModal from "@/components/ProfileModal";
 import VideoChatModal from "@/components/VideoChatModal";
 import TimeOfDayIndicator from "@/components/TimeOfDayIndicator";
+import TimeChangerPanel from "@/components/TimeChangerPanel";
 import { useUser } from "@/context/UserContext";
 import { useGeolocation } from "@/hooks/useGeolocation";
 import { distributeUsers } from "@/lib/mapUtils";
@@ -93,6 +94,7 @@ const Home = () => {
       
       <BottomNavigation />
       <TimeOfDayIndicator />
+      <TimeChangerPanel />
       
       {showProfileModal && selectedUser && (
         <ProfileModal 

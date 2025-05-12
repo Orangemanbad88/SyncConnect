@@ -1,12 +1,13 @@
-import React, { createContext, useContext, ReactNode } from 'react';
-import { useAmbientColor } from '@/hooks/useAmbientColor';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { useAmbientColor, TimeOfDay } from '@/hooks/useAmbientColor';
 
 // Define the shape of our context
 type AmbientContextType = {
   background: string;
   highlight: string;
   text: string;
-  timeOfDay: 'morning' | 'afternoon' | 'evening' | 'night';
+  timeOfDay: TimeOfDay;
+  setForcedTimeOfDay: (timeOfDay: TimeOfDay | null) => void;
 };
 
 // Create the context with default values
@@ -15,17 +16,24 @@ const AmbientContext = createContext<AmbientContextType>({
   highlight: '#F87171',
   text: '#3B82F6',
   timeOfDay: 'afternoon',
+  setForcedTimeOfDay: () => {},
 });
 
 // Provider component
 export const AmbientProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const { colorScheme, timeOfDay } = useAmbientColor();
+  const [forcedTime, setForcedTime] = useState<TimeOfDay | null>(null);
+  const { colorScheme, timeOfDay } = useAmbientColor(forcedTime || undefined);
+  
+  const setForcedTimeOfDay = (time: TimeOfDay | null) => {
+    setForcedTime(time);
+  };
   
   const value = {
     background: colorScheme.background,
     highlight: colorScheme.highlight,
     text: colorScheme.text,
     timeOfDay,
+    setForcedTimeOfDay,
   };
   
   return (
@@ -36,4 +44,12 @@ export const AmbientProvider: React.FC<{ children: ReactNode }> = ({ children })
 };
 
 // Custom hook to use the ambient context
-export const useAmbient = () => useContext(AmbientContext);
+function useAmbient() {
+  const context = useContext(AmbientContext);
+  if (context === undefined) {
+    throw new Error('useAmbient must be used within an AmbientProvider');
+  }
+  return context;
+}
+
+export { useAmbient };
