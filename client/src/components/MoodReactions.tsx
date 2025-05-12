@@ -39,11 +39,17 @@ const MoodReactions: React.FC<MoodReactionsProps> = ({ toUserId, className = '' 
     queryKey: ['moodReactions', currentUser?.id, toUserId],
     queryFn: async () => {
       if (!currentUser || !toUserId) return [];
-      const data = await apiRequest({
-        url: `/api/users/${currentUser.id}/mood-reactions/${toUserId}`,
-        method: 'GET'
-      });
-      return Array.isArray(data) ? data : [];
+      try {
+        const response = await fetch(`/api/users/${currentUser.id}/mood-reactions/${toUserId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch reactions');
+        }
+        const data = await response.json();
+        return Array.isArray(data) ? data : [];
+      } catch (error) {
+        console.error('Error fetching reactions:', error);
+        return [];
+      }
     },
     enabled: !!currentUser && !!toUserId
   });
@@ -51,15 +57,23 @@ const MoodReactions: React.FC<MoodReactionsProps> = ({ toUserId, className = '' 
   // Mutation to send a new reaction
   const mutation = useMutation({
     mutationFn: async ({ emoji }: { emoji: string }) => {
-      return apiRequest({
-        url: '/api/mood-reactions',
+      const response = await fetch('/api/mood-reactions', {
         method: 'POST',
-        body: {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           fromUserId: currentUser!.id,
           toUserId: toUserId,
           emoji: emoji
-        }
+        })
       });
+      
+      if (!response.ok) {
+        throw new Error('Failed to send reaction');
+      }
+      
+      return response.json();
     },
     onSuccess: () => {
       // Invalidate and refetch the reactions
@@ -88,10 +102,13 @@ const MoodReactions: React.FC<MoodReactionsProps> = ({ toUserId, className = '' 
   };
 
   // Count occurrences of each emoji
-  const emojiCounts = reactions.reduce((acc, reaction) => {
-    acc[reaction.emoji] = (acc[reaction.emoji] || 0) + 1;
+  const emojiCounts = reactions.reduce<Record<string, number>>((acc, reaction) => {
+    if (reaction && typeof reaction === 'object' && 'emoji' in reaction) {
+      const emoji = String(reaction.emoji);
+      acc[emoji] = (acc[emoji] || 0) + 1;
+    }
     return acc;
-  }, {} as Record<string, number>);
+  }, {});
 
   return (
     <div className={`${className}`}>
