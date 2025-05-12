@@ -59,12 +59,12 @@ const Landing = () => {
             <DynamicArrows className="mx-auto w-40 h-40" />
           </div>
           
-          <SyncLogo className="w-60 h-auto mx-auto mb-12 mt-24" />
+          <SyncLogo className="w-60 h-auto mx-auto mb-16 mt-24" />
           
-          <div className="flex justify-center">
+          <div className="flex justify-center mt-4 w-full">
             <Button 
               onClick={() => setLocation('/home')}
-              className="px-10 py-6 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg animate-pulse-glow"
+              className="px-10 py-6 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg animate-pulse-glow mx-auto"
               style={{ 
                 background: 'linear-gradient(135deg, #F8FAFC 0%, #CBD5E1 30%, #94A3B8 60%, #64748B 85%, #7E22CE 100%)',
                 color: '#2563EB',
