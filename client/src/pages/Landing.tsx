@@ -29,7 +29,7 @@ const Landing = () => {
       
       <div className={`text-center transition-all duration-1000 delay-300 ease-out ${fadeIn ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
         <h1 
-          className="text-7xl font-['Poppins'] font-light tracking-[0.25em] mb-4"
+          className="text-7xl font-['Playfair_Display'] font-light tracking-[0.2em] mb-6 italic"
           style={{ color: highlight }}
         >
           S Y N C

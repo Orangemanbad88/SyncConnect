@@ -20,7 +20,7 @@ const Header = () => {
     <header className="shadow-lg py-5 px-8 flex justify-between items-center transition-colors duration-1000" style={{ backgroundColor: 'var(--primary-coral)' }}>
       <div className="flex items-center">
         <SyncLogo className="w-10 h-10" />
-        <h1 className="ml-3 font-['Poppins'] text-3xl font-extralight tracking-[0.2em] opacity-90" style={{ color: 'white' }}>S Y N C</h1>
+        <h1 className="ml-3 font-['Playfair_Display'] text-3xl font-extralight tracking-[0.2em] opacity-90 italic" style={{ color: 'white' }}>S Y N C</h1>
       </div>
       
       <div className="flex items-center">

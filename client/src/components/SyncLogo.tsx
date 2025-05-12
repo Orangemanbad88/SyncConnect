@@ -12,12 +12,12 @@ const SyncLogo: React.FC<SyncLogoProps> = ({ className = "w-8 h-8" }) => {
         <div className="w-full h-full rounded-full bg-white"></div>
       </div>
       
-      {/* Blue clockwise spinning circle with arrow */}
+      {/* Blue clockwise spinning circle with arrow (reversed direction) */}
       <svg 
         viewBox="0 0 100 100" 
         fill="none" 
         xmlns="http://www.w3.org/2000/svg" 
-        className="w-full h-full absolute inset-0 animate-spin-slow"
+        className="w-full h-full absolute inset-0 animate-spin-slow-reverse"
       >
         <circle 
           cx="50" 
@@ -36,16 +36,16 @@ const SyncLogo: React.FC<SyncLogoProps> = ({ className = "w-8 h-8" }) => {
           strokeWidth="6" 
           strokeLinecap="round"
           strokeLinejoin="round"
-          transform="rotate(45, 15, 25)"
+          transform="rotate(225, 15, 25)"
         />
       </svg>
       
-      {/* Coral counter-clockwise spinning circle with arrow */}
+      {/* Coral spinning circle with arrow (reversed direction) */}
       <svg 
         viewBox="0 0 100 100" 
         fill="none" 
         xmlns="http://www.w3.org/2000/svg" 
-        className="w-full h-full absolute inset-0 animate-spin-slow-reverse"
+        className="w-full h-full absolute inset-0 animate-spin-slow"
       >
         <circle 
           cx="50" 
@@ -65,7 +65,7 @@ const SyncLogo: React.FC<SyncLogoProps> = ({ className = "w-8 h-8" }) => {
           strokeWidth="6" 
           strokeLinecap="round"
           strokeLinejoin="round"
-          transform="rotate(45, 85, 75)"
+          transform="rotate(225, 85, 75)"
         />
       </svg>
     </div>

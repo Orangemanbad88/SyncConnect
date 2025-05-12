@@ -62,11 +62,11 @@
     @apply border-border;
   }
   body {
-    @apply font-['Quicksand'] bg-[var(--neutral-offwhite)] text-[var(--primary-blue)];
+    @apply font-['Quicksand'] bg-[var(--neutral-tan)] text-[var(--primary-blue)];
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-['Montserrat'] font-semibold;
+    @apply font-['Playfair_Display'] font-semibold;
   }
   
   .app-title {
