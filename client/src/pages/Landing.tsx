@@ -21,7 +21,7 @@ const Landing = () => {
   return (
     <div 
       className="h-screen w-full flex flex-col items-center justify-center transition-colors duration-1000"
-      style={{ backgroundColor: background }}
+      style={{ backgroundColor: 'var(--neutral-gray)' }}
     >
       <div className={`transform transition-all duration-1000 ease-out ${fadeIn ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
         <SyncLogo className="w-40 h-40 mx-auto mb-8" />
@@ -29,11 +29,17 @@ const Landing = () => {
       
       <div className={`text-center transition-all duration-1000 delay-300 ease-out ${fadeIn ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
         <h1 
-          className="text-7xl font-['Playfair_Display'] font-light tracking-[0.2em] mb-6 italic"
-          style={{ color: highlight }}
+          className="text-7xl font-['Cinzel'] font-bold tracking-[0.1em] mb-2"
+          style={{ color: 'var(--primary-blue)' }}
         >
-          S Y N C
+          SYNC
         </h1>
+        <h2
+          className="text-3xl font-['Cinzel'] font-medium mb-8"
+          style={{ color: 'var(--primary-blue)' }}
+        >
+          Your World
+        </h2>
         
         <p 
           className="text-2xl font-light max-w-md mx-auto mb-12"
