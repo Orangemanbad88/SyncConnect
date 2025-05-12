@@ -8,6 +8,7 @@ import {
   insertInterestSchema,
   insertMoodReactionSchema
 } from "@shared/schema";
+import { WebSocketServer } from 'ws';
 import express from "express";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -184,6 +185,134 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   const httpServer = createServer(app);
+
+  // Setup WebSocket server for WebRTC signaling
+  const wss = new WebSocketServer({ server: httpServer, path: '/ws' });
+  
+  // Keep track of connected users
+  const connectedUsers = new Map();
+  
+  wss.on('connection', (ws) => {
+    console.log('New WebSocket connection established');
+    let userId = null;
+    
+    ws.on('message', (message) => {
+      try {
+        const data = JSON.parse(message.toString());
+        console.log('Received WebSocket message:', data.type);
+        
+        // Handle different types of messages
+        switch(data.type) {
+          case 'register':
+            // Register a user with their ID
+            userId = data.userId;
+            connectedUsers.set(userId, ws);
+            console.log(`User ${userId} registered`);
+            break;
+            
+          case 'offer':
+            // Forward offer to the target user
+            const targetUserWsForOffer = connectedUsers.get(data.target);
+            if (targetUserWsForOffer && targetUserWsForOffer.readyState === ws.OPEN) {
+              console.log(`Forwarding offer from ${data.from} to ${data.target}`);
+              targetUserWsForOffer.send(JSON.stringify({
+                type: 'offer',
+                offer: data.offer,
+                from: data.from
+              }));
+            } else {
+              // Target user not connected
+              ws.send(JSON.stringify({
+                type: 'error',
+                message: 'Target user not connected',
+                target: data.target
+              }));
+            }
+            break;
+            
+          case 'answer':
+            // Forward answer to the target user
+            const targetUserWsForAnswer = connectedUsers.get(data.target);
+            if (targetUserWsForAnswer && targetUserWsForAnswer.readyState === ws.OPEN) {
+              console.log(`Forwarding answer from ${data.from} to ${data.target}`);
+              targetUserWsForAnswer.send(JSON.stringify({
+                type: 'answer',
+                answer: data.answer,
+                from: data.from
+              }));
+            }
+            break;
+            
+          case 'ice-candidate':
+            // Forward ICE candidate to the target user
+            const targetUserWsForIce = connectedUsers.get(data.target);
+            if (targetUserWsForIce && targetUserWsForIce.readyState === ws.OPEN) {
+              console.log(`Forwarding ICE candidate from ${data.from} to ${data.target}`);
+              targetUserWsForIce.send(JSON.stringify({
+                type: 'ice-candidate',
+                candidate: data.candidate,
+                from: data.from
+              }));
+            }
+            break;
+            
+          case 'call-request':
+            // Forward call request to the target user
+            const targetUserWsForCall = connectedUsers.get(data.target);
+            if (targetUserWsForCall && targetUserWsForCall.readyState === ws.OPEN) {
+              console.log(`Forwarding call request from ${data.from} to ${data.target}`);
+              targetUserWsForCall.send(JSON.stringify({
+                type: 'call-request',
+                from: data.from,
+                fromUser: data.fromUser
+              }));
+            } else {
+              // Target user not connected
+              ws.send(JSON.stringify({
+                type: 'error',
+                message: 'Target user not online',
+                target: data.target
+              }));
+            }
+            break;
+            
+          case 'call-response':
+            // Forward call response to the target user
+            const targetUserWsForResponse = connectedUsers.get(data.target);
+            if (targetUserWsForResponse && targetUserWsForResponse.readyState === ws.OPEN) {
+              console.log(`Forwarding call response (${data.accepted}) from ${data.from} to ${data.target}`);
+              targetUserWsForResponse.send(JSON.stringify({
+                type: 'call-response',
+                from: data.from,
+                accepted: data.accepted
+              }));
+            }
+            break;
+            
+          case 'hang-up':
+            // Forward hang up to the target user
+            const targetUserWsForHangup = connectedUsers.get(data.target);
+            if (targetUserWsForHangup && targetUserWsForHangup.readyState === ws.OPEN) {
+              console.log(`Forwarding hang up from ${data.from} to ${data.target}`);
+              targetUserWsForHangup.send(JSON.stringify({
+                type: 'hang-up',
+                from: data.from
+              }));
+            }
+            break;
+        }
+      } catch (error) {
+        console.error('Error processing WebSocket message:', error);
+      }
+    });
+    
+    ws.on('close', () => {
+      console.log(`WebSocket connection closed${userId ? ' for user ' + userId : ''}`);
+      if (userId) {
+        connectedUsers.delete(userId);
+      }
+    });
+  });
 
   return httpServer;
 }

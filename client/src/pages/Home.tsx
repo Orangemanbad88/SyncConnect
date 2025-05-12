@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import Header from "@/components/Header";
-import HeroHeader from "@/components/HeroHeader";
 import Map from "@/components/Map";
 import DiscoverySidebar from "@/components/DiscoverySidebar";
 import BottomNavigation from "@/components/BottomNavigation";
@@ -20,7 +19,6 @@ const Home = () => {
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [showVideoChatModal, setShowVideoChatModal] = useState(false);
   const [distributedUsers, setDistributedUsers] = useState<any[]>([]);
-  const [headerOpacity, setHeaderOpacity] = useState(1);
   const mainRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -82,8 +80,6 @@ const Home = () => {
       <Header />
       
       <main className="flex-1 flex relative">
-        <HeroHeader opacity={headerOpacity} />
-        
         {/* Map and sidebar */}
         <div className="flex w-full h-full z-0">
           <Map 
