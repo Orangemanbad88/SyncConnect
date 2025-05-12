@@ -18,7 +18,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Landing} />
       <Route path="/home" component={Home} />
-      <ProtectedRoute path="/roulette" component={RouletteMatch} />
+      <Route path="/roulette" component={RouletteMatch} />
       <Route path="/auth" component={AuthPage} />
       <Route component={NotFound} />
     </Switch>
