@@ -82,19 +82,19 @@ const Landing = () => {
                 `,
                 fontFamily: 'Cinzel, serif',
                 fontSize: '1rem',
-                fontWeight: '700',
+                fontWeight: '900',
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase',
                 textShadow: `
-                  0 1px 1px rgba(255, 255, 255, 0.8),
-                  0 0 8px rgba(160, 200, 255, 0.9),
-                  0 0 15px rgba(50, 110, 210, 0.6),
-                  0 0 20px rgba(40, 90, 190, 0.4)
+                  0 1px 2px rgba(255, 255, 255, 0.9),
+                  0 0 10px rgba(160, 200, 255, 1),
+                  0 0 15px rgba(50, 110, 210, 0.7),
+                  0 0 2px rgba(0, 20, 80, 0.7)
                 `
               }}
             >
               <span className="opacity-90 tracking-wide mr-1">Come</span> 
-              <span className="inline-block">VIBE</span>
+              <span className="inline-block font-black" style={{ textShadow: '0 0 2px rgba(0, 40, 100, 0.8)' }}>VIBE</span>
             </Button>
           </div>
         </div>
