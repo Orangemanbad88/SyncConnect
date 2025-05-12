@@ -119,14 +119,23 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
   }, [zoom]);
   
   const handleZoomIn = () => {
-    setZoom(prev => Math.min(prev + 0.2, 3));
+    setZoom(prev => {
+      const newZoom = Math.min(prev + 0.2, 3);
+      console.log("Zooming in to:", newZoom);
+      return newZoom;
+    });
   };
   
   const handleZoomOut = () => {
-    setZoom(prev => Math.max(prev - 0.2, 0.3));
+    setZoom(prev => {
+      const newZoom = Math.max(prev - 0.2, 0.3);
+      console.log("Zooming out to:", newZoom);
+      return newZoom;
+    });
   };
   
   const handleReset = () => {
+    console.log("Resetting zoom to 1");
     setZoom(1);
   };
 
@@ -137,12 +146,12 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
       
       <div
         ref={mapRef}
-        className="w-full h-full bg-cover bg-center transition-transform duration-300 shadow-inner"
+        className="w-full h-full bg-cover bg-center transition-all duration-300 shadow-inner"
         style={{
           backgroundImage: `url('https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/${userCoords ? `${userCoords.longitude},${userCoords.latitude}` : '-96.7970,32.7767'},10,0/1200x800?access_token=pk.eyJ1IjoibWFjbWFuODgiLCJhIjoiY21hbGs3Ynh2MDlsejJ2b3A5ZWcxaGlmZyJ9.VGnLHayRJk4u6FRJeKQMeA')`,
           filter: "contrast(1.2) saturate(1.3)",
           transform: `scale(${zoom})`,
-          transformOrigin: "center"
+          transformOrigin: "center center"
         }}
       >
         {isLoading ? (
@@ -172,13 +181,15 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
                 }}
                 onClick={() => onUserClick(user)}
               >
-                <div className="relative">
+                <div className="relative group">
                   <div className="relative">
                     <img
                       src={user.profileImage}
                       alt={`${user.fullName}, ${user.age}`}
                       className="w-14 h-14 rounded-full border-3 border-white object-cover shadow-lg"
                       style={{ boxShadow: '0 0 0 2px rgba(0,0,0,0.3), 0 4px 10px rgba(0,0,0,0.3)' }}
+                      onMouseEnter={() => setHoveredUserId(user.id)}
+                      onMouseLeave={() => setHoveredUserId(null)}
                     />
                     <div className="absolute inset-0 rounded-full bg-gradient-to-b from-transparent to-black opacity-20 pointer-events-none"></div>
                   </div>
@@ -191,6 +202,20 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
                   <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded-full whitespace-nowrap">
                     {user.fullName.split(' ')[0]}, {user.age}
                   </div>
+                  
+                  {/* Video call button that appears on hover for online users */}
+                  {user.isOnline && hoveredUserId === user.id && (
+                    <button
+                      className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-purple-600 hover:bg-purple-700 text-white rounded-full p-2 shadow-lg transition-all duration-200 flex items-center justify-center gap-1"
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent triggering the parent onClick
+                        setLocation(`/video/${user.id}`);
+                      }}
+                    >
+                      <Video className="w-4 h-4" />
+                      <span className="text-xs font-medium">Call</span>
+                    </button>
+                  )}
                 </div>
               </div>
             );
