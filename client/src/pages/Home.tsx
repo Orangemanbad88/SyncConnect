@@ -68,7 +68,7 @@ const Home = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden">
+    <div className="flex flex-col h-screen overflow-hidden transition-colors duration-1000" style={{ backgroundColor: background }}>
       <Header />
       
       <main className="flex-1 flex relative">
@@ -92,6 +92,7 @@ const Home = () => {
       </main>
       
       <BottomNavigation />
+      <TimeOfDayIndicator />
       
       {showProfileModal && selectedUser && (
         <ProfileModal 

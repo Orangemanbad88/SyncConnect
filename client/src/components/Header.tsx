@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useUser } from "@/context/UserContext";
+import { useAmbient } from "@/context/AmbientContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,21 +13,23 @@ import SyncLogo from "./SyncLogo";
 
 const Header = () => {
   const { currentUser, logout } = useUser();
+  const { highlight, text } = useAmbient();
   const [notificationCount] = useState(3);
 
   return (
-    <header className="bg-white shadow-sm py-4 px-6 flex justify-between items-center">
+    <header className="shadow-sm py-4 px-6 flex justify-between items-center transition-colors duration-1000" style={{ backgroundColor: 'white' }}>
       <div className="flex items-center">
         <SyncLogo className="w-10 h-10" />
-        <h1 className="ml-2 font-['Poppins'] text-2xl font-bold text-[var(--primary-coral)] tracking-wider">S Y N C</h1>
+        <h1 className="ml-2 font-['Poppins'] text-2xl font-bold tracking-wider" style={{ color: highlight }}>S Y N C</h1>
       </div>
       
       <div className="flex items-center">
         <div className="relative mr-4">
           <button className="focus:outline-none">
-            <Bell className="w-6 h-6 text-[var(--text-dark)]" />
+            <Bell className="w-6 h-6" style={{ color: text }} />
             {notificationCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-[var(--secondary-coral)] text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
+              <span className="absolute -top-1 -right-1 text-white text-xs font-bold px-1.5 py-0.5 rounded-full"
+                    style={{ backgroundColor: highlight }}>
                 {notificationCount}
               </span>
             )}

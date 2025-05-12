@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 
 // Define color schemes for different times of day
-type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night';
-type ColorScheme = {
+export type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night';
+export type ColorScheme = {
   background: string;
   highlight: string;
   text: string;
@@ -31,11 +31,20 @@ const COLOR_SCHEMES: Record<TimeOfDay, ColorScheme> = {
   },
 };
 
-export const useAmbientColor = () => {
-  const [timeOfDay, setTimeOfDay] = useState<TimeOfDay>('afternoon');
-  const [colorScheme, setColorScheme] = useState<ColorScheme>(COLOR_SCHEMES.afternoon);
+export const useAmbientColor = (forcedTimeOfDay?: TimeOfDay) => {
+  const [timeOfDay, setTimeOfDay] = useState<TimeOfDay>(forcedTimeOfDay || 'afternoon');
+  const [colorScheme, setColorScheme] = useState<ColorScheme>(
+    forcedTimeOfDay ? COLOR_SCHEMES[forcedTimeOfDay] : COLOR_SCHEMES.afternoon
+  );
 
   useEffect(() => {
+    // If forcedTimeOfDay is provided, use that instead of time-based detection
+    if (forcedTimeOfDay) {
+      setTimeOfDay(forcedTimeOfDay);
+      setColorScheme(COLOR_SCHEMES[forcedTimeOfDay]);
+      return;
+    }
+    
     // Determine time of day based on current hour
     const determineTimeOfDay = (): TimeOfDay => {
       const hour = new Date().getHours();
@@ -66,7 +75,7 @@ export const useAmbientColor = () => {
     }, 60000); // Check every minute
 
     return () => clearInterval(intervalId);
-  }, [timeOfDay]);
+  }, [timeOfDay, forcedTimeOfDay]);
 
   return { colorScheme, timeOfDay };
 };
