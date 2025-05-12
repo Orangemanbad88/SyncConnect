@@ -16,12 +16,18 @@ import { Link, useLocation } from "wouter";
 const Header = () => {
   const { user } = useAuth();
   const { logoutMutation } = useAuth();
-  const { highlight, text } = useAmbient();
+  const { highlight, text, background, timeOfDay } = useAmbient();
   const [notificationCount] = useState(3);
   const [location] = useLocation();
 
   return (
-    <header className="shadow-md py-2 px-6 flex justify-between items-center transition-colors duration-500 backdrop-blur-sm" style={{ backgroundColor: 'rgba(0, 0, 0, 0.95)', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
+    <header className="shadow-md py-2 px-6 flex justify-between items-center transition-colors duration-500 backdrop-blur-sm" style={{ 
+      backgroundColor: timeOfDay === 'night' ? 'rgba(12, 12, 14, 0.9)' : 
+                      timeOfDay === 'evening' ? 'rgba(20, 20, 35, 0.9)' : 
+                      timeOfDay === 'afternoon' ? 'rgba(25, 25, 35, 0.9)' : 
+                      'rgba(30, 30, 40, 0.9)', 
+      borderBottom: `1px solid ${highlight}20`
+    }}>
       <div className="flex items-center">
         <Link to="/">
           <div className="flex items-center cursor-pointer">
