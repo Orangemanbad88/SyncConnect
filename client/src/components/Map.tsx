@@ -227,29 +227,29 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
       
       {/* Map controls */}
       <div className="absolute bottom-24 right-4 flex flex-col space-y-2">
-        <div className="bg-black/70 px-3 py-2 rounded-lg mb-1 text-center">
-          <p className="text-white text-xs mb-1">Zoom Level: {(zoom * 100).toFixed(0)}%</p>
+        <div className="bg-blue-600/80 px-3 py-2 rounded-lg mb-1 text-center shadow-md">
+          <p className="text-white text-xs font-medium mb-1">Zoom Level: {(zoom * 100).toFixed(0)}%</p>
         </div>
         <button
-          className="bg-white/90 hover:bg-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 transition-all border border-gray-200"
+          className="bg-blue-500/90 hover:bg-blue-600 rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 transition-all border border-blue-400/30 text-white"
           onClick={handleZoomIn}
           title="Zoom In"
         >
-          <Plus className="w-6 h-6 text-gray-800" />
+          <Plus className="w-6 h-6 text-white" />
         </button>
         <button
-          className="bg-white/90 hover:bg-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 transition-all border border-gray-200"
+          className="bg-blue-500/90 hover:bg-blue-600 rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 transition-all border border-blue-400/30 text-white"
           onClick={handleZoomOut}
           title="Zoom Out"
         >
-          <Minus className="w-6 h-6 text-gray-800" />
+          <Minus className="w-6 h-6 text-white" />
         </button>
         <button
-          className="bg-white/90 hover:bg-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 transition-all border border-gray-200"
+          className="bg-purple-500/90 hover:bg-purple-600 rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 transition-all border border-purple-400/30 text-white"
           onClick={handleReset}
           title="Reset Zoom"
         >
-          <ArrowUp className="w-6 h-6 text-gray-800" />
+          <ArrowUp className="w-6 h-6 text-white" />
         </button>
       </div>
       

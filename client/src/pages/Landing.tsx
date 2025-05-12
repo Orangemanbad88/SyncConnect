@@ -66,17 +66,17 @@ const Landing = () => {
               onClick={() => setLocation('/home')}
               className="px-10 py-6 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg animate-pulse-glow mx-auto"
               style={{ 
-                background: 'linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(252, 252, 255, 0.98) 30%, rgba(233, 213, 255, 0.95) 60%, rgba(168, 85, 247, 0.8) 100%)',
+                background: 'linear-gradient(90deg, rgba(235, 245, 255, 1) 0%, rgba(230, 240, 255, 0.98) 30%, rgba(200, 225, 255, 0.95) 70%, rgba(160, 210, 255, 0.9) 100%)',
                 backdropFilter: 'blur(4px)',
-                border: '1px solid rgba(255, 255, 255, 0.9)',
-                color: '#4338CA',
+                border: '1px solid rgba(220, 235, 255, 0.9)',
+                color: '#3366CC',
                 boxShadow: `
-                  0 4px 14px rgba(255, 255, 255, 0.9),
-                  0 0 10px rgba(233, 225, 255, 0.9),
-                  0 0 20px rgba(205, 186, 255, 0.7),
-                  0 0 30px rgba(192, 168, 255, 0.5),
-                  inset 0 0 20px rgba(255, 255, 255, 0.8),
-                  inset 0 0 10px rgba(216, 191, 255, 0.4)
+                  0 4px 14px rgba(200, 225, 255, 0.9),
+                  0 0 10px rgba(180, 215, 255, 0.9),
+                  0 0 20px rgba(150, 195, 255, 0.7),
+                  0 0 30px rgba(120, 175, 255, 0.5),
+                  inset 0 0 20px rgba(230, 240, 255, 0.8),
+                  inset 0 0 10px rgba(180, 215, 255, 0.4)
                 `,
                 fontFamily: 'Cinzel, serif',
                 fontSize: '1.2rem',

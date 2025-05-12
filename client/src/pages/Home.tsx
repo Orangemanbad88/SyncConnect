@@ -64,7 +64,7 @@ const Home = () => {
   return (
     <div className="flex flex-col h-screen overflow-hidden transition-all duration-1000" 
       style={{ 
-        background: background,
+        backgroundImage: background,
         backgroundSize: '400% 400%',
         animation: 'gradient 15s ease infinite'
       }}>
