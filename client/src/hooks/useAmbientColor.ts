@@ -10,24 +10,24 @@ export type ColorScheme = {
 
 const COLOR_SCHEMES: Record<TimeOfDay, ColorScheme> = {
   morning: {
-    background: '#FEF3F2', // Light peach
-    highlight: '#F87171', // Coral
+    background: 'linear-gradient(150deg, #FEF9C3 0%, #FEF3F2 70%, #FCE7F3 100%)', // Soft yellow/peach gradient
+    highlight: '#F59E0B', // Amber/orange
     text: '#3B82F6',      // Blue
   },
   afternoon: {
-    background: '#F5E8E0', // Tan with reddish tint
+    background: 'linear-gradient(150deg, #E0F2FE 0%, #F5F5F4 50%, #FEF3F2 100%)', // Light blue to white to peach
     highlight: '#F87171', // Coral
     text: '#3B82F6',      // Blue
   },
   evening: {
-    background: '#FCE7F3', // Light pink
+    background: 'linear-gradient(150deg, #93C5FD 0%, #DDD6FE 50%, #FBCFE8 100%)', // Blue to purple to pink gradient
     highlight: '#EC4899', // Pink
     text: '#8B5CF6',      // Purple
   },
   night: {
-    background: '#EFF6FF', // Light blue
-    highlight: '#3B82F6', // Blue
-    text: '#F87171',      // Coral
+    background: 'linear-gradient(150deg, #020617 0%, #1E293B 50%, #334155 100%)', // Dark blue to slate gradient
+    highlight: '#A78BFA', // Purple
+    text: '#E2E8F0',      // Light gray
   },
 };
 

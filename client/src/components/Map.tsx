@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { latLongToPixel } from "@/lib/mapUtils";
-import { Plus, Minus, ArrowUp } from "lucide-react";
+import { Plus, Minus, ArrowUp, Video } from "lucide-react";
+import { useLocation } from "wouter";
 
 interface MapProps {
   users: any[];
@@ -14,6 +15,8 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
   const [mapDimensions, setMapDimensions] = useState({ width: 0, height: 0 });
   const [zoom, setZoom] = useState(1);
   const [showZoomTip, setShowZoomTip] = useState(true);
+  const [hoveredUserId, setHoveredUserId] = useState<number | null>(null);
+  const [, setLocation] = useLocation();
   
   // Hide zoom tip after 5 seconds
   useEffect(() => {
