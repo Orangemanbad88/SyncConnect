@@ -34,11 +34,11 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
   }, []);
   
   const handleZoomIn = () => {
-    setZoom(prev => Math.min(prev + 0.2, 2));
+    setZoom(prev => Math.min(prev + 0.2, 3));
   };
   
   const handleZoomOut = () => {
-    setZoom(prev => Math.max(prev - 0.2, 0.6));
+    setZoom(prev => Math.max(prev - 0.2, 0.3));
   };
   
   const handleReset = () => {
@@ -54,7 +54,7 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
         ref={mapRef}
         className="w-full h-full bg-cover bg-center transition-transform duration-300 shadow-inner"
         style={{
-          backgroundImage: `url('https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/${userCoords ? `${userCoords.longitude},${userCoords.latitude}` : '-96.7970,32.7767'},12,0/1200x800?access_token=pk.eyJ1IjoibWFjbWFuODgiLCJhIjoiY21hbGs3Ynh2MDlsejJ2b3A5ZWcxaGlmZyJ9.VGnLHayRJk4u6FRJeKQMeA')`,
+          backgroundImage: `url('https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/${userCoords ? `${userCoords.longitude},${userCoords.latitude}` : '-96.7970,32.7767'},10,0/1200x800?access_token=pk.eyJ1IjoibWFjbWFuODgiLCJhIjoiY21hbGs3Ynh2MDlsejJ2b3A5ZWcxaGlmZyJ9.VGnLHayRJk4u6FRJeKQMeA')`,
           filter: "contrast(1.2) saturate(1.3)",
           transform: `scale(${zoom})`,
           transformOrigin: "center"
