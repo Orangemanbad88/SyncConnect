@@ -71,19 +71,23 @@ const Home = () => {
       <Header />
       <main className="flex-1 flex relative">
         {/* Map and sidebar */}
-        <div className="flex w-full h-full z-0">
-          <Map 
-            users={distributedUsers}
-            isLoading={isLoading}
-            onUserClick={handleUserClick}
-            userCoords={coords}
-          />
+        <div className="flex w-full h-full z-0 flex-col md:flex-row">
+          <div className="flex-1 h-full md:h-auto">
+            <Map 
+              users={distributedUsers}
+              isLoading={isLoading}
+              onUserClick={handleUserClick}
+              userCoords={coords}
+            />
+          </div>
           
-          <DiscoverySidebar 
-            users={nearbyUsers}
-            isLoading={isLoading}
-            onUserClick={handleUserClick}
-          />
+          <div className="hidden md:block">
+            <DiscoverySidebar 
+              users={nearbyUsers}
+              isLoading={isLoading}
+              onUserClick={handleUserClick}
+            />
+          </div>
         </div>
       </main>
       

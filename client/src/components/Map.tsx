@@ -188,10 +188,12 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
                     <img
                       src={user.profileImage}
                       alt={`${user.fullName}, ${user.age}`}
-                      className="w-14 h-14 rounded-full border-3 border-white object-cover shadow-lg"
+                      className="w-10 h-10 md:w-14 md:h-14 rounded-full border-3 border-white object-cover shadow-lg"
                       style={{ boxShadow: '0 0 0 2px rgba(0,0,0,0.3), 0 4px 10px rgba(0,0,0,0.3)' }}
                       onMouseEnter={() => setHoveredUserId(user.id)}
                       onMouseLeave={() => setHoveredUserId(null)}
+                      onTouchStart={() => user.isOnline && setHoveredUserId(user.id)}
+                      onTouchEnd={() => setTimeout(() => setHoveredUserId(null), 3000)}
                     />
                     <div className="absolute inset-0 rounded-full bg-gradient-to-b from-transparent to-black opacity-20 pointer-events-none"></div>
                   </div>
@@ -201,8 +203,8 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
                     }`}
                     style={{ boxShadow: '0 0 0 1px rgba(0,0,0,0.2)' }}
                   ></span>
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded-full whitespace-nowrap">
-                    {user.fullName.split(' ')[0]}, {user.age}
+                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white text-xs px-2 py-1 rounded-full whitespace-nowrap shadow-md">
+                    <span className="text-xs md:text-sm font-medium">{user.fullName.split(' ')[0]}, {user.age}</span>
                   </div>
                   
                   {/* Video call button that appears on hover for online users */}
@@ -226,30 +228,30 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
       </div>
       
       {/* Map controls */}
-      <div className="absolute bottom-24 right-4 flex flex-col space-y-2">
-        <div className="bg-blue-600/80 px-3 py-2 rounded-lg mb-1 text-center shadow-md">
-          <p className="text-white text-xs font-medium mb-1">Zoom Level: {(zoom * 100).toFixed(0)}%</p>
+      <div className="absolute bottom-20 sm:bottom-24 right-3 sm:right-4 flex flex-col space-y-2">
+        <div className="bg-blue-600/80 px-2 sm:px-3 py-1 sm:py-2 rounded-lg mb-1 text-center shadow-md">
+          <p className="text-white text-xs font-medium">Zoom: {(zoom * 100).toFixed(0)}%</p>
         </div>
         <button
-          className="bg-blue-500/90 hover:bg-blue-600 rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 transition-all border border-blue-400/30 text-white"
+          className="bg-blue-500/90 hover:bg-blue-600 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 transition-all border border-blue-400/30 text-white"
           onClick={handleZoomIn}
           title="Zoom In"
         >
-          <Plus className="w-6 h-6 text-white" />
+          <Plus className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
         </button>
         <button
-          className="bg-blue-500/90 hover:bg-blue-600 rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 transition-all border border-blue-400/30 text-white"
+          className="bg-blue-500/90 hover:bg-blue-600 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 transition-all border border-blue-400/30 text-white"
           onClick={handleZoomOut}
           title="Zoom Out"
         >
-          <Minus className="w-6 h-6 text-white" />
+          <Minus className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
         </button>
         <button
-          className="bg-purple-500/90 hover:bg-purple-600 rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 transition-all border border-purple-400/30 text-white"
+          className="bg-purple-500/90 hover:bg-purple-600 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 transition-all border border-purple-400/30 text-white"
           onClick={handleReset}
           title="Reset Zoom"
         >
-          <ArrowUp className="w-6 h-6 text-white" />
+          <ArrowUp className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
         </button>
       </div>
       
@@ -270,12 +272,13 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
       
       {/* Zoom help tooltip */}
       {showZoomTip && (
-        <div className="absolute left-1/2 top-4 transform -translate-x-1/2 bg-black/80 text-white px-4 py-3 rounded-lg shadow-xl z-50 max-w-xs text-center backdrop-blur-sm animate-fade-in-down">
-          <p className="font-medium mb-1">Map Controls Available</p>
-          <div className="text-sm opacity-90 mb-2">
-            <p>• Use mouse wheel to zoom in and out</p>
+        <div className="absolute left-1/2 top-4 transform -translate-x-1/2 bg-black/80 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg shadow-xl z-50 max-w-[90%] sm:max-w-xs text-center backdrop-blur-sm animate-fade-in-down">
+          <p className="font-medium mb-1 text-sm sm:text-base">Map Controls</p>
+          <div className="text-xs sm:text-sm opacity-90 mb-2">
+            <p className="hidden sm:block">• Use mouse wheel to zoom in and out</p>
             <p>• Pinch gesture on mobile devices</p>
             <p>• Zoom controls in bottom right</p>
+            <p className="sm:hidden">• Tap users to see their profiles</p>
           </div>
           <button 
             onClick={() => setShowZoomTip(false)}
