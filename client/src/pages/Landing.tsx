@@ -47,7 +47,7 @@ const Landing = () => {
           
           <div className="flex justify-center">
             <Button 
-              onClick={() => setLocation('/home')}
+              onClick={() => setLocation('/auth')}
               className="px-10 py-6 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-blue-800"
               style={{ 
                 backgroundColor: '#2563EB', // Darker blue

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useUser } from "@/context/UserContext";
 import { useAmbient } from "@/context/AmbientContext";
+import { useAuth } from "@/hooks/use-auth";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,12 +9,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { Bell, Dices } from "lucide-react";
+import { Bell, Dices, Loader2 } from "lucide-react";
 import SyncMonogram from "./SyncMonogram";
 import { Link, useLocation } from "wouter";
 
 const Header = () => {
-  const { currentUser, logout } = useUser();
+  const { user } = useAuth();
+  const { logoutMutation } = useAuth();
   const { highlight, text } = useAmbient();
   const [notificationCount] = useState(3);
   const [location] = useLocation();
@@ -59,7 +61,7 @@ const Header = () => {
             <DropdownMenuTrigger asChild>
               <button className="focus:outline-none ring-offset-black hover:opacity-90 transition-opacity">
                 <img
-                  src={currentUser?.profileImage}
+                  src={user?.profileImage || 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200'}
                   alt="Profile"
                   className="w-7 h-7 rounded-full cursor-pointer object-cover border-2 border-[#3B82F6]/30"
                 />
@@ -75,9 +77,15 @@ const Header = () => {
               <DropdownMenuSeparator className="bg-gray-700" />
               <DropdownMenuItem 
                 className="cursor-pointer hover:bg-gray-800 focus:bg-gray-800" 
-                onClick={() => logout()}
+                onClick={() => logoutMutation.mutate()}
+                disabled={logoutMutation.isPending}
               >
-                Logout
+                {logoutMutation.isPending ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Logging out...
+                  </>
+                ) : "Logout"}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
