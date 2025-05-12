@@ -23,13 +23,13 @@ const BottomNavigation = () => {
           <span className="text-[10px] mt-1 tracking-wide font-medium uppercase">Map</span>
         </button>
         
-        <Link to="/roulette">
+        <Link to="/dice">
           <button 
             className={`flex flex-col items-center justify-center w-full py-3 text-[#f0f0f0]
-            ${location === '/roulette' ? 'border-t-2 border-[#3B82F6]' : 'opacity-60 hover:opacity-90'}`}
+            ${location === '/dice' ? 'border-t-2 border-[#3B82F6]' : 'opacity-60 hover:opacity-90'}`}
           >
             <Dices className="w-5 h-5" />
-            <span className="text-[10px] mt-1 tracking-wide font-medium uppercase">Match</span>
+            <span className="text-[10px] mt-1 tracking-wide font-medium uppercase">Dice</span>
           </button>
         </Link>
         

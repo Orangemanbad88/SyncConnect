@@ -4,7 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import Landing from "@/pages/Landing";
-import RouletteMatch from "@/pages/RouletteMatch";
+import DiceRoll from "@/pages/DiceRoll";
 import VideoChat from "@/pages/VideoChat";
 import Messages from "@/pages/Messages";
 import AuthPage from "@/pages/auth-page";
@@ -20,7 +20,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Landing} />
       <Route path="/home" component={Home} />
-      <Route path="/roulette" component={RouletteMatch} />
+      <Route path="/dice" component={DiceRoll} />
       <Route path="/auth" component={AuthPage} />
       <ProtectedRoute path="/video/:id" component={VideoChat} />
       <ProtectedRoute path="/messages/:id" component={Messages} />

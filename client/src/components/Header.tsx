@@ -43,10 +43,10 @@ const Header = () => {
               <span className="text-xs font-medium tracking-wide">DISCOVER</span>
             </div>
           </Link>
-          <Link to="/roulette">
-            <div className={`flex items-center py-2 px-3 transition-colors border-b-2 ${location === '/roulette' ? 'border-[#3B82F6]' : 'border-transparent hover:border-gray-400'}`}>
+          <Link to="/dice">
+            <div className={`flex items-center py-2 px-3 transition-colors border-b-2 ${location === '/dice' ? 'border-[#3B82F6]' : 'border-transparent hover:border-gray-400'}`}>
               <Dices className="w-4 h-4 mr-2 opacity-80" />
-              <span className="text-xs font-medium tracking-wide">MATCH ROULETTE</span>
+              <span className="text-xs font-medium tracking-wide">DICE ROLL</span>
             </div>
           </Link>
         </nav>
