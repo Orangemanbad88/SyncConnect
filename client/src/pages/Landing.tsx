@@ -53,7 +53,7 @@ const Landing = () => {
                 backgroundColor: '#2563EB', // Darker blue
                 color: 'white',
                 boxShadow: '0 4px 14px rgba(37, 99, 235, 0.5)',
-                fontFamily: 'Barlow, sans-serif',
+                fontFamily: 'Georgia, serif',
                 fontSize: '1.2rem',
                 fontWeight: '400',
                 letterSpacing: '0.1em',
