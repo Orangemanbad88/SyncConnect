@@ -117,14 +117,25 @@
   100% { transform: rotate(-360deg); }
 }
 
+@keyframes spin-medium {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 .animate-spin-slow {
-  animation: spin-slow 3s linear infinite;
+  animation: spin-slow 10s linear infinite;
   transform-origin: center;
   transform-box: fill-box;
 }
 
 .animate-spin-slow-reverse {
-  animation: spin-slow-reverse 3s linear infinite;
+  animation: spin-slow-reverse 10s linear infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.animate-spin-medium {
+  animation: spin-medium 5s linear infinite;
   transform-origin: center;
   transform-box: fill-box;
 }

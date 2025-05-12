@@ -15,27 +15,56 @@ const DynamicArrows: React.FC<DynamicArrowsProps> = ({ className = '' }) => {
         xmlns="http://www.w3.org/2000/svg"
         className="relative"
       >
-        {/* Single circle with two arrows going in opposite directions */}
-        <circle 
-          cx="80" 
-          cy="80" 
-          r="50" 
-          stroke="white" 
-          strokeWidth="3"
-          strokeDasharray="5 3"
-          fill="none"
-          style={{ 
-            filter: 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.5))',
-            opacity: 0.8
-          }}
-        />
-        
-        {/* Clockwise arrow */}
+        {/* Outer slow spinning circle */}
         <g className="animate-spin-slow" style={{ transformOrigin: 'center' }}>
-          <path 
-            d="M130 80 L120 70 M130 80 L120 90" 
+          <circle 
+            cx="80" 
+            cy="80" 
+            r="55" 
             stroke="white" 
-            strokeWidth="3" 
+            strokeWidth="2"
+            strokeDasharray="7 4"
+            fill="none"
+            style={{ 
+              filter: 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.4))',
+              opacity: 0.6
+            }}
+          />
+        </g>
+
+        {/* Middle spinning circle */}
+        <g className="animate-spin-medium" style={{ transformOrigin: 'center' }}>
+          <circle 
+            cx="80" 
+            cy="80" 
+            r="45" 
+            stroke="white" 
+            strokeWidth="2.5"
+            strokeDasharray="5 3"
+            fill="none"
+            style={{ 
+              filter: 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.5))',
+              opacity: 0.8
+            }}
+          />
+          
+          {/* Crossing arrows */}
+          <path 
+            d="M115 45 L125 55 M115 45 L105 35" 
+            stroke="white" 
+            strokeWidth="2.5" 
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+            style={{ 
+              filter: 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.5))',
+              opacity: 0.8
+            }}
+          />
+          
+          <path 
+            d="M45 45 L35 55 M45 45 L55 35" 
+            stroke="white" 
+            strokeWidth="2.5" 
             strokeLinecap="round" 
             strokeLinejoin="round"
             style={{ 
@@ -45,12 +74,38 @@ const DynamicArrows: React.FC<DynamicArrowsProps> = ({ className = '' }) => {
           />
         </g>
         
-        {/* Counter-clockwise arrow */}
+        {/* Counter-spinning crossing arrows */}
         <g className="animate-spin-slow-reverse" style={{ transformOrigin: 'center' }}>
-          <path 
-            d="M30 80 L40 70 M30 80 L40 90" 
+          <circle 
+            cx="80" 
+            cy="80" 
+            r="35" 
             stroke="white" 
-            strokeWidth="3" 
+            strokeWidth="2"
+            strokeDasharray="3 2"
+            fill="none"
+            style={{ 
+              filter: 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.5))',
+              opacity: 0.7
+            }}
+          />
+          
+          <path 
+            d="M45 115 L55 125 M45 115 L35 105" 
+            stroke="white" 
+            strokeWidth="2.5" 
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+            style={{ 
+              filter: 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.5))',
+              opacity: 0.8
+            }}
+          />
+          
+          <path 
+            d="M115 115 L105 125 M115 115 L125 105" 
+            stroke="white" 
+            strokeWidth="2.5" 
             strokeLinecap="round" 
             strokeLinejoin="round"
             style={{ 
