@@ -2,6 +2,8 @@ import {
   users, 
   interests,
   moodReactions,
+  videoConnections,
+  matches,
   messages,
   type User, 
   type InsertUser, 
@@ -9,6 +11,12 @@ import {
   type InsertInterest,
   type MoodReaction,
   type InsertMoodReaction,
+  type VideoConnection,
+  type InsertVideoConnection,
+  type UpdateVideoConnection,
+  type UpdatePickStatus,
+  type Match,
+  type InsertMatch,
   type Message,
   type InsertMessage,
   type UpdateUserLocation,
@@ -35,11 +43,25 @@ export interface IStorage {
   getUserMoodReactions(userId: number): Promise<MoodReaction[]>;
   getMoodReactionsBetweenUsers(fromUserId: number, toUserId: number): Promise<MoodReaction[]>;
   
+  // Video Connection methods
+  createVideoConnection(connection: InsertVideoConnection): Promise<VideoConnection>;
+  getVideoConnection(id: number): Promise<VideoConnection | undefined>;
+  updateVideoConnection(id: number, update: UpdateVideoConnection): Promise<VideoConnection | undefined>;
+  updatePickStatus(id: number, userId: number, picked: boolean): Promise<VideoConnection | undefined>;
+  getUserVideoConnections(userId: number): Promise<VideoConnection[]>;
+  
+  // Match methods
+  createMatch(match: InsertMatch): Promise<Match>;
+  getMatch(id: number): Promise<Match | undefined>;
+  getMatchByUsers(userOneId: number, userTwoId: number): Promise<Match | undefined>;
+  getUserMatches(userId: number): Promise<Match[]>;
+  deactivateMatch(id: number): Promise<Match | undefined>;
+  
   // Messages methods
   sendMessage(message: InsertMessage): Promise<Message>;
-  getConversation(userId1: number, userId2: number): Promise<Message[]>;
-  getUserConversations(userId: number): Promise<{ userId: number, latestMessage: Message }[]>;
-  markMessagesAsRead(fromUserId: number, toUserId: number): Promise<void>;
+  getConversation(matchId: number): Promise<Message[]>;
+  getUserConversations(userId: number): Promise<{ matchId: number, otherUserId: number, latestMessage: Message }[]>;
+  markMessagesAsRead(matchId: number, toUserId: number): Promise<void>;
   
   // Session store
   sessionStore: session.Store;
@@ -49,10 +71,14 @@ export class MemStorage implements IStorage {
   private users: Map<number, User>;
   private userInterests: Map<number, Interest[]>;
   private moodReactions: Map<number, MoodReaction>;
+  private videoConnections: Map<number, VideoConnection>;
+  private matches: Map<number, Match>;
   private messages: Map<number, Message>;
   currentId: number;
   interestId: number;
   moodReactionId: number;
+  videoConnectionId: number;
+  matchId: number;
   messageId: number;
   sessionStore: session.Store;
 
@@ -60,10 +86,14 @@ export class MemStorage implements IStorage {
     this.users = new Map();
     this.userInterests = new Map();
     this.moodReactions = new Map();
+    this.videoConnections = new Map();
+    this.matches = new Map();
     this.messages = new Map();
     this.currentId = 1;
     this.interestId = 1;
     this.moodReactionId = 1;
+    this.videoConnectionId = 1;
+    this.matchId = 1;
     this.messageId = 1;
     this.sessionStore = new MemoryStore({
       checkPeriod: 86400000 // prune expired entries every 24h

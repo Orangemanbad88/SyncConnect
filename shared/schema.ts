@@ -104,9 +104,21 @@ export const updateVideoConnectionSchema = createInsertSchema(videoConnections).
   duration: true,
 });
 
+export const updatePickStatusSchema = z.object({
+  userOnePicked: z.boolean().optional(),
+  userTwoPicked: z.boolean().optional()
+});
+
+export const insertMatchSchema = createInsertSchema(matches).pick({
+  userOneId: true,
+  userTwoId: true,
+  videoConnectionId: true,
+});
+
 export const insertMessageSchema = createInsertSchema(messages).pick({
   fromUserId: true,
   toUserId: true,
+  matchId: true,
   content: true,
 });
 
@@ -118,7 +130,10 @@ export type InsertMoodReaction = z.infer<typeof insertMoodReactionSchema>;
 export type MoodReaction = typeof moodReactions.$inferSelect;
 export type InsertVideoConnection = z.infer<typeof insertVideoConnectionSchema>;
 export type UpdateVideoConnection = z.infer<typeof updateVideoConnectionSchema>;
+export type UpdatePickStatus = z.infer<typeof updatePickStatusSchema>;
 export type VideoConnection = typeof videoConnections.$inferSelect;
+export type InsertMatch = z.infer<typeof insertMatchSchema>;
+export type Match = typeof matches.$inferSelect;
 export type InsertMessage = z.infer<typeof insertMessageSchema>;
 export type Message = typeof messages.$inferSelect;
 export type UpdateUserLocation = z.infer<typeof updateUserLocationSchema>;
