@@ -16,8 +16,8 @@ const Header = () => {
   return (
     <header className="bg-white shadow-sm py-4 px-6 flex justify-between items-center">
       <div className="flex items-center">
-        <Users className="w-8 h-8 text-[var(--secondary-orange)]" />
-        <h1 className="ml-2 text-2xl font-bold text-[var(--text-dark)]">Sync</h1>
+        <Users className="w-8 h-8 text-[var(--secondary-coral)]" />
+        <h1 className="ml-2 app-title text-[var(--primary-blue)]">Sync</h1>
       </div>
       
       <div className="flex items-center">

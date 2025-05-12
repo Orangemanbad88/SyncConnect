@@ -11,7 +11,7 @@ const DiscoverySidebar = ({ users, isLoading, onUserClick }: DiscoverySidebarPro
   return (
     <div className="hidden md:block w-80 lg:w-96 bg-white shadow-lg overflow-y-auto">
       <div className="p-6">
-        <h2 className="text-xl font-bold text-[var(--text-dark)] mb-4">Nearby</h2>
+        <h2 className="text-2xl font-bold text-[var(--primary-blue)] mb-6">Nearby</h2>
         
         {isLoading ? (
           <div className="space-y-4">

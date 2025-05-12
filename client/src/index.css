@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --primary-blue: #2563EB;
-  --secondary-orange: #F97316;
-  --neutral-bg: #F9FAFB;
+  --primary-blue: #3B82F6;
+  --secondary-coral: #F87171;
+  --neutral-offwhite: #F9FAFB;
   --accent-green: #10B981;
   --text-dark: #1E3A8A;
   
@@ -22,7 +22,7 @@
   --input: 214.3 31.8% 91.4%;
   --primary: 217 91% 53%;
   --primary-foreground: 210 40% 98%;
-  --secondary: 25 95% 53%;
+  --secondary: 0 84% 73%;
   --secondary-foreground: 210 40% 98%;
   --accent: 142 71% 45%;
   --accent-foreground: 210 40% 98%;
@@ -60,7 +60,15 @@
     @apply border-border;
   }
   body {
-    @apply font-sans bg-[var(--neutral-bg)] text-[var(--text-dark)];
+    @apply font-['Quicksand'] bg-[var(--neutral-offwhite)] text-[var(--primary-blue)];
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-['Montserrat'] font-semibold;
+  }
+  
+  .app-title {
+    @apply text-3xl font-['Montserrat'] font-bold;
   }
   
   .online-indicator {
@@ -72,11 +80,15 @@
   }
   
   .button-primary {
-    @apply bg-[var(--secondary-orange)] text-white;
+    @apply bg-[var(--secondary-coral)] text-[var(--neutral-offwhite)];
   }
   
   .success-icon {
     @apply text-[var(--accent-green)];
+  }
+  
+  .nav-bar {
+    @apply bg-[var(--primary-blue)] text-[var(--neutral-offwhite)];
   }
 }
 

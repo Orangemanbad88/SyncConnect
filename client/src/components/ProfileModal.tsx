@@ -86,7 +86,7 @@ const ProfileModal = ({ user, onClose, onStartVideoChat }: ProfileModalProps) =>
           </div>
           
           <Button 
-            className="w-full py-6 bg-[var(--secondary-orange)] hover:bg-orange-600 text-white font-semibold rounded-lg transition shadow-md"
+            className="w-full py-6 bg-[var(--secondary-coral)] hover:bg-red-400 text-white font-semibold rounded-lg transition shadow-md"
             onClick={onStartVideoChat}
             disabled={!user.isOnline}
           >
