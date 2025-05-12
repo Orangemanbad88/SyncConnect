@@ -24,20 +24,10 @@ const Landing = () => {
       style={{ backgroundColor: 'var(--primary-salmon)' }}
     >
       <div className={`transform transition-all duration-1000 ease-out ${fadeIn ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-        <SyncLogo className="w-80 h-auto mx-auto mb-6" />
-        
-        <h2
-          className="text-3xl font-medium mb-8 text-center"
-          style={{ 
-            color: 'white',
-            fontFamily: 'Rubik, sans-serif' 
-          }}
-        >
-          Your World
-        </h2>
+        <SyncLogo className="w-80 h-auto mx-auto mb-10" />
         
         <p 
-          className="text-2xl font-light max-w-md mx-auto mb-12"
+          className="text-2xl font-light max-w-md mx-auto mb-16"
           style={{ 
             color: 'white',
             fontFamily: 'Rubik, sans-serif'
@@ -46,16 +36,19 @@ const Landing = () => {
           Connect with people nearby through spontaneous video chats
         </p>
         
-        <Button 
-          onClick={() => setLocation('/home')}
-          className="px-10 py-6 rounded-full text-lg font-medium transition-transform hover:scale-105"
-          style={{ 
-            backgroundColor: 'var(--primary-blue)',
-            color: 'white'
-          }}
-        >
-          Get Started
-        </Button>
+        <div className="flex justify-center">
+          <Button 
+            onClick={() => setLocation('/home')}
+            className="px-10 py-6 rounded-full text-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg"
+            style={{ 
+              backgroundColor: 'var(--primary-blue)',
+              color: 'white',
+              boxShadow: '0 4px 14px rgba(59, 130, 246, 0.4)'
+            }}
+          >
+            Get Started
+          </Button>
+        </div>
       </div>
     </div>
   );

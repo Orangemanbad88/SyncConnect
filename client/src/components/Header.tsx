@@ -19,37 +19,36 @@ const Header = () => {
   const [location] = useLocation();
 
   return (
-    <header className="shadow-lg py-5 px-8 flex justify-between items-center transition-colors duration-1000" style={{ backgroundColor: 'var(--primary-coral)' }}>
+    <header className="shadow-md py-4 px-8 flex justify-between items-center transition-colors duration-500 backdrop-blur-sm" style={{ backgroundColor: 'rgba(0, 0, 0, 0.95)', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
       <div className="flex items-center">
         <Link to="/home">
           <div className="flex items-center cursor-pointer">
             <SyncLogo className="w-10 h-10" />
-            <h1 className="ml-3 font-bold tracking-[0.05em] opacity-90" style={{ color: 'white', fontFamily: 'Rubik, sans-serif' }}>SYNC</h1>
+            <h1 className="ml-3 font-bold tracking-wider text-[#f0f0f0] opacity-95" style={{ fontFamily: 'Cinzel, serif', letterSpacing: '0.1em' }}>SYNC</h1>
           </div>
         </Link>
       </div>
       
-      <div className="flex items-center space-x-4">
-        <nav className="hidden md:flex space-x-4 text-white">
+      <div className="flex items-center space-x-5">
+        <nav className="hidden md:flex space-x-6 text-[#f0f0f0]">
           <Link to="/home">
-            <div className={`flex items-center py-2 px-3 rounded-md transition-colors ${location === '/home' ? 'bg-white/20' : 'hover:bg-white/10'}`}>
-              <span>Discover</span>
+            <div className={`flex items-center py-2 px-3 transition-colors border-b-2 ${location === '/home' ? 'border-[#3B82F6]' : 'border-transparent hover:border-gray-400'}`}>
+              <span className="text-sm font-medium tracking-wide">DISCOVER</span>
             </div>
           </Link>
           <Link to="/roulette">
-            <div className={`flex items-center py-2 px-3 rounded-md transition-colors ${location === '/roulette' ? 'bg-white/20' : 'hover:bg-white/10'}`}>
-              <Dices className="w-4 h-4 mr-2" />
-              <span>Match Roulette</span>
+            <div className={`flex items-center py-2 px-3 transition-colors border-b-2 ${location === '/roulette' ? 'border-[#3B82F6]' : 'border-transparent hover:border-gray-400'}`}>
+              <Dices className="w-4 h-4 mr-2 opacity-80" />
+              <span className="text-sm font-medium tracking-wide">MATCH ROULETTE</span>
             </div>
           </Link>
         </nav>
       
         <div className="relative mr-4">
-          <button className="focus:outline-none">
-            <Bell className="w-6 h-6 text-white" />
+          <button className="focus:outline-none hover:opacity-80 transition-opacity">
+            <Bell className="w-5 h-5 text-[#f0f0f0]" />
             {notificationCount > 0 && (
-              <span className="absolute -top-1 -right-1 text-[var(--primary-coral)] text-xs font-bold px-1.5 py-0.5 rounded-full"
-                    style={{ backgroundColor: 'white' }}>
+              <span className="absolute -top-1 -right-1 bg-[#3B82F6] text-white text-xs font-bold px-1.5 py-0.5 rounded-full shadow-md">
                 {notificationCount}
               </span>
             )}
@@ -59,24 +58,24 @@ const Header = () => {
         <div className="relative">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="focus:outline-none">
+              <button className="focus:outline-none ring-offset-black hover:opacity-90 transition-opacity">
                 <img
                   src={currentUser?.profileImage}
                   alt="Profile"
-                  className="w-8 h-8 rounded-full cursor-pointer object-cover"
+                  className="w-9 h-9 rounded-full cursor-pointer object-cover border-2 border-[#3B82F6]/30"
                 />
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem className="cursor-pointer">
+            <DropdownMenuContent align="end" className="bg-black/95 text-[#f0f0f0] border border-gray-800">
+              <DropdownMenuItem className="cursor-pointer hover:bg-gray-800 focus:bg-gray-800">
                 Profile
               </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer">
+              <DropdownMenuItem className="cursor-pointer hover:bg-gray-800 focus:bg-gray-800">
                 Settings
               </DropdownMenuItem>
-              <DropdownMenuSeparator />
+              <DropdownMenuSeparator className="bg-gray-700" />
               <DropdownMenuItem 
-                className="cursor-pointer" 
+                className="cursor-pointer hover:bg-gray-800 focus:bg-gray-800" 
                 onClick={() => logout()}
               >
                 Logout
