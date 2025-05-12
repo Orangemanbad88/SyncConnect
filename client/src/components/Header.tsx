@@ -15,10 +15,10 @@ const Header = () => {
   const [notificationCount] = useState(3);
 
   return (
-    <header className="bg-white shadow-sm py-4 px-6 flex justify-between items-center">
+    <header className="bg-white shadow-sm py-4 px-6 flex justify-between items-center border-b border-[var(--primary-coral)] border-opacity-20">
       <div className="flex items-center">
-        <SyncLogo className="w-10 h-10 text-[var(--secondary-coral)]" />
-        <h1 className="ml-2 app-title text-[var(--primary-blue)]">Sync</h1>
+        <SyncLogo className="w-12 h-12" />
+        <h1 className="ml-3 app-title text-[var(--primary-coral)] tracking-wider drop-shadow-sm">Sync</h1>
       </div>
       
       <div className="flex items-center">
