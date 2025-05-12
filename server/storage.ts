@@ -49,18 +49,22 @@ export class MemStorage implements IStorage {
   private users: Map<number, User>;
   private userInterests: Map<number, Interest[]>;
   private moodReactions: Map<number, MoodReaction>;
+  private messages: Map<number, Message>;
   currentId: number;
   interestId: number;
   moodReactionId: number;
+  messageId: number;
   sessionStore: session.Store;
 
   constructor() {
     this.users = new Map();
     this.userInterests = new Map();
     this.moodReactions = new Map();
+    this.messages = new Map();
     this.currentId = 1;
     this.interestId = 1;
     this.moodReactionId = 1;
+    this.messageId = 1;
     this.sessionStore = new MemoryStore({
       checkPeriod: 86400000 // prune expired entries every 24h
     });

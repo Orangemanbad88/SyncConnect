@@ -31,10 +31,31 @@ export const moodReactions = pgTable("mood_reactions", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const videoConnections = pgTable("video_connections", {
+  id: serial("id").primaryKey(),
+  userOneId: integer("user_one_id").notNull().references(() => users.id),
+  userTwoId: integer("user_two_id").notNull().references(() => users.id),
+  startedAt: timestamp("started_at").defaultNow(),
+  endedAt: timestamp("ended_at"),
+  duration: integer("duration"), // in seconds
+  userOnePicked: boolean("user_one_picked").default(false),
+  userTwoPicked: boolean("user_two_picked").default(false),
+});
+
+export const matches = pgTable("matches", {
+  id: serial("id").primaryKey(),
+  userOneId: integer("user_one_id").notNull().references(() => users.id),
+  userTwoId: integer("user_two_id").notNull().references(() => users.id),
+  videoConnectionId: integer("video_connection_id").notNull().references(() => videoConnections.id),
+  createdAt: timestamp("created_at").defaultNow(),
+  isActive: boolean("is_active").default(true),
+});
+
 export const messages = pgTable("messages", {
   id: serial("id").primaryKey(),
   fromUserId: integer("from_user_id").notNull().references(() => users.id),
   toUserId: integer("to_user_id").notNull().references(() => users.id),
+  matchId: integer("match_id").notNull().references(() => matches.id),
   content: text("content").notNull(),
   isRead: boolean("is_read").default(false),
   createdAt: timestamp("created_at").defaultNow(),
@@ -73,6 +94,16 @@ export const insertMoodReactionSchema = createInsertSchema(moodReactions).pick({
   emoji: true,
 });
 
+export const insertVideoConnectionSchema = createInsertSchema(videoConnections).pick({
+  userOneId: true,
+  userTwoId: true,
+});
+
+export const updateVideoConnectionSchema = createInsertSchema(videoConnections).pick({
+  endedAt: true,
+  duration: true,
+});
+
 export const insertMessageSchema = createInsertSchema(messages).pick({
   fromUserId: true,
   toUserId: true,
@@ -85,6 +116,9 @@ export type InsertInterest = z.infer<typeof insertInterestSchema>;
 export type Interest = typeof interests.$inferSelect;
 export type InsertMoodReaction = z.infer<typeof insertMoodReactionSchema>;
 export type MoodReaction = typeof moodReactions.$inferSelect;
+export type InsertVideoConnection = z.infer<typeof insertVideoConnectionSchema>;
+export type UpdateVideoConnection = z.infer<typeof updateVideoConnectionSchema>;
+export type VideoConnection = typeof videoConnections.$inferSelect;
 export type InsertMessage = z.infer<typeof insertMessageSchema>;
 export type Message = typeof messages.$inferSelect;
 export type UpdateUserLocation = z.infer<typeof updateUserLocationSchema>;
