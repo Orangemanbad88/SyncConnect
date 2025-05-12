@@ -27,13 +27,13 @@ const Landing = () => {
         <SyncLogo className="w-80 h-auto mx-auto mb-10" />
         
         <p 
-          className="text-2xl font-light max-w-md mx-auto mb-16"
+          className="text-2xl font-medium max-w-md mx-auto mb-16 tracking-wide"
           style={{ 
             color: 'white',
-            fontFamily: 'Rubik, sans-serif'
+            fontFamily: 'Cinzel, serif'
           }}
         >
-          Connect with people nearby through spontaneous video chats
+          Your Instinct Connection
         </p>
         
         <div className="flex justify-center">
