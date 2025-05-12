@@ -61,7 +61,7 @@ const Landing = () => {
           
           <SyncLogo className="w-60 h-auto mx-auto mb-12 mt-24" />
           
-          <div className="flex justify-center w-full" style={{ maxWidth: '200px', margin: '0 auto' }}>
+          <div className="flex justify-center w-full" style={{ maxWidth: '200px', margin: '0 auto', transform: 'translateX(-10px)' }}>
             <Button 
               onClick={() => setLocation('/home')}
               className="px-4 py-4 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg animate-pulse-glow w-full"
