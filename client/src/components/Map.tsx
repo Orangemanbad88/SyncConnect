@@ -3,6 +3,7 @@ import { latLongToPixel } from "@/lib/mapUtils";
 import { Plus, Minus, ArrowUp, Video } from "lucide-react";
 import { useLocation } from "wouter";
 import { useAmbient } from "@/context/AmbientContext";
+import StaticMapBackground from "./StaticMapBackground";
 
 interface MapProps {
   users: any[];
@@ -150,10 +151,10 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
         ref={mapRef}
         className="w-full h-full bg-cover bg-center transition-all duration-300 shadow-inner"
         style={{
-          backgroundImage: `url('https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/${userCoords ? `${userCoords.longitude},${userCoords.latitude}` : '-96.7970,32.7767'},10,0/1200x800?access_token=${import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}')`,
-          filter: "contrast(1.2) saturate(1.3)",
           transform: `scale(${zoom})`,
-          transformOrigin: "center center"
+          transformOrigin: "center center",
+          position: "relative",
+          overflow: "hidden"
         }}
       >
         {isLoading ? (
