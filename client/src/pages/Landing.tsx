@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'wouter';
+import { useLocation, Link } from 'wouter';
 import SyncLogo from '@/components/SyncLogo';
 import DynamicArrows from '@/components/DynamicArrows';
 import { Button } from '@/components/ui/button';
@@ -27,6 +27,22 @@ const Landing = () => {
         boxShadow: 'inset 0 0 100px rgba(255,255,255,0.05)'
       }}
     >
+      {/* Sign Up button in top-left corner */}
+      <div className="absolute top-6 left-6 z-20">
+        <Link href="/auth">
+          <Button 
+            className="px-4 py-2 rounded-full text-sm transition-all duration-300 hover:opacity-90"
+            variant="outline"
+            style={{
+              borderColor: '#F87171',
+              color: '#F87171',
+              fontFamily: 'Georgia, serif',
+            }}
+          >
+            Sign Up
+          </Button>
+        </Link>
+      </div>
       {/* Glossy effect overlay */}
       <div 
         className="absolute inset-0 opacity-20"
@@ -47,7 +63,7 @@ const Landing = () => {
           
           <div className="flex justify-center">
             <Button 
-              onClick={() => setLocation('/auth')}
+              onClick={() => setLocation('/home')}
               className="px-10 py-6 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-blue-800"
               style={{ 
                 backgroundColor: '#2563EB', // Darker blue
