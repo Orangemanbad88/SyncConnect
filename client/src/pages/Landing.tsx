@@ -62,23 +62,23 @@ const Landing = () => {
           <SyncLogo className="w-60 h-auto mx-auto mb-24 mt-24" />
           
           <div className="flex justify-center w-full relative" style={{ maxWidth: '200px', margin: '0 auto' }}>
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-300 via-blue-400 to-blue-500 rounded-full animate-blue-glow" style={{ transform: 'scale(1.2)' }}></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 rounded-full animate-blue-glow" style={{ transform: 'scale(1.2)' }}></div>
             <Button 
               onClick={() => setLocation('/home')}
               className="px-4 py-4 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg animate-pulse-glow w-full"
               style={{ 
-                background: 'linear-gradient(90deg, rgba(230, 240, 255, 0.95) 0%, rgba(200, 225, 255, 0.9) 50%, rgba(160, 200, 255, 0.85) 100%)',
+                background: 'linear-gradient(90deg, rgba(180, 210, 255, 0.98) 0%, rgba(150, 190, 245, 0.95) 50%, rgba(120, 170, 245, 0.9) 100%)',
                 backdropFilter: 'blur(4px)',
-                border: '2px solid rgba(170, 200, 235, 0.9)',
-                borderTop: '1px solid rgba(235, 245, 255, 0.95)',
-                borderBottom: '3px solid rgba(100, 150, 210, 0.8)',
+                border: '2px solid rgba(120, 170, 235, 0.9)',
+                borderTop: '1px solid rgba(200, 225, 255, 0.95)',
+                borderBottom: '3px solid rgba(80, 130, 210, 0.9)',
                 borderRadius: '999px',
-                color: '#0a3178',
+                color: '#05255e',
                 boxShadow: `
-                  0 4px 12px rgba(70, 130, 220, 0.5),
-                  0 2px 4px rgba(40, 80, 180, 0.4),
-                  inset 0 1px 3px rgba(245, 250, 255, 0.9),
-                  inset 0 -1px 2px rgba(100, 150, 210, 0.6)
+                  0 4px 12px rgba(50, 100, 200, 0.6),
+                  0 2px 4px rgba(30, 70, 160, 0.5),
+                  inset 0 1px 3px rgba(220, 235, 255, 0.9),
+                  inset 0 -1px 2px rgba(80, 130, 200, 0.7)
                 `,
                 fontFamily: 'Cinzel, serif',
                 fontSize: '1rem',
@@ -86,10 +86,10 @@ const Landing = () => {
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase',
                 textShadow: `
-                  0 1px 1px rgba(255, 255, 255, 0.7),
-                  0 0 8px rgba(200, 230, 255, 0.8),
-                  0 0 15px rgba(70, 130, 220, 0.5),
-                  0 0 20px rgba(60, 120, 210, 0.3)
+                  0 1px 1px rgba(255, 255, 255, 0.8),
+                  0 0 8px rgba(160, 200, 255, 0.9),
+                  0 0 15px rgba(50, 110, 210, 0.6),
+                  0 0 20px rgba(40, 90, 190, 0.4)
                 `
               }}
             >
