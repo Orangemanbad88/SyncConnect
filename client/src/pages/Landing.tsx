@@ -64,25 +64,23 @@ const Landing = () => {
           <div className="flex justify-center">
             <Button 
               onClick={() => setLocation('/home')}
-              className="px-10 py-6 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-blue-800 animate-pulse-glow"
+              className="px-10 py-6 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg animate-pulse-glow"
               style={{ 
-                backgroundColor: '#2563EB', // Darker blue
+                background: 'linear-gradient(135deg, #FF8A00 0%, #FF5100 100%)',
                 color: 'white',
                 boxShadow: `
-                  0 4px 14px rgba(37, 99, 235, 0.5),
-                  0 0 5px rgba(255, 255, 255, 0.7),
-                  0 0 10px rgba(239, 68, 68, 0.6),
-                  0 0 15px rgba(59, 130, 246, 0.5)
+                  0 4px 14px rgba(255, 138, 0, 0.7),
+                  0 0 10px rgba(255, 138, 0, 0.5),
+                  0 0 20px rgba(255, 81, 0, 0.3)
                 `,
-                fontFamily: 'Georgia, serif',
+                fontFamily: 'Cinzel, serif',
                 fontSize: '1.2rem',
-                fontWeight: '400',
-                letterSpacing: '0.1em',
+                fontWeight: '600',
+                letterSpacing: '0.15em',
                 textTransform: 'uppercase',
-                fontStyle: 'italic',
                 textShadow: `
                   0 0 5px rgba(255, 255, 255, 0.7),
-                  0 0 10px rgba(59, 130, 246, 0.6)
+                  0 0 10px rgba(255, 138, 0, 0.6)
                 `
               }}
             >
