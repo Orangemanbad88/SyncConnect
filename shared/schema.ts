@@ -31,6 +31,15 @@ export const moodReactions = pgTable("mood_reactions", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const messages = pgTable("messages", {
+  id: serial("id").primaryKey(),
+  fromUserId: integer("from_user_id").notNull().references(() => users.id),
+  toUserId: integer("to_user_id").notNull().references(() => users.id),
+  content: text("content").notNull(),
+  isRead: boolean("is_read").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -64,11 +73,19 @@ export const insertMoodReactionSchema = createInsertSchema(moodReactions).pick({
   emoji: true,
 });
 
+export const insertMessageSchema = createInsertSchema(messages).pick({
+  fromUserId: true,
+  toUserId: true,
+  content: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type InsertInterest = z.infer<typeof insertInterestSchema>;
 export type Interest = typeof interests.$inferSelect;
 export type InsertMoodReaction = z.infer<typeof insertMoodReactionSchema>;
 export type MoodReaction = typeof moodReactions.$inferSelect;
+export type InsertMessage = z.infer<typeof insertMessageSchema>;
+export type Message = typeof messages.$inferSelect;
 export type UpdateUserLocation = z.infer<typeof updateUserLocationSchema>;
 export type UpdateUserOnlineStatus = z.infer<typeof updateUserOnlineStatusSchema>;

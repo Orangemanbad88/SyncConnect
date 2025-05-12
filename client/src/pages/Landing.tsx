@@ -66,7 +66,7 @@ const Landing = () => {
               onClick={() => setLocation('/home')}
               className="px-10 py-6 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg animate-pulse-glow"
               style={{ 
-                background: 'linear-gradient(135deg, #F8FAFC 0%, #CBD5E1 40%, #94A3B8 80%, #64748B 100%)',
+                background: 'linear-gradient(135deg, #F8FAFC 0%, #CBD5E1 30%, #94A3B8 60%, #64748B 85%, #7E22CE 100%)',
                 color: '#2563EB',
                 boxShadow: `
                   0 4px 14px rgba(255, 255, 255, 0.8),

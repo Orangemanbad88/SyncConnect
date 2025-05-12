@@ -2,12 +2,15 @@ import {
   users, 
   interests,
   moodReactions,
+  messages,
   type User, 
   type InsertUser, 
   type Interest, 
   type InsertInterest,
   type MoodReaction,
   type InsertMoodReaction,
+  type Message,
+  type InsertMessage,
   type UpdateUserLocation,
   type UpdateUserOnlineStatus
 } from "@shared/schema";
@@ -31,6 +34,12 @@ export interface IStorage {
   addMoodReaction(reaction: InsertMoodReaction): Promise<MoodReaction>;
   getUserMoodReactions(userId: number): Promise<MoodReaction[]>;
   getMoodReactionsBetweenUsers(fromUserId: number, toUserId: number): Promise<MoodReaction[]>;
+  
+  // Messages methods
+  sendMessage(message: InsertMessage): Promise<Message>;
+  getConversation(userId1: number, userId2: number): Promise<Message[]>;
+  getUserConversations(userId: number): Promise<{ userId: number, latestMessage: Message }[]>;
+  markMessagesAsRead(fromUserId: number, toUserId: number): Promise<void>;
   
   // Session store
   sessionStore: session.Store;
