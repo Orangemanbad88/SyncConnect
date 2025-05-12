@@ -13,8 +13,19 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const [mapDimensions, setMapDimensions] = useState({ width: 0, height: 0 });
   const [zoom, setZoom] = useState(1);
+  const [showZoomTip, setShowZoomTip] = useState(true);
   
-  // Resize handler
+  // Hide zoom tip after 5 seconds
+  useEffect(() => {
+    if (showZoomTip) {
+      const timer = setTimeout(() => {
+        setShowZoomTip(false);
+      }, 5000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [showZoomTip]);
+
   useEffect(() => {
     const handleResize = () => {
       if (mapRef.current) {
@@ -32,6 +43,77 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+  
+  // Mouse wheel zoom handler
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      if (mapRef.current && mapRef.current.contains(e.target as Node)) {
+        e.preventDefault();
+        if (e.deltaY < 0) {
+          // Scrolling up - zoom in
+          setZoom(prev => Math.min(prev + 0.1, 3));
+        } else {
+          // Scrolling down - zoom out
+          setZoom(prev => Math.max(prev - 0.1, 0.3));
+        }
+      }
+    };
+    
+    // Add the event listener with passive: false to allow preventDefault
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
+  
+  // Touch pinch zoom handler for mobile devices
+  useEffect(() => {
+    let initialDistance = 0;
+    let initialZoom = 1;
+    
+    const calculateDistance = (touches: TouchList): number => {
+      if (touches.length < 2) return 0;
+      const dx = touches[0].clientX - touches[1].clientX;
+      const dy = touches[0].clientY - touches[1].clientY;
+      return Math.sqrt(dx * dx + dy * dy);
+    };
+    
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 2 && mapRef.current && mapRef.current.contains(e.target as Node)) {
+        e.preventDefault();
+        initialDistance = calculateDistance(e.touches);
+        initialZoom = zoom;
+      }
+    };
+    
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length === 2 && initialDistance > 0 && mapRef.current && mapRef.current.contains(e.target as Node)) {
+        e.preventDefault();
+        
+        const currentDistance = calculateDistance(e.touches);
+        const scaleFactor = currentDistance / initialDistance;
+        
+        // Calculate new zoom level based on pinch gesture
+        const newZoom = initialZoom * scaleFactor;
+        setZoom(Math.min(Math.max(newZoom, 0.3), 3));
+      }
+    };
+    
+    const handleTouchEnd = () => {
+      initialDistance = 0;
+    };
+    
+    mapRef.current?.addEventListener('touchstart', handleTouchStart, { passive: false });
+    mapRef.current?.addEventListener('touchmove', handleTouchMove, { passive: false });
+    mapRef.current?.addEventListener('touchend', handleTouchEnd);
+    
+    return () => {
+      mapRef.current?.removeEventListener('touchstart', handleTouchStart);
+      mapRef.current?.removeEventListener('touchmove', handleTouchMove);
+      mapRef.current?.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [zoom]);
   
   const handleZoomIn = () => {
     setZoom(prev => Math.min(prev + 0.2, 3));
@@ -115,23 +197,29 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
       
       {/* Map controls */}
       <div className="absolute bottom-24 right-4 flex flex-col space-y-2">
+        <div className="bg-black/70 px-3 py-2 rounded-lg mb-1 text-center">
+          <p className="text-white text-xs mb-1">Zoom Level: {(zoom * 100).toFixed(0)}%</p>
+        </div>
         <button
-          className="bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md"
+          className="bg-white/90 hover:bg-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 transition-all border border-gray-200"
           onClick={handleZoomIn}
+          title="Zoom In"
         >
-          <Plus className="w-6 h-6 text-[var(--text-dark)]" />
+          <Plus className="w-6 h-6 text-gray-800" />
         </button>
         <button
-          className="bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md"
+          className="bg-white/90 hover:bg-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 transition-all border border-gray-200"
           onClick={handleZoomOut}
+          title="Zoom Out"
         >
-          <Minus className="w-6 h-6 text-[var(--text-dark)]" />
+          <Minus className="w-6 h-6 text-gray-800" />
         </button>
         <button
-          className="bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md"
+          className="bg-white/90 hover:bg-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 transition-all border border-gray-200"
           onClick={handleReset}
+          title="Reset Zoom"
         >
-          <ArrowUp className="w-6 h-6 text-[var(--text-dark)]" />
+          <ArrowUp className="w-6 h-6 text-gray-800" />
         </button>
       </div>
       
@@ -147,6 +235,24 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
             </div>
             <div className="absolute -top-1 -left-1 w-10 h-10 rounded-full bg-[var(--primary-blue)] opacity-30 animate-ping"></div>
           </div>
+        </div>
+      )}
+      
+      {/* Zoom help tooltip */}
+      {showZoomTip && (
+        <div className="absolute left-1/2 top-4 transform -translate-x-1/2 bg-black/80 text-white px-4 py-3 rounded-lg shadow-xl z-50 max-w-xs text-center backdrop-blur-sm animate-fade-in-down">
+          <p className="font-medium mb-1">Map Controls Available</p>
+          <div className="text-sm opacity-90 mb-2">
+            <p>• Use mouse wheel to zoom in and out</p>
+            <p>• Pinch gesture on mobile devices</p>
+            <p>• Zoom controls in bottom right</p>
+          </div>
+          <button 
+            onClick={() => setShowZoomTip(false)}
+            className="text-xs py-1 px-3 bg-white/20 hover:bg-white/30 rounded-full"
+          >
+            Got it
+          </button>
         </div>
       )}
     </div>
