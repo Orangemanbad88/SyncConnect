@@ -149,7 +149,7 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
       
       <div
         ref={mapRef}
-        className="w-full h-full bg-cover bg-center transition-all duration-300 shadow-inner"
+        className="w-full h-full transition-all duration-300 shadow-inner"
         style={{
           transform: `scale(${zoom})`,
           transformOrigin: "center center",
@@ -157,6 +157,11 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
           overflow: "hidden"
         }}
       >
+        <StaticMapBackground 
+          className="absolute inset-0" 
+          latitude={userCoords?.latitude} 
+          longitude={userCoords?.longitude}
+        />
         {isLoading ? (
           <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
