@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import Landing from "@/pages/Landing";
+import RouletteMatch from "@/pages/RouletteMatch";
 import { UserProvider } from "./context/UserContext";
 import { AmbientProvider } from "./context/AmbientContext";
 
@@ -12,6 +13,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Landing} />
       <Route path="/home" component={Home} />
+      <Route path="/roulette" component={RouletteMatch} />
       <Route component={NotFound} />
     </Switch>
   );
