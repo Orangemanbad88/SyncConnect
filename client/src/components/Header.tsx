@@ -7,7 +7,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { Users, Bell } from "lucide-react";
+import { Bell } from "lucide-react";
+import SyncLogo from "./SyncLogo";
 
 const Header = () => {
   const { currentUser, logout } = useUser();
@@ -16,7 +17,7 @@ const Header = () => {
   return (
     <header className="bg-white shadow-sm py-4 px-6 flex justify-between items-center">
       <div className="flex items-center">
-        <Users className="w-8 h-8 text-[var(--secondary-coral)]" />
+        <SyncLogo className="w-10 h-10 text-[var(--secondary-coral)]" />
         <h1 className="ml-2 app-title text-[var(--primary-blue)]">Sync</h1>
       </div>
       
@@ -25,7 +26,7 @@ const Header = () => {
           <button className="focus:outline-none">
             <Bell className="w-6 h-6 text-[var(--text-dark)]" />
             {notificationCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-[var(--secondary-orange)] text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
+              <span className="absolute -top-1 -right-1 bg-[var(--secondary-coral)] text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
                 {notificationCount}
               </span>
             )}
