@@ -66,18 +66,18 @@ const Landing = () => {
               onClick={() => setLocation('/home')}
               className="px-10 py-6 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg animate-pulse-glow mx-auto"
               style={{ 
-                background: 'linear-gradient(135deg, #F8FAFC 0%, #CBD5E1 30%, #94A3B8 60%, #64748B 85%, #7E22CE 100%)',
-                color: '#2563EB',
+                background: 'linear-gradient(135deg, #FFFFFF 0%, #F5F3FF 30%, #EDE9FE 60%, #DDD6FE 85%, #C4B5FD 100%)',
+                color: '#4338CA',
                 boxShadow: `
                   0 4px 14px rgba(255, 255, 255, 0.8),
-                  0 0 10px rgba(203, 213, 225, 0.9),
-                  0 0 20px rgba(148, 163, 184, 0.7),
-                  0 0 30px rgba(100, 116, 139, 0.5),
-                  inset 0 0 10px rgba(226, 232, 240, 0.5)
+                  0 0 10px rgba(224, 231, 255, 0.9),
+                  0 0 20px rgba(199, 210, 254, 0.7),
+                  0 0 30px rgba(165, 180, 252, 0.5),
+                  inset 0 0 10px rgba(238, 242, 255, 0.5)
                 `,
                 fontFamily: 'Cinzel, serif',
                 fontSize: '1.2rem',
-                fontWeight: '600',
+                fontWeight: '700',
                 letterSpacing: '0.15em',
                 textTransform: 'uppercase',
                 textShadow: `
