@@ -4,70 +4,51 @@ interface SyncLogoProps {
   className?: string;
 }
 
-const SyncLogo: React.FC<SyncLogoProps> = ({ className = "w-8 h-8" }) => {
+const SyncLogo: React.FC<SyncLogoProps> = ({ className = '' }) => {
   return (
-    <div className={`relative ${className}`}>
-      {/* Base layer with white background */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-full h-full rounded-full bg-white"></div>
+    <div className={`relative flex items-center justify-center ${className}`} style={{ background: '#E5E7EB', padding: '30px' }}>
+      {/* Container */}
+      <div className="relative font-cinzel font-bold tracking-wider text-center">
+        {/* Main text with Roman inscription/chiseled effect */}
+        <div className="relative p-3">
+          {/* Base text */}
+          <h1 
+            className="text-[#3B82F6] text-6xl font-black uppercase"
+            style={{ 
+              textShadow: `
+                1px 1px 0px #F87171,
+                2px 2px 0px rgba(248, 113, 113, 0.7),
+                0 0 5px rgba(59, 130, 246, 0.2),
+                0 0 10px rgba(59, 130, 246, 0.1)
+              `,
+              letterSpacing: '0.2em',
+              fontVariationSettings: '"wght" 900',
+              // Simulate a carved/chiseled appearance
+              WebkitTextStroke: '0.5px rgba(0,0,0,0.1)',
+            }}
+          >
+            SYNC
+          </h1>
+          
+          {/* Mysterious glowing underline */}
+          <div 
+            className="absolute -bottom-1 left-0 right-0 h-1.5 rounded-full"
+            style={{ 
+              background: 'linear-gradient(90deg, #3B82F6, #F87171)',
+              boxShadow: '0 0 12px rgba(59, 130, 246, 0.6)',
+              opacity: 0.8
+            }}
+          ></div>
+          
+          {/* Extra inner shadow for the 3D chiseled effect */}
+          <div className="absolute inset-0 pointer-events-none"
+            style={{
+              boxShadow: 'inset 2px 2px 8px rgba(0,0,0,0.1), inset -2px -2px 8px rgba(255,255,255,0.7)',
+              borderRadius: '2px'
+            }}
+          ></div>
+        </div>
       </div>
-      
-      {/* Blue clockwise spinning circle with arrow (reversed direction) */}
-      <svg 
-        viewBox="0 0 100 100" 
-        fill="none" 
-        xmlns="http://www.w3.org/2000/svg" 
-        className="w-full h-full absolute inset-0 animate-spin-slow-reverse"
-      >
-        <circle 
-          cx="50" 
-          cy="50" 
-          r="45" 
-          stroke="var(--primary-blue)" 
-          strokeWidth="6"
-          strokeDasharray="70 70" 
-          strokeLinecap="round"
-        />
-        
-        {/* Blue arrow */}
-        <path 
-          d="M25 35L15 25L5 35" 
-          stroke="var(--primary-blue)" 
-          strokeWidth="6" 
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          transform="rotate(225, 15, 25)"
-        />
-      </svg>
-      
-      {/* Coral spinning circle with arrow (reversed direction) */}
-      <svg 
-        viewBox="0 0 100 100" 
-        fill="none" 
-        xmlns="http://www.w3.org/2000/svg" 
-        className="w-full h-full absolute inset-0 animate-spin-slow"
-      >
-        <circle 
-          cx="50" 
-          cy="50" 
-          r="45" 
-          stroke="var(--primary-coral)" 
-          strokeWidth="6"
-          strokeDasharray="70 70" 
-          strokeDashoffset="70"
-          strokeLinecap="round"
-        />
-        
-        {/* Coral arrow */}
-        <path 
-          d="M75 65L85 75L95 65" 
-          stroke="var(--primary-coral)" 
-          strokeWidth="6" 
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          transform="rotate(225, 85, 75)"
-        />
-      </svg>
     </div>
   );
 };

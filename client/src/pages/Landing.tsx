@@ -24,21 +24,10 @@ const Landing = () => {
       style={{ backgroundColor: 'var(--primary-salmon)' }}
     >
       <div className={`transform transition-all duration-1000 ease-out ${fadeIn ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-        <SyncLogo className="w-40 h-40 mx-auto mb-8" />
-      </div>
-      
-      <div className={`text-center transition-all duration-1000 delay-300 ease-out ${fadeIn ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-        <h1 
-          className="text-7xl font-bold tracking-[0.05em] mb-2"
-          style={{ 
-            color: 'white',
-            fontFamily: 'Rubik, sans-serif'
-          }}
-        >
-          SYNC
-        </h1>
+        <SyncLogo className="w-80 h-auto mx-auto mb-6" />
+        
         <h2
-          className="text-3xl font-medium mb-8"
+          className="text-3xl font-medium mb-8 text-center"
           style={{ 
             color: 'white',
             fontFamily: 'Rubik, sans-serif' 
