@@ -21,7 +21,7 @@ const Header = () => {
   return (
     <header className="shadow-md py-2 px-6 flex justify-between items-center transition-colors duration-500 backdrop-blur-sm" style={{ backgroundColor: 'rgba(0, 0, 0, 0.95)', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
       <div className="flex items-center">
-        <Link to="/home">
+        <Link to="/">
           <div className="flex items-center cursor-pointer">
             <SyncMonogram className="w-8 h-8" />
           </div>

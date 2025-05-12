@@ -29,22 +29,23 @@ const DynamicArrows: React.FC<DynamicArrowsProps> = ({ className = '' }) => {
           }}
         />
         
-        {/* Blue clockwise arrow */}
+        {/* Blue clockwise circle */}
         <g className="animate-spin-slow" style={{ transformOrigin: 'center' }}>
-          <path 
-            d="M55 40 A45 45 0 1 0 40 55" 
+          <circle 
+            cx="80" 
+            cy="80" 
+            r="45" 
             stroke="#3B82F6" 
             strokeWidth="3"
             fill="none"
-            strokeLinecap="round"
             style={{ 
               filter: 'drop-shadow(0 0 5px rgba(59, 130, 246, 0.7))',
             }}
           />
           
-          {/* Arrow tip */}
+          {/* Blue arrow */}
           <path 
-            d="M55 40 L45 35 M55 40 L60 30" 
+            d="M120 80 L110 70 M120 80 L110 90" 
             stroke="#3B82F6" 
             strokeWidth="3" 
             strokeLinecap="round" 
@@ -55,22 +56,23 @@ const DynamicArrows: React.FC<DynamicArrowsProps> = ({ className = '' }) => {
           />
         </g>
         
-        {/* Coral counter-clockwise arrow */}
-        <g className="animate-spin-slow-reverse" style={{ transformOrigin: 'center' }}>
-          <path 
-            d="M105 40 A45 45 0 1 1 120 55" 
+        {/* Coral clockwise circle (crossing) */}
+        <g className="animate-spin-slow-reverse" style={{ transformOrigin: 'center', transformBox: 'fill-box', transform: 'rotate(45deg)' }}>
+          <circle 
+            cx="80" 
+            cy="80" 
+            r="45" 
             stroke="#F87171" 
             strokeWidth="3"
             fill="none"
-            strokeLinecap="round"
             style={{ 
               filter: 'drop-shadow(0 0 5px rgba(248, 113, 113, 0.7))',
             }}
           />
           
-          {/* Arrow tip */}
+          {/* Coral arrow */}
           <path 
-            d="M105 40 L115 35 M105 40 L100 30" 
+            d="M40 80 L50 70 M40 80 L50 90" 
             stroke="#F87171" 
             strokeWidth="3" 
             strokeLinecap="round" 

@@ -180,7 +180,12 @@ const RouletteMatch = () => {
   return (
     <div 
       className="min-h-screen flex flex-col"
-      style={{ backgroundColor: background }}
+      style={{ 
+        backgroundColor: '#F5E8E0', // Classy tan background
+        backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px)',
+        backgroundSize: '20px 20px',
+        color: '#262626' // Darker text for better contrast on tan
+      }}
     >
       <Header />
       
@@ -192,8 +197,8 @@ const RouletteMatch = () => {
         
         <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Criteria section */}
-          <Card className="p-6 col-span-1">
-            <h2 className="text-xl mb-4 font-medium">Match Criteria</h2>
+          <Card className="p-6 col-span-1 border-amber-200 bg-white/90 shadow-sm">
+            <h2 className="text-xl mb-4 font-medium text-amber-900">Match Criteria</h2>
             
             <div className="space-y-6">
               <div>
@@ -251,7 +256,7 @@ const RouletteMatch = () => {
           </Card>
           
           {/* Roulette section */}
-          <Card className="p-6 col-span-1 md:col-span-2 flex flex-col items-center justify-between">
+          <Card className="p-6 col-span-1 md:col-span-2 flex flex-col items-center justify-between border-amber-200 bg-white/90 shadow-sm">
             {isSpinning ? (
               <div className="flex flex-col items-center justify-center h-full py-10">
                 <Loader2 className="h-24 w-24 animate-spin mb-4" />
@@ -259,7 +264,7 @@ const RouletteMatch = () => {
               </div>
             ) : matchResult ? (
               <div className="flex flex-col items-center w-full">
-                <div className="relative w-40 h-40 rounded-full overflow-hidden mb-4 border-4 border-primary">
+                <div className="relative w-40 h-40 rounded-full overflow-hidden mb-4 border-4 border-amber-700">
                   <img 
                     src={matchResult.profileImage || 'https://randomuser.me/api/portraits/men/32.jpg'} 
                     alt={matchResult.fullName}
@@ -301,14 +306,14 @@ const RouletteMatch = () => {
                   </Button>
                   <Button 
                     onClick={handleViewProfile} 
-                    className="px-6 rounded-xl"
+                    className="px-6 rounded-xl bg-amber-600 hover:bg-amber-700 text-amber-50"
                   >
                     View Profile
                   </Button>
                   <Button 
                     onClick={handleStartVideoChat} 
                     variant="default" 
-                    className="rounded-full p-6 bg-primary" 
+                    className="rounded-full p-6 bg-amber-700 hover:bg-amber-800" 
                     size="icon"
                   >
                     <Heart className="h-6 w-6" />
@@ -337,7 +342,7 @@ const RouletteMatch = () => {
                     <Button 
                       onClick={spinRoulette} 
                       size="lg" 
-                      className="px-8 py-6 text-lg rounded-xl"
+                      className="px-8 py-6 text-lg rounded-xl bg-amber-700 text-amber-50 hover:bg-amber-800"
                       disabled={!coords || eligibleCount === 0}
                     >
                       Spin to Match
