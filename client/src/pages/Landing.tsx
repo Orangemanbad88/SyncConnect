@@ -82,8 +82,9 @@ const Landing = () => {
                 `,
                 fontFamily: 'Cinzel, serif',
                 fontSize: '1rem',
-                fontWeight: '900',
-                letterSpacing: '0.12em',
+                fontWeight: '600',
+                fontStyle: 'italic',
+                letterSpacing: '0.15em',
                 textTransform: 'uppercase',
                 textShadow: `
                   0 1px 2px rgba(255, 255, 255, 0.9),
@@ -93,8 +94,8 @@ const Landing = () => {
                 `
               }}
             >
-              <span className="opacity-90 tracking-wide mr-1">Come</span> 
-              <span className="inline-block font-black" style={{ textShadow: '0 0 2px rgba(0, 40, 100, 0.8)' }}>VIBE</span>
+              <span className="opacity-90 tracking-wider mr-1 italic">Come</span> 
+              <span className="inline-block font-semibold italic transform -skew-x-6" style={{ textShadow: '0 0 2px rgba(0, 40, 100, 0.8)' }}>VIBE</span>
             </Button>
           </div>
         </div>
