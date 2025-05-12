@@ -16,10 +16,10 @@ const HeroHeader: React.FC<HeroHeaderProps> = ({ opacity }) => {
     >
       <div className="container mx-auto px-6 py-8 flex flex-col items-center justify-center h-full">
         <SyncLogo className="w-24 h-24" />
-        <h1 className="mt-4 text-5xl font-['Poppins'] font-bold text-[var(--primary-coral)] tracking-wider">
+        <h1 className="mt-4 text-5xl app-title text-[var(--primary-coral)] tracking-wider">
           S Y N C
         </h1>
-        <p className="mt-3 text-xl font-['Poppins'] text-[var(--primary-blue)] max-w-xl text-center">
+        <p className="mt-3 text-xl app-description text-[var(--primary-blue)] max-w-xl text-center">
           Connect with nearby people through live video chats
         </p>
       </div>

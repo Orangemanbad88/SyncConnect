@@ -7,42 +7,48 @@ interface SyncLogoProps {
 const SyncLogo: React.FC<SyncLogoProps> = ({ className = "w-8 h-8" }) => {
   return (
     <div className={`relative ${className}`}>
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-        <circle cx="12" cy="12" r="10" fill="var(--neutral-offwhite)" />
+      {/* Outer blue circle that spins clockwise */}
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full animate-spin-slow">
+        {/* White background circle */}
+        <circle cx="12" cy="12" r="11" fill="white" />
         
-        {/* Blue arrow curving upward */}
-        <g className="animate-spin-slow">
-          <path
-            d="M12 4C7.58172 4 4 7.58172 4 12C4 13.8409 4.60557 15.5463 5.63449 16.9096"
-            stroke="var(--primary-blue)"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-          />
-          <path
-            d="M6.5 17L5 14.5L2.5 16"
-            stroke="var(--primary-blue)"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </g>
+        {/* Blue semicircle with arrow */}
+        <path
+          d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22"
+          stroke="var(--primary-blue)"
+          strokeWidth="3"
+          strokeLinecap="round"
+        />
         
-        {/* Coral arrow curving downward */}
-        <g className="animate-spin-slow-reverse">
-          <path
-            d="M12 20C16.4183 20 20 16.4183 20 12C20 10.1591 19.3944 8.45374 18.3655 7.09043"
-            stroke="var(--primary-coral)"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-          />
-          <path
-            d="M17.5 7L19 9.5L21.5 8"
-            stroke="var(--primary-coral)"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </g>
+        {/* Blue arrow */}
+        <path
+          d="M7 6L3 5L4 9"
+          stroke="var(--primary-blue)"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+      
+      {/* Inner coral circle that spins counter-clockwise */}
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" 
+           className="w-5/6 h-5/6 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-spin-slow-reverse">
+        {/* Coral semicircle with arrow */}
+        <path
+          d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2"
+          stroke="var(--primary-coral)"
+          strokeWidth="3"
+          strokeLinecap="round"
+        />
+        
+        {/* Coral arrow */}
+        <path
+          d="M17 18L21 19L20 15"
+          stroke="var(--primary-coral)"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
     </div>
   );

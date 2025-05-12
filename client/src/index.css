@@ -69,7 +69,12 @@
   }
   
   .app-title {
-    @apply text-3xl font-['Poppins'] font-bold;
+    @apply text-3xl font-bold;
+    font-family: 'Poppins', sans-serif !important;
+  }
+  
+  .app-description {
+    font-family: 'Poppins', sans-serif !important;
   }
   
   .online-indicator {
