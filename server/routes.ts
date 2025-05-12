@@ -8,11 +8,14 @@ import {
   insertInterestSchema,
   insertMoodReactionSchema
 } from "@shared/schema";
-import { WebSocketServer } from 'ws';
+import { WebSocketServer, WebSocket } from 'ws';
 import express from "express";
 import { setupAuth } from './auth';
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Setup authentication
+  setupAuth(app);
+  
   // get all users endpoint
   app.get("/api/users", async (req, res) => {
     try {
@@ -191,11 +194,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   const wss = new WebSocketServer({ server: httpServer, path: '/ws' });
   
   // Keep track of connected users
-  const connectedUsers = new Map();
+  const connectedUsers = new Map<number, WebSocket>();
   
   wss.on('connection', (ws) => {
     console.log('New WebSocket connection established');
-    let userId = null;
+    let userId = 0; // Initialize with invalid ID
     
     ws.on('message', (message) => {
       try {
@@ -206,9 +209,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         switch(data.type) {
           case 'register':
             // Register a user with their ID
-            userId = data.userId;
-            connectedUsers.set(userId, ws);
-            console.log(`User ${userId} registered`);
+            if (typeof data.userId === 'number' && data.userId > 0) {
+              userId = data.userId;
+              connectedUsers.set(userId, ws);
+              console.log(`User ${userId} registered`);
+            } else {
+              console.error('Invalid user ID provided for registration');
+            }
             break;
             
           case 'offer':
@@ -308,8 +315,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
     
     ws.on('close', () => {
-      console.log(`WebSocket connection closed${userId ? ' for user ' + userId : ''}`);
-      if (userId) {
+      console.log(`WebSocket connection closed${userId > 0 ? ' for user ' + userId : ''}`);
+      if (userId > 0) {
         connectedUsers.delete(userId);
       }
     });
