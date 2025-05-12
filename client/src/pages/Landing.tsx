@@ -21,7 +21,7 @@ const Landing = () => {
   return (
     <div 
       className="h-screen w-full flex flex-col items-center justify-center transition-colors duration-1000"
-      style={{ backgroundColor: '#EDDD53' }}
+      style={{ backgroundColor: '#121212' }}
     >
       <div className={`transform transition-all duration-1000 ease-out ${fadeIn ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
         <SyncLogo className="w-80 h-auto mx-auto mb-10" />

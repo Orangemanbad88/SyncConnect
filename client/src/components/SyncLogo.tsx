@@ -11,32 +11,27 @@ const SyncLogo: React.FC<SyncLogoProps> = ({ className = '' }) => {
       <div className="relative font-cinzel font-bold tracking-wider text-center">
         {/* Base text */}
         <h1 
-          className="text-[#3B82F6] text-6xl font-black uppercase"
+          className="text-white text-6xl font-black uppercase"
           style={{ 
             textShadow: `
-              1px 1px 0px #F87171,
-              2px 2px 0px rgba(248, 113, 113, 0.7),
-              0 0 5px rgba(59, 130, 246, 0.2),
-              0 0 10px rgba(59, 130, 246, 0.1)
+              0 0 5px rgba(255, 255, 255, 0.7),
+              0 0 10px rgba(255, 255, 255, 0.5),
+              0 0 15px rgba(255, 255, 255, 0.3),
+              0 0 20px rgba(255, 255, 255, 0.2)
             `,
             letterSpacing: '0.2em',
             fontVariationSettings: '"wght" 900',
-            // Simulate a carved/chiseled appearance
-            WebkitTextStroke: '0.5px rgba(0,0,0,0.1)',
+            // Add a metallic sheen effect
+            background: 'linear-gradient(to bottom, #ffffff 0%, #e0e0e0 50%, #ffffff 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            filter: 'drop-shadow(0 0 2px rgba(255, 255, 255, 0.7))',
           }}
         >
           SYNC
         </h1>
         
-        {/* Mysterious glowing underline */}
-        <div 
-          className="absolute -bottom-1 left-0 right-0 h-1.5 rounded-full"
-          style={{ 
-            background: 'linear-gradient(90deg, #3B82F6, #F87171)',
-            boxShadow: '0 0 12px rgba(59, 130, 246, 0.6)',
-            opacity: 0.8
-          }}
-        ></div>
+{/* Removed underline */}
       </div>
     </div>
   );
