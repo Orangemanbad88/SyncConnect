@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
 import SyncLogo from '@/components/SyncLogo';
+import DynamicArrows from '@/components/DynamicArrows';
 import { Button } from '@/components/ui/button';
 import { useAmbient } from '@/context/AmbientContext';
 
@@ -35,6 +36,11 @@ const Landing = () => {
         }}
       ></div>
       <div className={`transform transition-all duration-1000 ease-out ${fadeIn ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
+        {/* Dynamic Arrows positioned above the logo */}
+        <div className="relative mx-auto mb-6">
+          <DynamicArrows className="mx-auto" />
+        </div>
+        
         <SyncLogo className="w-60 h-auto mx-auto mb-6" />
         
         <p 

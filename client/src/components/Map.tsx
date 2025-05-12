@@ -47,12 +47,15 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
 
   return (
     <div className="flex-1 relative overflow-hidden">
+      {/* Map grid overlay */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAgTSAwIDIwIEwgNDAgMjAgTSAyMCAwIEwgMjAgNDAgTSAwIDMwIEwgNDAgMzAgTSAzMCAwIEwgMzAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMzMzMyIgc3Ryb2tlLXdpZHRoPSIwLjUiIG9wYWNpdHk9IjAuMTUiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')]" style={{ pointerEvents: 'none', zIndex: 2, opacity: 0.3 }}></div>
+      
       <div
         ref={mapRef}
-        className="w-full h-full bg-cover bg-center transition-transform duration-300"
+        className="w-full h-full bg-cover bg-center transition-transform duration-300 shadow-inner"
         style={{
-          backgroundImage: `url('https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v11/static/${userCoords ? `${userCoords.longitude},${userCoords.latitude}` : '-96.7970,32.7767'},12,0/1200x800?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA')`,
-          filter: "contrast(1.1) saturate(1.2)",
+          backgroundImage: `url('https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/${userCoords ? `${userCoords.longitude},${userCoords.latitude}` : '-96.7970,32.7767'},12,0/1200x800?access_token=${import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}')`,
+          filter: "contrast(1.2) saturate(1.3)",
           transform: `scale(${zoom})`,
           transformOrigin: "center"
         }}
