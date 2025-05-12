@@ -1,10 +1,13 @@
 import { 
   users, 
-  interests, 
+  interests,
+  moodReactions,
   type User, 
   type InsertUser, 
   type Interest, 
   type InsertInterest,
+  type MoodReaction,
+  type InsertMoodReaction,
   type UpdateUserLocation,
   type UpdateUserOnlineStatus
 } from "@shared/schema";
@@ -19,13 +22,20 @@ export interface IStorage {
   getUserInterests(userId: number): Promise<Interest[]>;
   addUserInterest(interest: InsertInterest): Promise<Interest>;
   getAllOnlineUsers(): Promise<User[]>;
+  
+  // Mood Reactions methods
+  addMoodReaction(reaction: InsertMoodReaction): Promise<MoodReaction>;
+  getUserMoodReactions(userId: number): Promise<MoodReaction[]>;
+  getMoodReactionsBetweenUsers(fromUserId: number, toUserId: number): Promise<MoodReaction[]>;
 }
 
 export class MemStorage implements IStorage {
   private users: Map<number, User>;
   private userInterests: Map<number, Interest[]>;
+  private moodReactions: Map<number, MoodReaction>;
   currentId: number;
   interestId: number;
+  moodReactionId: number;
 
   constructor() {
     this.users = new Map();
