@@ -1,4 +1,5 @@
 import { X, MapPin, Video, Clock, Wifi, AlertTriangle, MapPinned, Star } from "lucide-react";
+import { useLocation } from "wouter";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -14,6 +15,7 @@ interface ProfileModalProps {
 }
 
 const ProfileModal = ({ user, onClose, onStartVideoChat }: ProfileModalProps) => {
+  const [, setLocation] = useLocation();
   const [interests, setInterests] = useState<string[]>([]);
   const [locationDetail, setLocationDetail] = useState({
     distance: "Nearby",
@@ -162,7 +164,12 @@ const ProfileModal = ({ user, onClose, onStartVideoChat }: ProfileModalProps) =>
           
           <Button 
             className="w-full py-6 bg-[var(--secondary-coral)] hover:bg-red-400 text-white font-semibold rounded-lg transition shadow-md"
-            onClick={onStartVideoChat}
+            onClick={() => {
+              if (user.isOnline) {
+                onStartVideoChat();
+                setLocation(`/video/${user.id}`);
+              }
+            }}
             disabled={!user.isOnline}
           >
             <Video className="w-5 h-5 mr-2" />

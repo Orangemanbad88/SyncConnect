@@ -5,6 +5,8 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import Landing from "@/pages/Landing";
 import RouletteMatch from "@/pages/RouletteMatch";
+import VideoChat from "@/pages/VideoChat";
+import Messages from "@/pages/Messages";
 import AuthPage from "@/pages/auth-page";
 import { ProtectedRoute } from "@/lib/protected-route";
 import { UserProvider } from "./context/UserContext";
@@ -20,6 +22,8 @@ function Router() {
       <Route path="/home" component={Home} />
       <Route path="/roulette" component={RouletteMatch} />
       <Route path="/auth" component={AuthPage} />
+      <ProtectedRoute path="/video/:id" component={VideoChat} />
+      <ProtectedRoute path="/messages/:id" component={Messages} />
       <Route component={NotFound} />
     </Switch>
   );

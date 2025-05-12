@@ -81,6 +81,163 @@ export class MemStorage implements IStorage {
   matchId: number;
   messageId: number;
   sessionStore: session.Store;
+  
+  // Video Connection methods
+  async createVideoConnection(connection: InsertVideoConnection): Promise<VideoConnection> {
+    const id = this.videoConnectionId++;
+    const newConnection: VideoConnection = {
+      ...connection,
+      id,
+      startedAt: new Date(),
+      endedAt: null,
+      duration: null,
+      userOnePicked: false,
+      userTwoPicked: false,
+    };
+    this.videoConnections.set(id, newConnection);
+    return newConnection;
+  }
+  
+  async getVideoConnection(id: number): Promise<VideoConnection | undefined> {
+    return this.videoConnections.get(id);
+  }
+  
+  async updateVideoConnection(id: number, update: UpdateVideoConnection): Promise<VideoConnection | undefined> {
+    const connection = this.videoConnections.get(id);
+    if (!connection) return undefined;
+    
+    const updatedConnection = { ...connection, ...update };
+    this.videoConnections.set(id, updatedConnection);
+    return updatedConnection;
+  }
+  
+  async updatePickStatus(id: number, userId: number, picked: boolean): Promise<VideoConnection | undefined> {
+    const connection = this.videoConnections.get(id);
+    if (!connection) return undefined;
+    
+    let updatedConnection: VideoConnection;
+    
+    if (connection.userOneId === userId) {
+      updatedConnection = { ...connection, userOnePicked: picked };
+    } else if (connection.userTwoId === userId) {
+      updatedConnection = { ...connection, userTwoPicked: picked };
+    } else {
+      return undefined;
+    }
+    
+    this.videoConnections.set(id, updatedConnection);
+    return updatedConnection;
+  }
+  
+  async getUserVideoConnections(userId: number): Promise<VideoConnection[]> {
+    const connections: VideoConnection[] = [];
+    for (const connection of this.videoConnections.values()) {
+      if (connection.userOneId === userId || connection.userTwoId === userId) {
+        connections.push(connection);
+      }
+    }
+    return connections;
+  }
+  
+  // Match methods
+  async createMatch(match: InsertMatch): Promise<Match> {
+    const id = this.matchId++;
+    const newMatch: Match = {
+      ...match,
+      id,
+      createdAt: new Date(),
+      isActive: true,
+    };
+    this.matches.set(id, newMatch);
+    return newMatch;
+  }
+  
+  async getMatch(id: number): Promise<Match | undefined> {
+    return this.matches.get(id);
+  }
+  
+  async getMatchByUsers(userOneId: number, userTwoId: number): Promise<Match | undefined> {
+    for (const match of this.matches.values()) {
+      if ((match.userOneId === userOneId && match.userTwoId === userTwoId) ||
+          (match.userOneId === userTwoId && match.userTwoId === userOneId)) {
+        return match;
+      }
+    }
+    return undefined;
+  }
+  
+  async getUserMatches(userId: number): Promise<Match[]> {
+    const matches: Match[] = [];
+    for (const match of this.matches.values()) {
+      if ((match.userOneId === userId || match.userTwoId === userId) && match.isActive) {
+        matches.push(match);
+      }
+    }
+    return matches;
+  }
+  
+  async deactivateMatch(id: number): Promise<Match | undefined> {
+    const match = this.matches.get(id);
+    if (!match) return undefined;
+    
+    const updatedMatch = { ...match, isActive: false };
+    this.matches.set(id, updatedMatch);
+    return updatedMatch;
+  }
+  
+  // Messages methods
+  async sendMessage(message: InsertMessage): Promise<Message> {
+    const id = this.messageId++;
+    const newMessage: Message = {
+      ...message,
+      id,
+      content: message.content,
+      createdAt: new Date(),
+      isRead: false,
+    };
+    this.messages.set(id, newMessage);
+    return newMessage;
+  }
+  
+  async getConversation(matchId: number): Promise<Message[]> {
+    const conversation: Message[] = [];
+    for (const message of this.messages.values()) {
+      if (message.matchId === matchId) {
+        conversation.push(message);
+      }
+    }
+    return conversation.sort((a, b) => 
+      a.createdAt.getTime() - b.createdAt.getTime()
+    );
+  }
+  
+  async getUserConversations(userId: number): Promise<{ matchId: number, otherUserId: number, latestMessage: Message }[]> {
+    const matches = await this.getUserMatches(userId);
+    const conversations: { matchId: number, otherUserId: number, latestMessage: Message }[] = [];
+    
+    for (const match of matches) {
+      const messages = await this.getConversation(match.id);
+      if (messages.length > 0) {
+        const latestMessage = messages[messages.length - 1];
+        const otherUserId = match.userOneId === userId ? match.userTwoId : match.userOneId;
+        conversations.push({
+          matchId: match.id,
+          otherUserId,
+          latestMessage,
+        });
+      }
+    }
+    
+    return conversations;
+  }
+  
+  async markMessagesAsRead(matchId: number, toUserId: number): Promise<void> {
+    for (const [id, message] of this.messages.entries()) {
+      if (message.matchId === matchId && message.toUserId === toUserId && !message.isRead) {
+        this.messages.set(id, { ...message, isRead: true });
+      }
+    }
+  }
 
   constructor() {
     this.users = new Map();
