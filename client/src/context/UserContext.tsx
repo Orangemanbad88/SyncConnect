@@ -58,9 +58,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     queryKey: ['/api/users', coords?.latitude, coords?.longitude],
     enabled: !!coords?.latitude && !!coords?.longitude,
     refetchInterval: 30000, // Refresh every 30 seconds
-    select: (data) => {
+    select: (data: unknown) => {
       // Add additional info like timeAgo
-      return data.map((user: any) => ({
+      const users = data as any[];
+      return users.map(user => ({
         ...user,
         locationTimestamp: user.locationTimestamp || Date.now(),
         locationAge: user.locationTimestamp 

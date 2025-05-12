@@ -49,7 +49,7 @@ export class MemStorage implements IStorage {
 
   private seedData() {
     // Seed with sample users for development
-    const sampleUsers: InsertUser[] = [
+    const sampleUsers = [
       {
         username: "michael",
         password: "password",
@@ -144,7 +144,20 @@ export class MemStorage implements IStorage {
 
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = this.currentId++;
-    const user: User = { ...insertUser, id, isOnline: false };
+    const user: User = { 
+      id, 
+      username: insertUser.username,
+      password: insertUser.password,
+      fullName: insertUser.fullName,
+      age: insertUser.age,
+      job: insertUser.job || null,
+      bio: insertUser.bio || null,
+      profileImage: insertUser.profileImage || null,
+      coverImage: insertUser.coverImage || null,
+      latitude: insertUser.latitude || null,
+      longitude: insertUser.longitude || null,
+      isOnline: false
+    };
     this.users.set(id, user);
     return user;
   }
