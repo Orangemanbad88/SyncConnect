@@ -15,15 +15,27 @@ const DynamicArrows: React.FC<DynamicArrowsProps> = ({ className = '' }) => {
         xmlns="http://www.w3.org/2000/svg"
         className="relative"
       >
-        {/* First Arrow - Clockwise */}
-        <g className="animate-spin-slow">
+        {/* Full circle with clockwise arrow */}
+        <g className="animate-spin-slow" style={{ transformOrigin: 'center' }}>
+          <circle 
+            cx="80" 
+            cy="80" 
+            r="50" 
+            stroke="white" 
+            strokeWidth="4"
+            strokeDasharray="5 3"
+            fill="none"
+            style={{ 
+              filter: 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.5))',
+              opacity: 0.8
+            }}
+          />
           <path 
-            d="M40 80 A40 40 0 1 0 120 80 M110 70 L120 80 L110 90" 
+            d="M130 80 L120 70 M130 80 L120 90" 
             stroke="white" 
             strokeWidth="4" 
             strokeLinecap="round" 
             strokeLinejoin="round"
-            className="glow-path"
             style={{ 
               filter: 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.5))',
               opacity: 0.8
@@ -31,18 +43,31 @@ const DynamicArrows: React.FC<DynamicArrowsProps> = ({ className = '' }) => {
           />
         </g>
         
-        {/* Second Arrow - Counter-Clockwise */}
+        {/* Full circle with counter-clockwise arrow */}
         <g className="animate-spin-slow-reverse" style={{ transformOrigin: 'center' }}>
-          <path 
-            d="M120 80 A40 40 0 1 0 40 80 M50 70 L40 80 L50 90" 
+          <circle 
+            cx="80" 
+            cy="80" 
+            r="35" 
             stroke="white" 
-            strokeWidth="4" 
-            strokeLinecap="round" 
-            strokeLinejoin="round"
-            className="glow-path"
+            strokeWidth="3"
+            strokeDasharray="3 3"
+            fill="none"
             style={{ 
               filter: 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.5))',
-              opacity: 0.8 
+              opacity: 0.6
+            }}
+          />
+          <path 
+            d="M115 80 L105 70 M115 80 L105 90" 
+            stroke="white" 
+            strokeWidth="3" 
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+            transform="rotate(180, 80, 80)"
+            style={{ 
+              filter: 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.5))',
+              opacity: 0.6
             }}
           />
         </g>

@@ -35,40 +35,41 @@ const Landing = () => {
           pointerEvents: 'none'
         }}
       ></div>
-      <div className={`transform transition-all duration-1000 ease-out ${fadeIn ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-        {/* Dynamic Arrows positioned above the logo */}
-        <div className="relative mx-auto mb-6">
-          <DynamicArrows className="mx-auto" />
-        </div>
-        
-        <SyncLogo className="w-60 h-auto mx-auto mb-6" />
-        
-        <p 
-          className="text-2xl font-semibold max-w-md mx-auto mb-16 tracking-wide font-barlow uppercase italic"
-          style={{ 
-            color: '#ff6666', // Slightly red color
-            letterSpacing: '0.08em',
-            textShadow: '0 0 3px rgba(255,102,102,0.3)'
-          }}
-        >
-          Your Instinct Connection
-        </p>
-        
-        <div className="flex justify-center">
-          <Button 
-            onClick={() => setLocation('/home')}
-            className="px-10 py-6 rounded-full text-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg"
+      
+      <div className={`transform transition-all duration-1000 ease-out ${fadeIn ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'} flex flex-col items-center`}>
+        <div className="flex flex-col items-center relative">
+          {/* Dynamic Arrows positioned in the center above the logo */}
+          <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 z-10">
+            <DynamicArrows className="mx-auto w-40 h-40" />
+          </div>
+          
+          <SyncLogo className="w-60 h-auto mx-auto mb-6 mt-12" />
+          
+          <p 
+            className="text-2xl font-semibold max-w-md mx-auto mb-8 tracking-wide font-barlow uppercase italic"
             style={{ 
-              backgroundColor: 'var(--primary-blue)',
-              color: 'white',
-              boxShadow: '0 4px 14px rgba(59, 130, 246, 0.4)'
+              color: '#ff6666', // Slightly red color
+              letterSpacing: '0.08em',
+              textShadow: '0 0 3px rgba(255,102,102,0.3)'
             }}
           >
-            Get Started
-          </Button>
+            Your Instinct Connection
+          </p>
+          
+          <div className="flex justify-center">
+            <Button 
+              onClick={() => setLocation('/home')}
+              className="px-10 py-6 rounded-full text-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg"
+              style={{ 
+                backgroundColor: 'var(--primary-blue)',
+                color: 'white',
+                boxShadow: '0 4px 14px rgba(59, 130, 246, 0.4)'
+              }}
+            >
+              Get Started
+            </Button>
+          </div>
         </div>
-        
-{/* Removed arrow logo */}
       </div>
     </div>
   );
