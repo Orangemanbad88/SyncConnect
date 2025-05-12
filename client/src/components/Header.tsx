@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { Bell, Dices } from "lucide-react";
-import SyncLogo from "./SyncLogo";
+import SyncMonogram from "./SyncMonogram";
 import { Link, useLocation } from "wouter";
 
 const Header = () => {
@@ -23,7 +23,7 @@ const Header = () => {
       <div className="flex items-center">
         <Link to="/home">
           <div className="flex items-center cursor-pointer">
-            <SyncLogo className="w-7 h-7" />
+            <SyncMonogram className="w-8 h-8" />
           </div>
         </Link>
       </div>
