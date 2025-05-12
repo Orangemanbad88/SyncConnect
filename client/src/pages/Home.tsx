@@ -6,13 +6,16 @@ import DiscoverySidebar from "@/components/DiscoverySidebar";
 import BottomNavigation from "@/components/BottomNavigation";
 import ProfileModal from "@/components/ProfileModal";
 import VideoChatModal from "@/components/VideoChatModal";
+import TimeOfDayIndicator from "@/components/TimeOfDayIndicator";
 import { useUser } from "@/context/UserContext";
 import { useGeolocation } from "@/hooks/useGeolocation";
 import { distributeUsers } from "@/lib/mapUtils";
+import { useAmbient } from "@/context/AmbientContext";
 
 const Home = () => {
   const { nearbyUsers, isLoading, selectedUser, selectUser } = useUser();
   const { coords } = useGeolocation();
+  const { background } = useAmbient();
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [showVideoChatModal, setShowVideoChatModal] = useState(false);
   const [distributedUsers, setDistributedUsers] = useState<any[]>([]);
