@@ -66,12 +66,13 @@ const Landing = () => {
               onClick={() => setLocation('/home')}
               className="px-10 py-6 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg animate-pulse-glow"
               style={{ 
-                background: 'linear-gradient(135deg, #FFFDF5 0%, #FFF8E1 100%)',
+                background: 'linear-gradient(135deg, #F9FAFB 0%, #E5E7EB 50%, #D1D5DB 100%)',
                 color: '#2563EB',
                 boxShadow: `
-                  0 4px 14px rgba(255, 252, 232, 0.7),
-                  0 0 10px rgba(255, 248, 225, 0.6),
-                  0 0 20px rgba(255, 243, 209, 0.4)
+                  0 4px 14px rgba(255, 255, 255, 0.8),
+                  0 0 10px rgba(226, 232, 240, 0.7),
+                  0 0 20px rgba(203, 213, 225, 0.6),
+                  0 0 30px rgba(148, 163, 184, 0.4)
                 `,
                 fontFamily: 'Cinzel, serif',
                 fontSize: '1.2rem',
@@ -79,8 +80,10 @@ const Landing = () => {
                 letterSpacing: '0.15em',
                 textTransform: 'uppercase',
                 textShadow: `
-                  0 0 5px rgba(255, 255, 255, 0.8),
-                  0 0 8px rgba(59, 130, 246, 0.7)
+                  0 0 5px rgba(255, 255, 255, 0.9),
+                  0 0 8px rgba(59, 130, 246, 0.8),
+                  0 0 12px rgba(59, 130, 246, 0.6),
+                  0 0 16px rgba(96, 165, 250, 0.4)
                 `
               }}
             >

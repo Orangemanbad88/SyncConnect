@@ -37,6 +37,17 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     isOnline: true
   };
   
+  // Auto-login with mock user for Home page
+  useEffect(() => {
+    setCurrentUser(mockUser);
+    setIsAuthenticated(true);
+    
+    // Set online status after a short delay
+    setTimeout(() => {
+      updateOnlineStatusMutation.mutate(true);
+    }, 500);
+  }, []);
+  
   // Get user's location with enhanced tracking
   const { 
     coords, 
