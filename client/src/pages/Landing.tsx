@@ -43,18 +43,7 @@ const Landing = () => {
             <DynamicArrows className="mx-auto w-40 h-40" />
           </div>
           
-          <SyncLogo className="w-60 h-auto mx-auto mb-6 mt-24" />
-          
-          <p 
-            className="text-2xl font-semibold max-w-md mx-auto mb-8 tracking-wide font-barlow uppercase italic"
-            style={{ 
-              color: '#ff6666', // Slightly red color
-              letterSpacing: '0.08em',
-              textShadow: '0 0 3px rgba(255,102,102,0.3)'
-            }}
-          >
-            Your Instinct Connection
-          </p>
+          <SyncLogo className="w-60 h-auto mx-auto mb-12 mt-24" />
           
           <div className="flex justify-center">
             <Button 

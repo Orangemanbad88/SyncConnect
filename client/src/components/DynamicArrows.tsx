@@ -15,22 +15,6 @@ const DynamicArrows: React.FC<DynamicArrowsProps> = ({ className = '' }) => {
         xmlns="http://www.w3.org/2000/svg"
         className="relative"
       >
-        {/* Title text */}
-        <text 
-          x="80" 
-          y="20" 
-          textAnchor="middle" 
-          fontSize="14" 
-          fontFamily="Arial, sans-serif" 
-          fill="white" 
-          opacity="0.9"
-          style={{ 
-            filter: 'drop-shadow(0 0 3px rgba(255, 255, 255, 0.7))'
-          }}
-        >
-          Syncing Vortex
-        </text>
-
         {/* Outer blue spiral circle */}
         <g className="animate-spin-slow" style={{ transformOrigin: 'center' }}>
           <circle 
