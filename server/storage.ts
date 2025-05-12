@@ -40,8 +40,10 @@ export class MemStorage implements IStorage {
   constructor() {
     this.users = new Map();
     this.userInterests = new Map();
+    this.moodReactions = new Map();
     this.currentId = 1;
     this.interestId = 1;
+    this.moodReactionId = 1;
     this.seedData();
   }
 
@@ -219,6 +221,38 @@ export class MemStorage implements IStorage {
 
   async getAllOnlineUsers(): Promise<User[]> {
     return Array.from(this.users.values()).filter(user => user.isOnline);
+  }
+
+  // Mood Reactions methods
+  async addMoodReaction(reaction: InsertMoodReaction): Promise<MoodReaction> {
+    const id = this.moodReactionId++;
+    const now = new Date();
+    
+    const newReaction: MoodReaction = {
+      id,
+      fromUserId: reaction.fromUserId,
+      toUserId: reaction.toUserId,
+      emoji: reaction.emoji,
+      createdAt: now
+    };
+    
+    this.moodReactions.set(id, newReaction);
+    return newReaction;
+  }
+
+  async getUserMoodReactions(userId: number): Promise<MoodReaction[]> {
+    // Get all reactions received by a user
+    return Array.from(this.moodReactions.values())
+      .filter(reaction => reaction.toUserId === userId);
+  }
+
+  async getMoodReactionsBetweenUsers(fromUserId: number, toUserId: number): Promise<MoodReaction[]> {
+    // Get all reactions between two specific users
+    return Array.from(this.moodReactions.values())
+      .filter(reaction => 
+        (reaction.fromUserId === fromUserId && reaction.toUserId === toUserId) ||
+        (reaction.fromUserId === toUserId && reaction.toUserId === fromUserId)
+      );
   }
 }
 

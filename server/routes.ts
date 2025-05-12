@@ -5,7 +5,8 @@ import {
   insertUserSchema, 
   updateUserLocationSchema, 
   updateUserOnlineStatusSchema,
-  insertInterestSchema 
+  insertInterestSchema,
+  insertMoodReactionSchema
 } from "@shared/schema";
 import express from "express";
 
@@ -132,6 +133,53 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(interests);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch interests" });
+    }
+  });
+
+  // Mood Reactions API endpoints
+  
+  // Get reactions received by a user
+  app.get("/api/users/:id/mood-reactions", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.id);
+      const reactions = await storage.getUserMoodReactions(userId);
+      res.json(reactions);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'An error occurred while fetching mood reactions' });
+    }
+  });
+
+  // Get reactions between two users
+  app.get("/api/users/:fromId/mood-reactions/:toId", async (req, res) => {
+    try {
+      const fromUserId = parseInt(req.params.fromId);
+      const toUserId = parseInt(req.params.toId);
+      const reactions = await storage.getMoodReactionsBetweenUsers(fromUserId, toUserId);
+      res.json(reactions);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'An error occurred while fetching mood reactions between users' });
+    }
+  });
+
+  // Send a mood reaction
+  app.post("/api/mood-reactions", express.json(), async (req, res) => {
+    try {
+      const result = insertMoodReactionSchema.safeParse(req.body);
+      
+      if (!result.success) {
+        return res.status(400).json({ 
+          message: 'Invalid mood reaction data',
+          errors: result.error.errors 
+        });
+      }
+      
+      const reaction = await storage.addMoodReaction(result.data);
+      res.status(201).json(reaction);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'An error occurred while creating mood reaction' });
     }
   });
 
