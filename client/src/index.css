@@ -5,6 +5,7 @@
 :root {
   --primary-blue: #3B82F6;
   --primary-coral: #F87171;
+  --primary-salmon: #FA8072;
   --secondary-white: #FFFFFF;
   --neutral-offwhite: #F9FAFB;
   --neutral-tan: #F5E8E0;
@@ -69,7 +70,7 @@
   }
   
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Rubik', sans-serif;
     @apply font-medium;
   }
   

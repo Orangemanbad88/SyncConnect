@@ -21,7 +21,7 @@ const Landing = () => {
   return (
     <div 
       className="h-screen w-full flex flex-col items-center justify-center transition-colors duration-1000"
-      style={{ backgroundColor: 'var(--neutral-black)' }}
+      style={{ backgroundColor: 'var(--primary-salmon)' }}
     >
       <div className={`transform transition-all duration-1000 ease-out ${fadeIn ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
         <SyncLogo className="w-40 h-40 mx-auto mb-8" />
@@ -29,10 +29,10 @@ const Landing = () => {
       
       <div className={`text-center transition-all duration-1000 delay-300 ease-out ${fadeIn ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
         <h1 
-          className="text-7xl font-medium tracking-[0.05em] mb-2"
+          className="text-7xl font-bold tracking-[0.05em] mb-2"
           style={{ 
-            color: 'var(--primary-blue)',
-            fontFamily: 'Playfair Display, serif'
+            color: 'white',
+            fontFamily: 'Rubik, sans-serif'
           }}
         >
           SYNC
@@ -40,8 +40,8 @@ const Landing = () => {
         <h2
           className="text-3xl font-medium mb-8"
           style={{ 
-            color: 'var(--primary-blue)',
-            fontFamily: 'Playfair Display, serif' 
+            color: 'white',
+            fontFamily: 'Rubik, sans-serif' 
           }}
         >
           Your World
@@ -51,7 +51,7 @@ const Landing = () => {
           className="text-2xl font-light max-w-md mx-auto mb-12"
           style={{ 
             color: 'white',
-            fontFamily: 'Roboto, sans-serif'
+            fontFamily: 'Rubik, sans-serif'
           }}
         >
           Connect with people nearby through spontaneous video chats
@@ -61,7 +61,7 @@ const Landing = () => {
           onClick={() => setLocation('/home')}
           className="px-10 py-6 rounded-full text-lg font-medium transition-transform hover:scale-105"
           style={{ 
-            backgroundColor: 'var(--primary-coral)',
+            backgroundColor: 'var(--primary-blue)',
             color: 'white'
           }}
         >
