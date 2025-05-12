@@ -18,7 +18,7 @@ const Header = () => {
     <header className="bg-white shadow-sm py-4 px-6 flex justify-between items-center">
       <div className="flex items-center">
         <SyncLogo className="w-10 h-10" />
-        <h1 className="ml-2 app-title bg-clip-text text-transparent bg-gradient-to-r from-[var(--primary-blue)] to-[var(--primary-coral)] tracking-wider">S Y N C</h1>
+        <h1 className="ml-2 font-['Poppins'] text-2xl font-bold text-[var(--primary-coral)] tracking-wider">S Y N C</h1>
       </div>
       
       <div className="flex items-center">

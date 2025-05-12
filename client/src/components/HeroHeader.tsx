@@ -8,7 +8,7 @@ interface HeroHeaderProps {
 const HeroHeader: React.FC<HeroHeaderProps> = ({ opacity }) => {
   return (
     <div 
-      className="absolute top-0 left-0 w-full bg-[#FEF3F2] text-[var(--primary-coral)] shadow-lg z-10 transition-all duration-700 ease-in-out"
+      className="absolute top-0 left-0 w-full bg-[var(--neutral-offwhite)] text-[var(--primary-coral)] shadow-lg z-10 transition-all duration-700 ease-in-out"
       style={{ 
         opacity: opacity,
         height: `${Math.max(120, 300 * opacity)}px` 
@@ -19,7 +19,7 @@ const HeroHeader: React.FC<HeroHeaderProps> = ({ opacity }) => {
         <h1 className="mt-4 text-5xl font-['Poppins'] font-bold text-[var(--primary-coral)] tracking-wider">
           S Y N C
         </h1>
-        <p className="mt-3 text-xl text-[var(--primary-blue)] max-w-xl text-center">
+        <p className="mt-3 text-xl font-['Poppins'] text-[var(--primary-blue)] max-w-xl text-center">
           Connect with nearby people through live video chats
         </p>
       </div>
