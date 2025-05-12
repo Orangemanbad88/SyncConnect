@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import Header from "@/components/Header";
 import Map from "@/components/Map";
 import DiscoverySidebar from "@/components/DiscoverySidebar";
 import BottomNavigation from "@/components/BottomNavigation";
@@ -62,6 +63,7 @@ const Home = () => {
 
   return (
     <div className="flex flex-col h-screen overflow-hidden transition-colors duration-1000" style={{ backgroundColor: background }}>
+      <Header />
       <main className="flex-1 flex relative">
         {/* Map and sidebar */}
         <div className="flex w-full h-full z-0">

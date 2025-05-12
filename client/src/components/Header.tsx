@@ -24,7 +24,6 @@ const Header = () => {
         <Link to="/home">
           <div className="flex items-center cursor-pointer">
             <SyncLogo className="w-10 h-10" />
-            <h1 className="ml-3 font-bold tracking-wider text-[#f0f0f0] opacity-95" style={{ fontFamily: 'Cinzel, serif', letterSpacing: '0.1em' }}>SYNC</h1>
           </div>
         </Link>
       </div>
