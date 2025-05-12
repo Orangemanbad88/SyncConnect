@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Header from "@/components/Header";
+import HeroHeader from "@/components/HeroHeader";
 import Map from "@/components/Map";
 import DiscoverySidebar from "@/components/DiscoverySidebar";
 import BottomNavigation from "@/components/BottomNavigation";
@@ -15,6 +16,8 @@ const Home = () => {
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [showVideoChatModal, setShowVideoChatModal] = useState(false);
   const [distributedUsers, setDistributedUsers] = useState<any[]>([]);
+  const [headerOpacity, setHeaderOpacity] = useState(1);
+  const mainRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (nearbyUsers.length > 0 && coords) {
@@ -23,6 +26,28 @@ const Home = () => {
       );
     }
   }, [nearbyUsers, coords]);
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!mainRef.current) return;
+      
+      const scrollPosition = mainRef.current.scrollTop;
+      const maxScroll = 300; // adjust this value to control fade speed
+      const newOpacity = Math.max(0, 1 - scrollPosition / maxScroll);
+      setHeaderOpacity(newOpacity);
+    };
+    
+    const mainElement = mainRef.current;
+    if (mainElement) {
+      mainElement.addEventListener('scroll', handleScroll);
+    }
+    
+    return () => {
+      if (mainElement) {
+        mainElement.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, []);
 
   const handleUserClick = (user: any) => {
     selectUser(user);
@@ -42,19 +67,25 @@ const Home = () => {
     <div className="flex flex-col h-screen overflow-hidden">
       <Header />
       
-      <main className="flex-1 flex overflow-hidden relative">
-        <Map 
-          users={distributedUsers}
-          isLoading={isLoading}
-          onUserClick={handleUserClick}
-          userCoords={coords}
-        />
+      <main ref={mainRef} className="flex-1 flex overflow-y-auto overflow-x-hidden relative">
+        <HeroHeader opacity={headerOpacity} />
         
-        <DiscoverySidebar 
-          users={nearbyUsers}
-          isLoading={isLoading}
-          onUserClick={handleUserClick}
-        />
+        <div className="w-full pt-60 sm:pt-72 md:pt-80"> {/* Spacer for hero header */}
+          <div className="flex w-full">
+            <Map 
+              users={distributedUsers}
+              isLoading={isLoading}
+              onUserClick={handleUserClick}
+              userCoords={coords}
+            />
+            
+            <DiscoverySidebar 
+              users={nearbyUsers}
+              isLoading={isLoading}
+              onUserClick={handleUserClick}
+            />
+          </div>
+        </div>
       </main>
       
       <BottomNavigation />
