@@ -61,7 +61,8 @@ const Landing = () => {
           
           <SyncLogo className="w-60 h-auto mx-auto mb-24 mt-24" />
           
-          <div className="flex justify-center w-full" style={{ maxWidth: '200px', margin: '0 auto' }}>
+          <div className="flex justify-center w-full relative" style={{ maxWidth: '200px', margin: '0 auto' }}>
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-300 via-blue-400 to-blue-500 rounded-full animate-blue-glow" style={{ transform: 'scale(1.2)' }}></div>
             <Button 
               onClick={() => setLocation('/home')}
               className="px-4 py-4 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg animate-pulse-glow w-full"
@@ -93,10 +94,7 @@ const Landing = () => {
               }}
             >
               <span className="opacity-90 tracking-wide mr-1">Come</span> 
-              <span className="relative inline-block">
-                <span className="absolute -inset-1 blur-[1px] opacity-30 bg-blue-400 rounded-md"></span>
-                <span className="relative z-10">VIBE</span>
-              </span>
+              <span className="inline-block">VIBE</span>
             </Button>
           </div>
         </div>

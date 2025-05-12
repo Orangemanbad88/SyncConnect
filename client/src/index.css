@@ -197,6 +197,21 @@
   }
 }
 
+@keyframes blue-glow-pulse {
+  0% {
+    opacity: 0.3;
+    filter: blur(16px);
+  }
+  50% {
+    opacity: 0.5;
+    filter: blur(14px);
+  }
+  100% {
+    opacity: 0.3;
+    filter: blur(16px);
+  }
+}
+
 .animate-spin-slow {
   animation: spin-slow 10s linear infinite;
   transform-origin: center;
@@ -217,6 +232,10 @@
 
 .animate-pulse-glow {
   animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-blue-glow {
+  animation: blue-glow-pulse 4s ease-in-out infinite;
 }
 
 /* Custom scrollbar */
