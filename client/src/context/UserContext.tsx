@@ -37,8 +37,17 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     isOnline: true
   };
   
-  // Get user's location
-  const { coords, locationError } = useGeolocation();
+  // Get user's location with enhanced tracking
+  const { 
+    coords, 
+    locationError, 
+    isTracking, 
+    permissionStatus, 
+    timeSinceUpdate 
+  } = useGeolocation({
+    updateInterval: 15000, // Update location every 15 seconds
+    highAccuracy: true
+  });
   
   // Fetch nearby users when location changes
   const { 
@@ -49,6 +58,16 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     queryKey: ['/api/users', coords?.latitude, coords?.longitude],
     enabled: !!coords?.latitude && !!coords?.longitude,
     refetchInterval: 30000, // Refresh every 30 seconds
+    select: (data) => {
+      // Add additional info like timeAgo
+      return data.map((user: any) => ({
+        ...user,
+        locationTimestamp: user.locationTimestamp || Date.now(),
+        locationAge: user.locationTimestamp 
+          ? Math.floor((Date.now() - user.locationTimestamp) / 1000) 
+          : null
+      }));
+    }
   });
   
   // Update location mutation
