@@ -9,6 +9,7 @@
   --neutral-offwhite: #F9FAFB;
   --neutral-tan: #F5E8E0;
   --neutral-gray: #E5E7EB;
+  --neutral-black: #121212;
   --accent-green: #10B981;
   --text-dark: #333333;
   
@@ -67,7 +68,7 @@
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-['Cinzel'] font-bold;
+    @apply font-['Roboto'] font-bold;
   }
   
   .app-title {
