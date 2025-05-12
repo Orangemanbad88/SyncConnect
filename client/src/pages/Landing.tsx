@@ -39,11 +39,11 @@ const Landing = () => {
       <div className={`transform transition-all duration-1000 ease-out ${fadeIn ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'} flex flex-col items-center`}>
         <div className="flex flex-col items-center relative">
           {/* Dynamic Arrows positioned in the center above the logo */}
-          <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 z-10">
+          <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 z-10">
             <DynamicArrows className="mx-auto w-40 h-40" />
           </div>
           
-          <SyncLogo className="w-60 h-auto mx-auto mb-6 mt-12" />
+          <SyncLogo className="w-60 h-auto mx-auto mb-6 mt-24" />
           
           <p 
             className="text-2xl font-semibold max-w-md mx-auto mb-8 tracking-wide font-barlow uppercase italic"
