@@ -7,47 +7,65 @@ interface SyncLogoProps {
 const SyncLogo: React.FC<SyncLogoProps> = ({ className = "w-8 h-8" }) => {
   return (
     <div className={`relative ${className}`}>
-      {/* Outer blue circle that spins clockwise */}
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full animate-spin-slow">
-        {/* White background circle */}
-        <circle cx="12" cy="12" r="11" fill="white" />
-        
-        {/* Blue semicircle with arrow */}
-        <path
-          d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22"
-          stroke="var(--primary-blue)"
-          strokeWidth="3"
+      {/* Base layer with white background */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="w-full h-full rounded-full bg-white"></div>
+      </div>
+      
+      {/* Blue clockwise spinning circle with arrow */}
+      <svg 
+        viewBox="0 0 100 100" 
+        fill="none" 
+        xmlns="http://www.w3.org/2000/svg" 
+        className="w-full h-full absolute inset-0 animate-spin-slow"
+      >
+        <circle 
+          cx="50" 
+          cy="50" 
+          r="45" 
+          stroke="var(--primary-blue)" 
+          strokeWidth="6"
+          strokeDasharray="70 70" 
           strokeLinecap="round"
         />
         
         {/* Blue arrow */}
-        <path
-          d="M7 6L3 5L4 9"
-          stroke="var(--primary-blue)"
-          strokeWidth="2"
+        <path 
+          d="M25 35L15 25L5 35" 
+          stroke="var(--primary-blue)" 
+          strokeWidth="6" 
           strokeLinecap="round"
           strokeLinejoin="round"
+          transform="rotate(45, 15, 25)"
         />
       </svg>
       
-      {/* Inner coral circle that spins counter-clockwise */}
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" 
-           className="w-5/6 h-5/6 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-spin-slow-reverse">
-        {/* Coral semicircle with arrow */}
-        <path
-          d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2"
-          stroke="var(--primary-coral)"
-          strokeWidth="3"
+      {/* Coral counter-clockwise spinning circle with arrow */}
+      <svg 
+        viewBox="0 0 100 100" 
+        fill="none" 
+        xmlns="http://www.w3.org/2000/svg" 
+        className="w-full h-full absolute inset-0 animate-spin-slow-reverse"
+      >
+        <circle 
+          cx="50" 
+          cy="50" 
+          r="45" 
+          stroke="var(--primary-coral)" 
+          strokeWidth="6"
+          strokeDasharray="70 70" 
+          strokeDashoffset="70"
           strokeLinecap="round"
         />
         
         {/* Coral arrow */}
-        <path
-          d="M17 18L21 19L20 15"
-          stroke="var(--primary-coral)"
-          strokeWidth="2"
+        <path 
+          d="M75 65L85 75L95 65" 
+          stroke="var(--primary-coral)" 
+          strokeWidth="6" 
           strokeLinecap="round"
           strokeLinejoin="round"
+          transform="rotate(45, 85, 75)"
         />
       </svg>
     </div>
