@@ -67,7 +67,7 @@ const Landing = () => {
               className="px-10 py-6 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg animate-pulse-glow"
               style={{ 
                 background: 'linear-gradient(135deg, #FFFDF5 0%, #FFF8E1 100%)',
-                color: '#4A4639',
+                color: '#dc2626',
                 boxShadow: `
                   0 4px 14px rgba(255, 252, 232, 0.7),
                   0 0 10px rgba(255, 248, 225, 0.6),
@@ -80,7 +80,7 @@ const Landing = () => {
                 textTransform: 'uppercase',
                 textShadow: `
                   0 0 5px rgba(255, 255, 255, 0.8),
-                  0 0 10px rgba(255, 242, 204, 0.7)
+                  0 0 8px rgba(239, 68, 68, 0.6)
                 `
               }}
             >
