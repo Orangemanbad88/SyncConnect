@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
 import SyncLogo from '@/components/SyncLogo';
-import ArrowLogo from '@/components/ArrowLogo';
 import { Button } from '@/components/ui/button';
 import { useAmbient } from '@/context/AmbientContext';
 
@@ -36,13 +35,14 @@ const Landing = () => {
         }}
       ></div>
       <div className={`transform transition-all duration-1000 ease-out ${fadeIn ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
-        <SyncLogo className="w-80 h-auto mx-auto mb-10" />
+        <SyncLogo className="w-60 h-auto mx-auto mb-6" />
         
         <p 
-          className="text-2xl font-semibold max-w-md mx-auto mb-16 tracking-wide font-barlow uppercase"
+          className="text-2xl font-semibold max-w-md mx-auto mb-16 tracking-wide font-barlow uppercase italic"
           style={{ 
-            color: '#F5F5DC', // Cream color
+            color: '#ff6666', // Slightly red color
             letterSpacing: '0.08em',
+            textShadow: '0 0 3px rgba(255,102,102,0.3)'
           }}
         >
           Your Instinct Connection
@@ -62,10 +62,7 @@ const Landing = () => {
           </Button>
         </div>
         
-        {/* Arrow logo at the bottom */}
-        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <ArrowLogo className="w-16 h-16" />
-        </div>
+{/* Removed arrow logo */}
       </div>
     </div>
   );

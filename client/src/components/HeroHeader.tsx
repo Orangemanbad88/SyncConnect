@@ -20,10 +20,7 @@ const HeroHeader: React.FC<HeroHeaderProps> = ({ opacity }) => {
       }}
     >
       <div className="container mx-auto px-6 py-12 flex flex-col items-center justify-center h-full">
-        <SyncLogo className="w-32 h-32 mb-6" />
-        <h1 className="mt-6 text-6xl app-title tracking-[0.25em]" style={{ color: highlight }}>
-          S Y N C
-        </h1>
+        <SyncLogo className="w-40 h-40" />
         <p className="mt-6 text-2xl app-description max-w-2xl text-center leading-relaxed" style={{ color: text }}>
           Connect with nearby people through live video chats
         </p>
