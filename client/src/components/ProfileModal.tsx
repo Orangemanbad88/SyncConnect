@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";
+import MoodReactions from "./MoodReactions";
 
 interface ProfileModalProps {
   user: any;
@@ -74,7 +75,7 @@ const ProfileModal = ({ user, onClose, onStartVideoChat }: ProfileModalProps) =>
             <p className="text-gray-700">{user.bio}</p>
           </div>
           
-          <div className="border-t border-gray-200 pt-4 mb-6">
+          <div className="border-t border-gray-200 pt-4 mb-4">
             <h3 className="font-semibold text-[var(--text-dark)] mb-2">Interests</h3>
             <div className="flex flex-wrap gap-2">
               {interests.map((interest, index) => (
@@ -83,6 +84,10 @@ const ProfileModal = ({ user, onClose, onStartVideoChat }: ProfileModalProps) =>
                 </Badge>
               ))}
             </div>
+          </div>
+          
+          <div className="border-t border-gray-200 pt-4 mb-6">
+            <MoodReactions toUserId={user.id} />
           </div>
           
           <Button 
