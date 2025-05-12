@@ -10,6 +10,7 @@ import {
 } from "@shared/schema";
 import { WebSocketServer } from 'ws';
 import express from "express";
+import { setupAuth } from './auth';
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // get all users endpoint

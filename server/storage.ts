@@ -11,6 +11,10 @@ import {
   type UpdateUserLocation,
   type UpdateUserOnlineStatus
 } from "@shared/schema";
+import session from "express-session";
+import createMemoryStore from "memorystore";
+
+const MemoryStore = createMemoryStore(session);
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
@@ -27,6 +31,9 @@ export interface IStorage {
   addMoodReaction(reaction: InsertMoodReaction): Promise<MoodReaction>;
   getUserMoodReactions(userId: number): Promise<MoodReaction[]>;
   getMoodReactionsBetweenUsers(fromUserId: number, toUserId: number): Promise<MoodReaction[]>;
+  
+  // Session store
+  sessionStore: session.Store;
 }
 
 export class MemStorage implements IStorage {
@@ -36,6 +43,7 @@ export class MemStorage implements IStorage {
   currentId: number;
   interestId: number;
   moodReactionId: number;
+  sessionStore: session.Store;
 
   constructor() {
     this.users = new Map();
@@ -44,6 +52,9 @@ export class MemStorage implements IStorage {
     this.currentId = 1;
     this.interestId = 1;
     this.moodReactionId = 1;
+    this.sessionStore = new MemoryStore({
+      checkPeriod: 86400000 // prune expired entries every 24h
+    });
     this.seedData();
   }
 
