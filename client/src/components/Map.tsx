@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { latLongToPixel } from "@/lib/mapUtils";
 import { Plus, Minus, ArrowUp, Video } from "lucide-react";
 import { useLocation } from "wouter";
+import { useAmbient } from "@/context/AmbientContext";
 
 interface MapProps {
   users: any[];
@@ -17,6 +18,7 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
   const [showZoomTip, setShowZoomTip] = useState(true);
   const [hoveredUserId, setHoveredUserId] = useState<number | null>(null);
   const [, setLocation] = useLocation();
+  const { timeOfDay } = useAmbient();
   
   // Hide zoom tip after 5 seconds
   useEffect(() => {

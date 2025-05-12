@@ -37,31 +37,35 @@ export const useAmbientColor = (forcedTimeOfDay?: TimeOfDay) => {
     forcedTimeOfDay ? COLOR_SCHEMES[forcedTimeOfDay] : COLOR_SCHEMES.afternoon
   );
 
+  // This function determines the time of day based on current hour
+  const determineTimeOfDay = (): TimeOfDay => {
+    const hour = new Date().getHours();
+    
+    if (hour >= 5 && hour < 12) {
+      return 'morning';
+    } else if (hour >= 12 && hour < 17) {
+      return 'afternoon';
+    } else if (hour >= 17 && hour < 21) {
+      return 'evening';
+    } else {
+      return 'night';
+    }
+  };
+
   useEffect(() => {
+    console.log('useAmbientColor effect, forcedTimeOfDay:', forcedTimeOfDay);
+    
     // If forcedTimeOfDay is provided, use that instead of time-based detection
     if (forcedTimeOfDay) {
+      console.log('Setting forced time of day:', forcedTimeOfDay);
       setTimeOfDay(forcedTimeOfDay);
       setColorScheme(COLOR_SCHEMES[forcedTimeOfDay]);
       return;
     }
     
-    // Determine time of day based on current hour
-    const determineTimeOfDay = (): TimeOfDay => {
-      const hour = new Date().getHours();
-      
-      if (hour >= 5 && hour < 12) {
-        return 'morning';
-      } else if (hour >= 12 && hour < 17) {
-        return 'afternoon';
-      } else if (hour >= 17 && hour < 21) {
-        return 'evening';
-      } else {
-        return 'night';
-      }
-    };
-
     // Update time of day initially
     const currentTimeOfDay = determineTimeOfDay();
+    console.log('Setting auto time of day:', currentTimeOfDay);
     setTimeOfDay(currentTimeOfDay);
     setColorScheme(COLOR_SCHEMES[currentTimeOfDay]);
 
@@ -69,13 +73,14 @@ export const useAmbientColor = (forcedTimeOfDay?: TimeOfDay) => {
     const intervalId = setInterval(() => {
       const newTimeOfDay = determineTimeOfDay();
       if (newTimeOfDay !== timeOfDay) {
+        console.log('Time of day changing to:', newTimeOfDay);
         setTimeOfDay(newTimeOfDay);
         setColorScheme(COLOR_SCHEMES[newTimeOfDay]);
       }
     }, 60000); // Check every minute
 
     return () => clearInterval(intervalId);
-  }, [timeOfDay, forcedTimeOfDay]);
+  }, [forcedTimeOfDay]); // Only depend on forcedTimeOfDay to prevent re-running
 
   return { colorScheme, timeOfDay };
 };

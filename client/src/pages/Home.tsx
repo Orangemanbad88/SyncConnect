@@ -62,7 +62,12 @@ const Home = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden transition-colors duration-1000" style={{ backgroundColor: background }}>
+    <div className="flex flex-col h-screen overflow-hidden transition-all duration-1000" 
+      style={{ 
+        background: background,
+        backgroundSize: '400% 400%',
+        animation: 'gradient 15s ease infinite'
+      }}>
       <Header />
       <main className="flex-1 flex relative">
         {/* Map and sidebar */}
