@@ -61,10 +61,10 @@ const Landing = () => {
           
           <SyncLogo className="w-60 h-auto mx-auto mb-12 mt-24" />
           
-          <div className="flex justify-center w-full" style={{ maxWidth: '240px', margin: '0 auto' }}>
+          <div className="flex justify-center w-full" style={{ maxWidth: '200px', margin: '0 auto' }}>
             <Button 
               onClick={() => setLocation('/home')}
-              className="px-6 py-5 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg animate-pulse-glow w-full"
+              className="px-4 py-4 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg animate-pulse-glow w-full"
               style={{ 
                 background: 'linear-gradient(90deg, rgba(235, 245, 255, 0.95) 0%, rgba(210, 230, 255, 0.9) 50%, rgba(180, 210, 255, 0.85) 100%)',
                 backdropFilter: 'blur(4px)',
@@ -80,9 +80,9 @@ const Landing = () => {
                   inset 0 -1px 2px rgba(150, 180, 220, 0.4)
                 `,
                 fontFamily: 'Cinzel, serif',
-                fontSize: '1.2rem',
+                fontSize: '1rem',
                 fontWeight: '700',
-                letterSpacing: '0.15em',
+                letterSpacing: '0.12em',
                 textTransform: 'uppercase',
                 textShadow: `
                   0 1px 1px rgba(255, 255, 255, 0.5),
@@ -92,8 +92,8 @@ const Landing = () => {
                 `
               }}
             >
-              <span className="opacity-90 tracking-wide">Come</span> 
-              <span className="relative inline-block ml-2">
+              <span className="opacity-90 tracking-wide mr-1">Come</span> 
+              <span className="relative inline-block">
                 <span className="absolute -inset-1 blur-[0.5px] opacity-20 bg-blue-300 rounded-md"></span>
                 VIBE
               </span>
