@@ -1,4 +1,4 @@
-import { X, MapPin, Video, Clock, Wifi, AlertTriangle } from "lucide-react";
+import { X, MapPin, Video, Clock, Wifi, AlertTriangle, MapPinned, Star } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -121,7 +121,23 @@ const ProfileModal = ({ user, onClose, onStartVideoChat }: ProfileModalProps) =>
                   <span>Active {locationDetail.lastSeen}</span>
                 </Badge>
               )}
+              
+              {user.zodiacSign && (
+                <Badge variant="outline" className="flex items-center gap-1 px-2 py-1 bg-purple-50">
+                  <Star className="w-3 h-3 text-purple-500" />
+                  <span>{user.zodiacSign}</span>
+                </Badge>
+              )}
             </div>
+            
+            {user.location && (
+              <div className="flex items-center justify-center mt-2">
+                <Badge variant="outline" className="flex items-center gap-1 px-2 py-1">
+                  <MapPinned className="w-3 h-3 text-blue-500" />
+                  <span>{user.location}</span>
+                </Badge>
+              </div>
+            )}
           </div>
           
           <div className="border-t border-gray-200 pt-4 mb-4">

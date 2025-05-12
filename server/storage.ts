@@ -267,6 +267,8 @@ export class MemStorage implements IStorage {
       age: insertUser.age,
       job: insertUser.job || null,
       bio: insertUser.bio || null,
+      location: insertUser.location || null,
+      zodiacSign: insertUser.zodiacSign || null,
       profileImage: insertUser.profileImage || null,
       coverImage: insertUser.coverImage || null,
       latitude: insertUser.latitude || null,
