@@ -7,6 +7,7 @@ export default {
     extend: {
       fontFamily: {
         'cinzel': ['Cinzel', 'serif'],
+        'barlow': ['Barlow', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",

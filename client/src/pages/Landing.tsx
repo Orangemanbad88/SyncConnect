@@ -27,10 +27,10 @@ const Landing = () => {
         <SyncLogo className="w-80 h-auto mx-auto mb-10" />
         
         <p 
-          className="text-2xl font-medium max-w-md mx-auto mb-16 tracking-wide"
+          className="text-2xl font-semibold max-w-md mx-auto mb-16 tracking-wide font-barlow uppercase"
           style={{ 
-            color: 'white',
-            fontFamily: 'Cinzel, serif'
+            color: '#F5F5DC', // Cream color
+            letterSpacing: '0.08em',
           }}
         >
           Your Instinct Connection
