@@ -181,24 +181,40 @@ const RouletteMatch = () => {
     <div 
       className="min-h-screen flex flex-col"
       style={{ 
-        backgroundColor: '#F5E8E0', // Classy tan background
-        backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px)',
+        backgroundColor: '#3D2C2A', // Darker, rich brown background
+        backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)',
         backgroundSize: '20px 20px',
-        color: '#262626' // Darker text for better contrast on tan
+        color: '#F5E8E0' // Light tan text for contrast against dark background
       }}
     >
       <Header />
       
       <div className="flex-1 p-6 pt-10 flex flex-col items-center justify-center pb-20">
-        <h1 className="text-4xl mb-8 text-center font-medium">Match Roulette</h1>
+        <h1 
+          className="text-4xl mb-8 text-center font-medium font-cinzel uppercase"
+          style={{ 
+            textShadow: `
+              0 0 3px rgba(255, 91, 91, 0.7),
+              0 0 7px rgba(255, 91, 91, 0.5)
+            `,
+            letterSpacing: '0.15em',
+            fontVariationSettings: '"wght" 700',
+            background: 'linear-gradient(to bottom, #FF5B5B 0%, #E04545 50%, #FF3838 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            filter: 'drop-shadow(0 0 3px rgba(255, 91, 91, 0.5))',
+          }}
+        >
+          Match Roulette
+        </h1>
         <p className="text-lg mb-12 text-center max-w-lg">
           Spin the roulette to find a random match within your selected distance and criteria
         </p>
         
         <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Criteria section */}
-          <Card className="p-6 col-span-1 border-amber-200 bg-white/90 shadow-sm">
-            <h2 className="text-xl mb-4 font-medium text-amber-900">Match Criteria</h2>
+          <Card className="p-6 col-span-1 border-red-900/30 bg-black/60 shadow-md">
+            <h2 className="text-xl mb-4 font-medium text-red-400">Match Criteria</h2>
             
             <div className="space-y-6">
               <div>
@@ -256,7 +272,7 @@ const RouletteMatch = () => {
           </Card>
           
           {/* Roulette section */}
-          <Card className="p-6 col-span-1 md:col-span-2 flex flex-col items-center justify-between border-amber-200 bg-white/90 shadow-sm">
+          <Card className="p-6 col-span-1 md:col-span-2 flex flex-col items-center justify-between border-red-900/30 bg-black/60 shadow-md">
             {isSpinning ? (
               <div className="flex flex-col items-center justify-center h-full py-10">
                 <Loader2 className="h-24 w-24 animate-spin mb-4" />
@@ -342,7 +358,7 @@ const RouletteMatch = () => {
                     <Button 
                       onClick={spinRoulette} 
                       size="lg" 
-                      className="px-8 py-6 text-lg rounded-xl bg-amber-700 text-amber-50 hover:bg-amber-800"
+                      className="px-8 py-6 text-lg rounded-xl bg-red-700 text-white hover:bg-red-800"
                       disabled={!coords || eligibleCount === 0}
                     >
                       Spin to Match

@@ -110,13 +110,74 @@ export class MemStorage implements IStorage {
         latitude: 40.7150,
         longitude: -74.0120,
       },
+      // New nearby users
+      {
+        username: "olivia",
+        password: "password",
+        fullName: "Olivia Wilson",
+        age: 26,
+        job: "Architect",
+        bio: "Design enthusiast with a passion for urban spaces. Looking for someone to explore the city's hidden architectural gems.",
+        profileImage: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200",
+        coverImage: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=300",
+        latitude: 40.7095,
+        longitude: -74.0143,
+      },
+      {
+        username: "noah",
+        password: "password",
+        fullName: "Noah Turner",
+        age: 30,
+        job: "Music Producer",
+        bio: "Creating beats and melodies is my passion. Seeking someone who appreciates good music and spontaneous jam sessions.",
+        profileImage: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200",
+        coverImage: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=300",
+        latitude: 40.7160,
+        longitude: -74.0037,
+      },
+      {
+        username: "sophia",
+        password: "password",
+        fullName: "Sophia Martinez",
+        age: 25,
+        job: "Yoga Instructor",
+        bio: "Finding balance through mindfulness and movement. Let's connect over coffee and talk about our journeys to inner peace.",
+        profileImage: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200",
+        coverImage: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=300",
+        latitude: 40.7201,
+        longitude: -74.0090,
+      },
+      {
+        username: "ethan",
+        password: "password",
+        fullName: "Ethan Reynolds",
+        age: 33,
+        job: "Financial Analyst",
+        bio: "Numbers by day, foodie by night. Always on the hunt for the best ramen spots in the city. Care to join?",
+        profileImage: "https://images.unsplash.com/photo-1504257432389-52343af06ae3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200",
+        coverImage: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=300",
+        latitude: 40.7157,
+        longitude: -74.0171,
+      },
+      {
+        username: "ava",
+        password: "password",
+        fullName: "Ava Thompson",
+        age: 28,
+        job: "Dance Instructor",
+        bio: "Dancing through life one step at a time. Looking for someone who can keep up with my rhythm both on and off the dance floor.",
+        profileImage: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200",
+        coverImage: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=300",
+        latitude: 40.7180,
+        longitude: -74.0065,
+      },
     ];
 
     // Create sample users
     sampleUsers.forEach((userData) => {
       this.createUser(userData).then((user) => {
         // Set some users as online for demo purposes
-        if (["michael", "sarah", "emma", "david"].includes(user.username)) {
+        if (["michael", "sarah", "emma", "david", "olivia", "noah", "sophia", "ava"].includes(user.username)) {
           this.updateUserOnlineStatus(user.id, { isOnline: true });
         }
 
