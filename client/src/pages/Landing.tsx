@@ -62,23 +62,23 @@ const Landing = () => {
           <SyncLogo className="w-60 h-auto mx-auto mb-16 sm:mb-24 mt-16 sm:mt-24 max-w-full px-4 sm:px-0" />
           
           <div className="flex justify-center w-full relative px-4 sm:px-0" style={{ maxWidth: '200px', margin: '0 auto', transform: 'translateX(-5px)' }}>
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 rounded-full animate-blue-glow" style={{ transform: 'scale(1.2)' }}></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 rounded-full animate-blue-glow" style={{ transform: 'scale(1.2)' }}></div>
             <Button 
               onClick={() => setLocation('/home')}
               className="px-4 py-3 sm:py-4 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg animate-pulse-glow w-full text-sm sm:text-base"
               style={{ 
-                background: 'linear-gradient(90deg, rgba(180, 210, 255, 0.98) 0%, rgba(150, 190, 245, 0.95) 50%, rgba(120, 170, 245, 0.9) 100%)',
+                background: 'linear-gradient(90deg, rgba(160, 200, 255, 0.98) 0%, rgba(120, 170, 245, 0.95) 50%, rgba(90, 150, 240, 0.9) 100%)',
                 backdropFilter: 'blur(4px)',
-                border: '2px solid rgba(120, 170, 235, 0.9)',
-                borderTop: '1px solid rgba(200, 225, 255, 0.95)',
-                borderBottom: '3px solid rgba(80, 130, 210, 0.9)',
+                border: '2px solid rgba(100, 160, 235, 0.9)',
+                borderTop: '1px solid rgba(180, 210, 255, 0.95)',
+                borderBottom: '3px solid rgba(60, 120, 210, 0.9)',
                 borderRadius: '999px',
                 color: '#05255e',
                 boxShadow: `
-                  0 4px 12px rgba(50, 100, 200, 0.6),
-                  0 2px 4px rgba(30, 70, 160, 0.5),
-                  inset 0 1px 3px rgba(220, 235, 255, 0.9),
-                  inset 0 -1px 2px rgba(80, 130, 200, 0.7)
+                  0 4px 12px rgba(40, 90, 200, 0.7),
+                  0 2px 4px rgba(20, 60, 160, 0.6),
+                  inset 0 1px 3px rgba(200, 225, 255, 0.9),
+                  inset 0 -1px 2px rgba(60, 120, 200, 0.8)
                 `,
                 fontFamily: 'Cinzel, serif',
                 fontSize: '1rem',
@@ -94,8 +94,8 @@ const Landing = () => {
                 `
               }}
             >
-              <span className="opacity-90 tracking-wider mr-1 italic">Come</span> 
-              <span className="inline-block font-semibold italic transform -skew-x-6" style={{ textShadow: '0 0 2px rgba(0, 40, 100, 0.8)' }}>VIBE</span>
+              <span className="inline-block font-semibold italic transform -skew-x-6" style={{ textShadow: '0 0 2px rgba(0, 40, 100, 0.8)' }}>COME</span> 
+              <span className="inline-block font-semibold italic transform -skew-x-6 ml-1" style={{ textShadow: '0 0 2px rgba(0, 40, 100, 0.8)' }}>VIBE</span>
             </Button>
           </div>
         </div>
