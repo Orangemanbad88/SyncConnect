@@ -46,13 +46,15 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
   };
 
   return (
-    <div className="flex-1 relative">
+    <div className="flex-1 relative overflow-hidden">
       <div
         ref={mapRef}
-        className="w-full h-full bg-cover bg-center"
+        className="w-full h-full bg-cover bg-center transition-transform duration-300"
         style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1545502648-54d6ff2abdad?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920&h=1080')",
-          filter: "contrast(0.9) saturate(0.8)"
+          backgroundImage: "url('https://api.mapbox.com/styles/v1/mapbox/light-v10/static/-96.7970,32.7767,12,0/1200x800?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA')",
+          filter: "contrast(1.1) saturate(1.2)",
+          transform: `scale(${zoom})`,
+          transformOrigin: "center"
         }}
       >
         {isLoading ? (

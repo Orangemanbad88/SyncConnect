@@ -28,6 +28,15 @@ const Home = () => {
       setDistributedUsers(
         distributeUsers(nearbyUsers, coords.latitude, coords.longitude)
       );
+    } else if (coords) {
+      // Create placeholder users around the current location if no nearby users
+      const placeholderUsers = [
+        { id: 100, fullName: 'Alex Morgan', age: 28, profileImage: 'https://randomuser.me/api/portraits/men/32.jpg', latitude: coords.latitude + 0.01, longitude: coords.longitude + 0.01, isOnline: true },
+        { id: 101, fullName: 'Jessica Chen', age: 26, profileImage: 'https://randomuser.me/api/portraits/women/44.jpg', latitude: coords.latitude - 0.008, longitude: coords.longitude + 0.005, isOnline: true },
+        { id: 102, fullName: 'Michael Lee', age: 31, profileImage: 'https://randomuser.me/api/portraits/men/22.jpg', latitude: coords.latitude + 0.005, longitude: coords.longitude - 0.012, isOnline: false },
+        { id: 103, fullName: 'Sarah Park', age: 24, profileImage: 'https://randomuser.me/api/portraits/women/67.jpg', latitude: coords.latitude - 0.015, longitude: coords.longitude - 0.008, isOnline: true },
+      ];
+      setDistributedUsers(placeholderUsers);
     }
   }, [nearbyUsers, coords]);
   
