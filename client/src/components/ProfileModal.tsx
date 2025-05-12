@@ -1,9 +1,11 @@
-import { X, MapPin, Video } from "lucide-react";
+import { X, MapPin, Video, Clock, Wifi, AlertTriangle } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";
 import MoodReactions from "./MoodReactions";
+import { calculateDistance, formatDistance } from "@/lib/mapUtils";
+import { useGeolocation } from "@/hooks/useGeolocation";
 
 interface ProfileModalProps {
   user: any;
@@ -13,11 +15,46 @@ interface ProfileModalProps {
 
 const ProfileModal = ({ user, onClose, onStartVideoChat }: ProfileModalProps) => {
   const [interests, setInterests] = useState<string[]>([]);
+  const [locationDetail, setLocationDetail] = useState({
+    distance: "Nearby",
+    lastSeen: "",
+    locationAge: 0
+  });
+  
+  // Get current user's location
+  const { coords } = useGeolocation();
   
   useEffect(() => {
     // In a real app, we would fetch interests from the API
     setInterests(["Hiking", "Photography", "Coding", "Coffee", "Travel"]);
-  }, [user.id]);
+    
+    // Calculate real-time distance if coords are available
+    if (coords && user.latitude && user.longitude) {
+      const distance = calculateDistance(
+        coords.latitude,
+        coords.longitude,
+        user.latitude,
+        user.longitude
+      );
+      
+      // Update location details
+      setLocationDetail({
+        distance: formatDistance(distance),
+        lastSeen: user.lastSeen || "recently",
+        locationAge: user.locationAge || 0
+      });
+    } else if (user.distanceText) {
+      // Use pre-calculated distance
+      setLocationDetail({
+        distance: user.distanceText,
+        lastSeen: user.lastSeen || "recently",
+        locationAge: user.locationAge || 0
+      });
+    }
+  }, [user.id, user.latitude, user.longitude, coords, user.distanceText, user.lastSeen, user.locationAge]);
+  
+  // Check if location data is stale (older than 30 minutes)
+  const isLocationStale = locationDetail.locationAge > 1800;
   
   // Prevent clicks inside the modal from closing it
   const handleModalClick = (e: React.MouseEvent) => {
@@ -64,10 +101,27 @@ const ProfileModal = ({ user, onClose, onStartVideoChat }: ProfileModalProps) =>
               </span>
             </div>
             <p className="text-gray-600">{user.job}</p>
-            <p className="text-sm text-gray-500 flex items-center justify-center mt-1">
-              <MapPin className="w-4 h-4 mr-1" />
-              <span>{user.distance}</span>
-            </p>
+            <div className="flex items-center justify-center space-x-2 mt-2">
+              <Badge variant="outline" className={`flex items-center gap-1 px-2 py-1 ${isLocationStale ? 'bg-yellow-50' : ''}`}>
+                <MapPin className={`w-3 h-3 ${isLocationStale ? 'text-yellow-500' : ''}`} />
+                <span>{locationDetail.distance}</span>
+                {isLocationStale && <AlertTriangle className="w-3 h-3 text-yellow-500 ml-1" />}
+              </Badge>
+              
+              {user.isOnline && (
+                <Badge variant="outline" className="flex items-center gap-1 px-2 py-1 bg-green-50">
+                  <Wifi className="w-3 h-3 text-green-500" />
+                  <span>Online</span>
+                </Badge>
+              )}
+              
+              {locationDetail.lastSeen && (
+                <Badge variant="outline" className="flex items-center gap-1 px-2 py-1">
+                  <Clock className="w-3 h-3" />
+                  <span>Active {locationDetail.lastSeen}</span>
+                </Badge>
+              )}
+            </div>
           </div>
           
           <div className="border-t border-gray-200 pt-4 mb-4">

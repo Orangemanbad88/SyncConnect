@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
@@ -8,34 +8,66 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { useUser } from '@/context/UserContext';
 import { useAmbient } from '@/context/AmbientContext';
-import { calculateDistance } from '@/lib/mapUtils';
+import { calculateDistance, formatDistance } from '@/lib/mapUtils';
 import { useGeolocation } from '@/hooks/useGeolocation';
-import { Loader2, RefreshCw, Heart, X } from 'lucide-react';
+import { Loader2, RefreshCw, Heart, X, MapPin, Wifi, Clock } from 'lucide-react';
 import Header from '@/components/Header';
 import BottomNavigation from '@/components/BottomNavigation';
 import ProfileModal from '@/components/ProfileModal';
+import { Badge } from '@/components/ui/badge';
 
 const RouletteMatch = () => {
   const { toast } = useToast();
-  const { currentUser, nearbyUsers } = useUser();
+  const { currentUser, nearbyUsers, refreshNearbyUsers } = useUser();
   const { background } = useAmbient();
-  const { coords } = useGeolocation();
+  const { 
+    coords, 
+    isTracking, 
+    error: locationError, 
+    permissionStatus,
+    timeSinceUpdate
+  } = useGeolocation({
+    updateInterval: 10000, // Update every 10 seconds
+    highAccuracy: true
+  });
   
   const [isSpinning, setIsSpinning] = useState(false);
   const [matchResult, setMatchResult] = useState<any | null>(null);
   const [showProfile, setShowProfile] = useState(false);
   const [maxDistance, setMaxDistance] = useState(1); // Default to 1 mile
+  const [eligibleCount, setEligibleCount] = useState(0);
   const [criteria, setCriteria] = useState({
     ageRange: { min: 18, max: 50 },
     includeInterests: false,
     onlineOnly: true,
   });
+  
+  // Refresh nearby users when location changes or component mounts
+  useEffect(() => {
+    if (coords) {
+      refreshNearbyUsers();
+    }
+  }, [coords, refreshNearbyUsers]);
+  
+  // Show location permission toast if needed
+  useEffect(() => {
+    if (permissionStatus === 'denied') {
+      toast({
+        title: "Location access denied",
+        description: "Please enable location services to find nearby matches.",
+        variant: "destructive"
+      });
+    }
+  }, [permissionStatus, toast]);
 
-  // Filter users based on current criteria
+  // Filter and enhance users based on current criteria
   const getEligibleUsers = () => {
     if (!coords) return [];
     
-    return nearbyUsers.filter(user => {
+    const filteredUsers = nearbyUsers.filter(user => {
+      // Skip ourselves
+      if (currentUser && user.id === currentUser.id) return false;
+      
       // Filter by online status if needed
       if (criteria.onlineOnly && !user.isOnline) return false;
       
@@ -57,7 +89,50 @@ const RouletteMatch = () => {
       
       return false;
     });
+    
+    // Add distance and last seen information to each user
+    return filteredUsers.map(user => {
+      let userWithDistance = { ...user };
+      
+      // Calculate distance
+      if (user.latitude && user.longitude && coords) {
+        const distance = calculateDistance(
+          coords.latitude, 
+          coords.longitude, 
+          user.latitude, 
+          user.longitude
+        );
+        // Convert distance to miles
+        const distanceInMiles = distance * 0.621371;
+        userWithDistance.distanceValue = distanceInMiles;
+        userWithDistance.distanceText = formatDistance(distance);
+      }
+      
+      // Calculate "last seen" time for location
+      if (user.locationTimestamp) {
+        const seconds = Math.floor((Date.now() - user.locationTimestamp) / 1000);
+        userWithDistance.locationAge = seconds;
+        
+        if (seconds < 60) {
+          userWithDistance.lastSeen = 'just now';
+        } else if (seconds < 3600) {
+          userWithDistance.lastSeen = `${Math.floor(seconds / 60)} min ago`;
+        } else if (seconds < 86400) {
+          userWithDistance.lastSeen = `${Math.floor(seconds / 3600)} hr ago`;
+        } else {
+          userWithDistance.lastSeen = `${Math.floor(seconds / 86400)} days ago`;
+        }
+      }
+      
+      return userWithDistance;
+    });
   };
+  
+  // Update eligible count when criteria or nearby users change
+  useEffect(() => {
+    const count = getEligibleUsers().length;
+    setEligibleCount(count);
+  }, [criteria, nearbyUsers, maxDistance, coords]);
 
   const spinRoulette = () => {
     const eligibleUsers = getEligibleUsers();
@@ -190,10 +265,30 @@ const RouletteMatch = () => {
                     alt={matchResult.fullName}
                     className="w-full h-full object-cover"
                   />
+                  {matchResult.isOnline && (
+                    <div className="absolute bottom-1 right-1 bg-green-500 rounded-full w-6 h-6 border-2 border-white flex items-center justify-center">
+                      <Wifi className="h-3 w-3 text-white" />
+                    </div>
+                  )}
                 </div>
                 
                 <h2 className="text-2xl font-medium mb-1">{matchResult.fullName}</h2>
-                <p className="text-gray-600 mb-4">{matchResult.age} years • {matchResult.job || 'Not specified'}</p>
+                <p className="text-gray-600 mb-2">{matchResult.age} years • {matchResult.job || 'Not specified'}</p>
+                
+                {/* Location and distance info */}
+                <div className="flex gap-2 mb-4 items-center">
+                  <Badge variant="outline" className="flex items-center gap-1 px-2 py-1">
+                    <MapPin className="h-3 w-3" />
+                    <span>{matchResult.distanceText || "Nearby"}</span>
+                  </Badge>
+                  
+                  {matchResult.lastSeen && (
+                    <Badge variant="outline" className="flex items-center gap-1 px-2 py-1">
+                      <Clock className="h-3 w-3" />
+                      <span>Active {matchResult.lastSeen}</span>
+                    </Badge>
+                  )}
+                </div>
                 
                 <div className="flex gap-4 mt-4">
                   <Button 
@@ -222,19 +317,52 @@ const RouletteMatch = () => {
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center h-full py-10">
-                <div className="relative w-32 h-32 rounded-full border-4 border-primary mb-8 flex items-center justify-center">
-                  <RefreshCw className="h-12 w-12" />
-                </div>
-                <Button 
-                  onClick={spinRoulette} 
-                  size="lg" 
-                  className="px-8 py-6 text-lg rounded-xl"
-                >
-                  Spin to Match
-                </Button>
-                <p className="text-sm mt-4 text-gray-500">
-                  {getEligibleUsers().length} potential matches available with your criteria
-                </p>
+                {locationError ? (
+                  <div className="mb-6 p-4 bg-red-50 rounded-lg text-center max-w-sm">
+                    <p className="text-red-600 font-medium mb-2">Location Error</p>
+                    <p className="text-sm text-red-500">{locationError}</p>
+                    <Button 
+                      onClick={() => window.location.reload()} 
+                      variant="ghost" 
+                      className="mt-2 text-xs"
+                    >
+                      Refresh permissions
+                    </Button>
+                  </div>
+                ) : (
+                  <>
+                    <div className="relative w-32 h-32 rounded-full border-4 border-primary mb-8 flex items-center justify-center">
+                      <RefreshCw className="h-12 w-12" />
+                    </div>
+                    <Button 
+                      onClick={spinRoulette} 
+                      size="lg" 
+                      className="px-8 py-6 text-lg rounded-xl"
+                      disabled={!coords || eligibleCount === 0}
+                    >
+                      Spin to Match
+                    </Button>
+                    
+                    {coords ? (
+                      <p className="text-sm mt-4 text-gray-500">
+                        {eligibleCount} potential {eligibleCount === 1 ? 'match' : 'matches'} available with your criteria
+                      </p>
+                    ) : (
+                      <p className="text-sm mt-4 text-gray-500">
+                        Waiting for location data...
+                      </p>
+                    )}
+                    
+                    {isTracking && (
+                      <Badge className="mt-2" variant="outline">
+                        <MapPin className="h-3 w-3 mr-1" /> 
+                        {timeSinceUpdate !== null 
+                          ? `Location updated ${timeSinceUpdate}s ago` 
+                          : 'Tracking location'}
+                      </Badge>
+                    )}
+                  </>
+                )}
               </div>
             )}
           </Card>
