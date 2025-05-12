@@ -9,9 +9,9 @@ interface DiscoverySidebarProps {
 
 const DiscoverySidebar = ({ users, isLoading, onUserClick }: DiscoverySidebarProps) => {
   return (
-    <div className="hidden md:block w-80 lg:w-96 bg-white shadow-lg overflow-y-auto">
+    <div className="hidden md:block w-80 lg:w-96 bg-[var(--primary-coral)] bg-opacity-95 shadow-lg overflow-y-auto text-white">
       <div className="p-6">
-        <h2 className="text-2xl font-bold text-[var(--primary-blue)] mb-6">Nearby</h2>
+        <h2 className="text-3xl font-light tracking-wide mb-8 border-b border-white border-opacity-20 pb-3">Nearby</h2>
         
         {isLoading ? (
           <div className="space-y-4">
@@ -31,7 +31,7 @@ const DiscoverySidebar = ({ users, isLoading, onUserClick }: DiscoverySidebarPro
             {users.map(user => (
               <div
                 key={user.id}
-                className="flex items-center p-3 rounded-lg hover:bg-[var(--neutral-bg)] transition cursor-pointer"
+                className="flex items-center p-3 rounded-lg hover:bg-white hover:bg-opacity-20 transition cursor-pointer"
                 onClick={() => onUserClick(user)}
               >
                 <div className="relative">
@@ -48,15 +48,15 @@ const DiscoverySidebar = ({ users, isLoading, onUserClick }: DiscoverySidebarPro
                 </div>
                 <div className="ml-3">
                   <div className="flex items-center space-x-1">
-                    <h3 className="font-semibold text-[var(--text-dark)]">
+                    <h3 className="font-medium text-white">
                       {user.fullName}, {user.age}
                     </h3>
                     {user.isOnline && (
-                      <CheckCircle className="w-4 h-4 text-[var(--accent-green)]" />
+                      <CheckCircle className="w-4 h-4 text-white" />
                     )}
                   </div>
-                  <p className="text-sm text-gray-600">{user.job}</p>
-                  <p className="text-xs text-gray-500 flex items-center">
+                  <p className="text-sm text-white text-opacity-80">{user.job}</p>
+                  <p className="text-xs text-white text-opacity-60 flex items-center">
                     <MapPin className="w-3 h-3 mr-1" />
                     {user.distance}
                   </p>

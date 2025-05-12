@@ -17,19 +17,19 @@ const Header = () => {
   const [notificationCount] = useState(3);
 
   return (
-    <header className="shadow-sm py-4 px-6 flex justify-between items-center transition-colors duration-1000" style={{ backgroundColor: 'white' }}>
+    <header className="shadow-lg py-5 px-8 flex justify-between items-center transition-colors duration-1000" style={{ backgroundColor: 'var(--primary-coral)' }}>
       <div className="flex items-center">
         <SyncLogo className="w-10 h-10" />
-        <h1 className="ml-3 font-['Poppins'] text-3xl font-bold tracking-[0.2em] opacity-90" style={{ color: highlight }}>S Y N C</h1>
+        <h1 className="ml-3 font-['Poppins'] text-3xl font-extralight tracking-[0.2em] opacity-90" style={{ color: 'white' }}>S Y N C</h1>
       </div>
       
       <div className="flex items-center">
         <div className="relative mr-4">
           <button className="focus:outline-none">
-            <Bell className="w-6 h-6" style={{ color: text }} />
+            <Bell className="w-6 h-6 text-white" />
             {notificationCount > 0 && (
-              <span className="absolute -top-1 -right-1 text-white text-xs font-bold px-1.5 py-0.5 rounded-full"
-                    style={{ backgroundColor: highlight }}>
+              <span className="absolute -top-1 -right-1 text-[var(--primary-coral)] text-xs font-bold px-1.5 py-0.5 rounded-full"
+                    style={{ backgroundColor: 'white' }}>
                 {notificationCount}
               </span>
             )}
