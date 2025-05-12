@@ -64,11 +64,13 @@
     @apply border-border;
   }
   body {
-    @apply font-['Quicksand'] bg-[var(--neutral-tan)] text-[var(--primary-blue)];
+    font-family: 'Quicksand', sans-serif;
+    @apply bg-[var(--neutral-tan)] text-[var(--primary-blue)];
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-['Roboto'] font-bold;
+    font-family: 'Playfair Display', serif;
+    @apply font-medium;
   }
   
   .app-title {

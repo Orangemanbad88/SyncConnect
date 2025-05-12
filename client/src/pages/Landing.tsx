@@ -29,21 +29,30 @@ const Landing = () => {
       
       <div className={`text-center transition-all duration-1000 delay-300 ease-out ${fadeIn ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
         <h1 
-          className="text-7xl font-['Roboto'] font-black tracking-[0.05em] mb-2"
-          style={{ color: 'var(--primary-blue)' }}
+          className="text-7xl font-medium tracking-[0.05em] mb-2"
+          style={{ 
+            color: 'var(--primary-blue)',
+            fontFamily: 'Playfair Display, serif'
+          }}
         >
           SYNC
         </h1>
         <h2
-          className="text-3xl font-['Roboto'] font-light mb-8"
-          style={{ color: 'var(--primary-blue)' }}
+          className="text-3xl font-medium mb-8"
+          style={{ 
+            color: 'var(--primary-blue)',
+            fontFamily: 'Playfair Display, serif' 
+          }}
         >
           Your World
         </h2>
         
         <p 
-          className="text-2xl font-['Roboto'] font-light max-w-md mx-auto mb-12"
-          style={{ color: 'white' }}
+          className="text-2xl font-light max-w-md mx-auto mb-12"
+          style={{ 
+            color: 'white',
+            fontFamily: 'Roboto, sans-serif'
+          }}
         >
           Connect with people nearby through spontaneous video chats
         </p>
