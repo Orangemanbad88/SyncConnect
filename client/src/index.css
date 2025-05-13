@@ -229,12 +229,7 @@
     letter-spacing: 0.1em;
   }
   
-  .gruppo-logo {
-    font-family: 'Michroma', sans-serif !important;
-    @apply tracking-wider uppercase;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-  }
+  /* Removed gruppo-logo class, replaced with michroma-header */
   
   .landing-button {
     font-family: 'Almarai', sans-serif !important;

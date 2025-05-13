@@ -53,15 +53,15 @@ const SyncLogo: React.FC<SyncLogoProps> = ({ className = '' }) => {
       {/* Main retro 80s logo text */}
       <div className="relative text-center">
         <h1 
-          className="text-6xl gruppo-logo"
+          className="text-6xl michroma-header"
           style={{ 
             letterSpacing: isHovered ? '0.15em' : '0.1em',
             textShadow: `
               0 0 2px #fff,
-              0 0 5px #0062ff,
-              0 0 10px #0062ff,
-              0 0 15px #ff1f5a,
-              0 0 30px #ff1f5a
+              0 0 7px #0062ff,
+              0 0 12px #0062ff,
+              0 0 18px #ff1f5a,
+              0 0 35px #ff1f5a
             `,
             color: '#fff',
             background: 'linear-gradient(to right, #0062ff 0%, #3b89ff 30%, #fff 50%, #ff1f5a 70%, #ff0037 100%)',
@@ -71,34 +71,13 @@ const SyncLogo: React.FC<SyncLogoProps> = ({ className = '' }) => {
             transition: 'all 0.3s ease, letter-spacing 0.5s ease',
             paddingLeft: '0.1em',
             paddingRight: '0.1em',
-            fontSize: '4.8rem',
+            fontSize: '4.5rem',
             lineHeight: '1',
             fontWeight: '400'
           }}
         >
           SYNC
         </h1>
-        
-        {/* Glass reflection effect */}
-        <div 
-          className="text-6xl gruppo-logo absolute top-1/2 left-0 right-0 overflow-hidden"
-          style={{
-            opacity: 0.2,
-            height: '50%',
-            transform: 'rotateX(180deg) translateY(-50%)',
-            background: 'linear-gradient(to bottom, rgba(59, 130, 246, 0.3), transparent)',
-            letterSpacing: isHovered ? '0.15em' : '0.1em',
-            color: 'transparent',
-            WebkitBackgroundClip: 'text',
-            WebkitTextStroke: '1px rgba(255, 255, 255, 0.3)',
-            paddingLeft: '0.1em',
-            paddingRight: '0.1em',
-            fontSize: '4.8rem',
-            pointerEvents: 'none'
-          }}
-        >
-          SYNC
-        </div>
       </div>
     </div>
   );
