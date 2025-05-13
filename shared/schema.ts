@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, doublePrecision, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, doublePrecision, timestamp, real } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -144,3 +144,24 @@ export type InsertMessage = z.infer<typeof insertMessageSchema>;
 export type Message = typeof messages.$inferSelect;
 export type UpdateUserLocation = z.infer<typeof updateUserLocationSchema>;
 export type UpdateUserOnlineStatus = z.infer<typeof updateUserOnlineStatusSchema>;
+
+// User Recommendations table for personalized connections
+export const userRecommendations = pgTable("user_recommendations", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => users.id),
+  recommendedUserId: integer("recommended_user_id").notNull().references(() => users.id),
+  score: real("score").notNull(), // recommendation score from 0.0 to 1.0
+  reason: text("reason"), // reason for the recommendation (e.g., "Similar interests", "Near you")
+  isViewed: boolean("is_viewed").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insertRecommendationSchema = createInsertSchema(userRecommendations).pick({
+  userId: true,
+  recommendedUserId: true,
+  score: true,
+  reason: true,
+});
+
+export type InsertRecommendation = z.infer<typeof insertRecommendationSchema>;
+export type Recommendation = typeof userRecommendations.$inferSelect;

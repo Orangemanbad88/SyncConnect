@@ -5,6 +5,7 @@ import {
   videoConnections,
   matches,
   messages,
+  userRecommendations,
   type User, 
   type InsertUser, 
   type Interest, 
@@ -20,7 +21,9 @@ import {
   type Message,
   type InsertMessage,
   type UpdateUserLocation,
-  type UpdateUserOnlineStatus
+  type UpdateUserOnlineStatus,
+  type Recommendation,
+  type InsertRecommendation
 } from "@shared/schema";
 import session from "express-session";
 import createMemoryStore from "memorystore";
@@ -63,6 +66,11 @@ export interface IStorage {
   getUserConversations(userId: number): Promise<{ matchId: number, otherUserId: number, latestMessage: Message }[]>;
   markMessagesAsRead(matchId: number, toUserId: number): Promise<void>;
   
+  // Recommendation methods
+  getRecommendationsForUser(userId: number, limit?: number): Promise<Recommendation[]>;
+  createRecommendation(recommendation: InsertRecommendation): Promise<Recommendation>;
+  markRecommendationAsViewed(id: number): Promise<Recommendation | undefined>;
+  
   // Session store
   sessionStore: session.Store;
 }
@@ -74,12 +82,14 @@ export class MemStorage implements IStorage {
   private videoConnections: Map<number, VideoConnection>;
   private matches: Map<number, Match>;
   private messages: Map<number, Message>;
+  private recommendations: Map<number, Recommendation>;
   currentId: number;
   interestId: number;
   moodReactionId: number;
   videoConnectionId: number;
   matchId: number;
   messageId: number;
+  recommendationId: number;
   sessionStore: session.Store;
   
   // Video Connection methods
