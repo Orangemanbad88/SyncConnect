@@ -62,15 +62,15 @@ const Landing = () => {
           <SyncLogo className="w-60 h-auto mx-auto mb-8 sm:mb-10 mt-16 sm:mt-24 max-w-full px-4 sm:px-0" />
           
           <div className="flex justify-center w-full relative px-4 sm:px-0 mt-16 sm:mt-20" style={{ maxWidth: '200px', margin: '0 auto' }}>
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 rounded-full animate-blue-glow" style={{ transform: 'scale(1.2)' }}></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 rounded-full animate-blue-glow" style={{ transform: 'scale(1.2)' }}></div>
             <Button 
               onClick={() => setLocation('/home')}
               className="px-4 py-3 sm:py-4 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg animate-pulse-glow w-full text-sm sm:text-base"
               style={{ 
-                background: 'linear-gradient(90deg, rgba(100, 150, 255, 0.98) 0%, rgba(80, 120, 245, 0.95) 50%, rgba(50, 100, 240, 0.9) 100%)',
+                background: 'linear-gradient(90deg, rgba(135, 206, 250, 0.98) 0%, rgba(100, 180, 245, 0.95) 50%, rgba(70, 150, 240, 0.9) 100%)',
                 backdropFilter: 'blur(4px)',
                 border: '2px solid rgba(70, 130, 235, 0.9)',
-                borderTop: '2px solid rgba(240, 245, 255, 0.98)',
+                borderTop: '2px solid rgba(176, 226, 255, 0.98)',
                 borderBottom: '3px solid rgba(40, 100, 210, 0.9)',
                 borderRadius: '999px',
                 color: '#05255e',

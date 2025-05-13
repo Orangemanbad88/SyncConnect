@@ -144,15 +144,56 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
 
   return (
     <div className="flex-1 relative overflow-hidden">
-      {/* Map grid overlay */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAgTSAwIDIwIEwgNDAgMjAgTSAyMCAwIEwgMjAgNDAgTSAwIDMwIEwgNDAgMzAgTSAzMCAwIEwgMzAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMzMzMyIgc3Ryb2tlLXdpZHRoPSIwLjUiIG9wYWNpdHk9IjAuMTUiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')]" style={{ pointerEvents: 'none', zIndex: 2, opacity: 0.3 }}></div>
+      {/* Map background */}
+      <div 
+        className="absolute inset-0" 
+        style={{
+          background: '#0a192f',
+          backgroundImage: 'linear-gradient(120deg, #0a1930 0%, #142952 50%, #1e3a7a 100%)',
+          pointerEvents: 'none',
+          zIndex: 0
+        }}
+      ></div>
       
-      {/* Static Map Background - positioned as an absolute background */}
-      <StaticMapBackground 
-        className="absolute inset-0 z-0" 
-        latitude={userCoords?.latitude} 
-        longitude={userCoords?.longitude}
-      />
+      {/* Main grid overlay */}
+      <div 
+        className="absolute inset-0" 
+        style={{ 
+          backgroundImage: `
+            linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px)
+          `,
+          backgroundSize: '40px 40px',
+          pointerEvents: 'none',
+          zIndex: 1,
+          opacity: 0.7
+        }}
+      ></div>
+      
+      {/* Fine grid overlay */}
+      <div 
+        className="absolute inset-0" 
+        style={{ 
+          backgroundImage: `
+            linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px)
+          `,
+          backgroundSize: '10px 10px',
+          pointerEvents: 'none',
+          zIndex: 1,
+          opacity: 0.5
+        }}
+      ></div>
+      
+      {/* Radial gradient */}
+      <div 
+        className="absolute inset-0" 
+        style={{
+          background: 'radial-gradient(circle at center, rgba(100, 150, 255, 0.1) 0%, rgba(0, 20, 80, 0.2) 70%)',
+          pointerEvents: 'none',
+          zIndex: 1
+        }}
+      ></div>
       
       <div
         ref={mapRef}
