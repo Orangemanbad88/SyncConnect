@@ -192,6 +192,12 @@
     @apply font-medium tracking-wide;
   }
   
+  .michroma-header {
+    font-family: 'Michroma', sans-serif !important;
+    @apply font-medium tracking-wider uppercase;
+    letter-spacing: 0.1em;
+  }
+  
   .app-description {
     font-family: 'Poppins', sans-serif !important;
   }
