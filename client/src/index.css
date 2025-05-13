@@ -11,6 +11,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Animation for 80s grid background */
+@keyframes grid-move {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 100px; }
+}
+
 /* Add custom animation for slow spin effect */
 @keyframes spin-slow {
   from {
@@ -209,6 +215,19 @@
   .archive-black-logo {
     font-family: 'Archivo Black', sans-serif !important;
     @apply tracking-wide font-bold;
+    letter-spacing: 0.1em;
+  }
+  
+  .retro-80s-logo {
+    font-family: 'Orbitron', sans-serif !important;
+    @apply tracking-widest font-bold uppercase;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  
+  .retro-pixelated {
+    font-family: 'Press Start 2P', cursive !important;
+    text-transform: uppercase;
     letter-spacing: 0.1em;
   }
   

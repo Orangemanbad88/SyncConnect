@@ -15,62 +15,103 @@ const SyncLogo: React.FC<SyncLogoProps> = ({ className = '' }) => {
       onTouchStart={() => setIsHovered(true)}
       onTouchEnd={() => setIsHovered(false)}
     >
-      {/* Animated wave effects */}
+      {/* 80s Retro Grid Background */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
+        {isHovered && (
+          <div 
+            className="absolute w-full h-full"
+            style={{
+              background: 'linear-gradient(to right, rgba(33, 33, 33, 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(33, 33, 33, 0.1) 1px, transparent 1px)',
+              backgroundSize: '20px 20px',
+              transform: 'perspective(500px) rotateX(60deg)',
+              transformOrigin: 'center bottom',
+              animation: 'grid-move 5s linear infinite',
+              opacity: 0.3
+            }}
+          />
+        )}
+        
+        {/* Neon glow effects */}
         {isHovered && (
           <>
             <div 
-              className="absolute w-full h-14 bg-gradient-to-r from-red-800/20 via-red-600/40 to-red-800/20 rounded-full" 
-              style={{ 
-                top: '45%', 
-                animation: 'wave1 3s ease-in-out infinite',
-                transform: 'scaleX(0.9) translateY(0px)'
+              className="absolute bottom-0 left-0 right-0 h-16"
+              style={{
+                background: 'linear-gradient(to top, rgba(255, 0, 128, 0.2), transparent)',
+                filter: 'blur(8px)'
               }}
             />
             <div 
-              className="absolute w-full h-12 bg-gradient-to-r from-red-800/10 via-red-500/30 to-red-800/10 rounded-full" 
+              className="absolute w-full h-16 bg-gradient-to-r from-transparent via-purple-500/30 to-transparent" 
               style={{ 
-                top: '48%', 
-                animation: 'wave2 3s ease-in-out infinite 0.2s',
-                transform: 'scaleX(0.85) translateY(5px)'
+                top: '45%',
+                filter: 'blur(20px)',
+                animation: 'wave1 5s ease-in-out infinite'
               }}
             />
             <div 
-              className="absolute w-full h-10 bg-gradient-to-r from-red-800/5 via-red-400/20 to-red-800/5 rounded-full" 
+              className="absolute w-full h-12 bg-gradient-to-r from-transparent via-blue-500/20 to-transparent" 
               style={{ 
-                top: '51%', 
-                animation: 'wave3 3s ease-in-out infinite 0.4s',
-                transform: 'scaleX(0.8) translateY(10px)'
+                top: '65%',
+                filter: 'blur(15px)',
+                animation: 'wave2 6s ease-in-out infinite'
               }}
             />
           </>
         )}
       </div>
 
-      {/* Main text with Archivo Black font */}
+      {/* Main retro 80s logo text */}
       <div className="relative text-center">
-        {/* Base text */}
         <h1 
-          className="text-6xl uppercase archive-black-logo"
+          className="text-6xl retro-80s-logo"
           style={{ 
+            letterSpacing: isHovered ? '0.25em' : '0.15em',
             textShadow: `
-              0 0 1px #FFFFFF,
-              0 0 2px #FFFFFF,
-              0 0 3px #FFFFFF
+              0 0 5px #fff,
+              0 0 10px #fff,
+              0 0 20px #FF1177,
+              0 0 30px #FF1177,
+              0 0 40px #FF1177,
+              0 0 55px #FF1177,
+              0 0 75px #FF1177
             `,
-            letterSpacing: '0.12em',
-            background: 'linear-gradient(to right, #FFFFFF 0%, #FCA5A5 5%, #EF4444 20%, #DC2626 40%, #B91C1C 60%, #991B1B 80%, #FFFFFF 100%)',
+            color: '#fff',
+            background: 'linear-gradient(to right, #FF1177 0%, #00FFFC 25%, #FFFC00 50%, #00FFFC 75%, #FF1177 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
-            filter: 'drop-shadow(0 0 1px rgba(255, 0, 0, 1)) drop-shadow(0 0 3px rgba(255, 0, 0, 0.8))',
-            WebkitTextStroke: '0.5px rgba(255, 255, 255, 0.8)',
-            transform: isHovered ? 'scale(1.05)' : 'scale(1)',
-            transition: 'transform 0.3s ease',
-            fontWeight: 'bold'
+            transform: isHovered ? 'scale(1.05) skewY(-1deg)' : 'scale(1) skewY(0deg)',
+            transition: 'all 0.3s ease, letter-spacing 0.5s ease',
+            paddingLeft: '0.2em',
+            paddingRight: '0.2em',
+            fontSize: '4.5rem',
+            fontWeight: 'bold',
+            filter: 'drop-shadow(0 0 6px rgba(255, 17, 119, 0.7))'
           }}
         >
           SYNC
         </h1>
+        
+        {/* Chrome reflection effect */}
+        <div 
+          className="text-6xl retro-80s-logo absolute top-1/2 left-0 right-0 overflow-hidden"
+          style={{
+            opacity: 0.3,
+            height: '50%',
+            transform: 'rotateX(180deg) translateY(-50%)',
+            background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.3), transparent)',
+            letterSpacing: isHovered ? '0.25em' : '0.15em',
+            color: 'transparent',
+            WebkitBackgroundClip: 'text',
+            WebkitTextStroke: '1px rgba(255, 255, 255, 0.2)',
+            paddingLeft: '0.2em',
+            paddingRight: '0.2em',
+            fontSize: '4.5rem',
+            pointerEvents: 'none'
+          }}
+        >
+          SYNC
+        </div>
       </div>
     </div>
   );
