@@ -47,7 +47,7 @@ const SyncLogo: React.FC<SyncLogoProps> = ({ className = '' }) => {
         )}
       </div>
 
-      {/* Main text with Comfortaa font */}
+      {/* Main text with Hot Rush font */}
       <div className="relative sync-logo-text text-center">
         {/* Base text */}
         <h1 
