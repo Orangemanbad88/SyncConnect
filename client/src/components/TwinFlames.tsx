@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
-interface FacingCharactersProps {
+interface TwinFlamesProps {
   className?: string;
 }
 
-const TwinFlames: React.FC<FacingCharactersProps> = ({ className = '' }) => {
+const TwinFlames: React.FC<TwinFlamesProps> = ({ className = '' }) => {
   const [isHovered, setIsHovered] = useState(false);
   
   return (

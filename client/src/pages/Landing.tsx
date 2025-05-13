@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation, Link } from 'wouter';
 import SyncLogo from '@/components/SyncLogo';
-import FacingCharacters from '@/components/FacingCharacters';
+import TwinFlames from '@/components/TwinFlames';
 import { Button } from '@/components/ui/button';
 import { useAmbient } from '@/context/AmbientContext';
 
@@ -54,9 +54,9 @@ const Landing = () => {
       
       <div className={`transform transition-all duration-1000 ease-out ${fadeIn ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'} flex flex-col items-center`}>
         <div className="flex flex-col items-center relative">
-          {/* Facing Characters positioned in the center above the logo */}
+          {/* Twin flames positioned in the center above the logo */}
           <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 z-10">
-            <FacingCharacters className="mx-auto w-32 h-32 sm:w-40 sm:h-40" />
+            <TwinFlames className="mx-auto w-32 h-32 sm:w-40 sm:h-40" />
           </div>
           
           <SyncLogo className="w-60 h-auto mx-auto mb-8 sm:mb-10 mt-16 sm:mt-24 max-w-full px-4 sm:px-0" />
