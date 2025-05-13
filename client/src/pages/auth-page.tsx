@@ -4,6 +4,7 @@ import { Redirect } from "wouter";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { COLOR_SCHEMES } from "@/hooks/useAmbientColor";
 import {
   Form,
   FormControl,
@@ -90,14 +91,37 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-black text-white font-georgia">
+    <div 
+      className="min-h-screen flex flex-col text-white font-georgia relative"
+      style={{ 
+        background: COLOR_SCHEMES.sunset.background,
+        boxShadow: 'inset 0 0 100px rgba(255,255,255,0.15)' 
+      }}>
       {/* Header with SYNC logo */}
-      <div className="w-full flex justify-center pt-10 pb-6">
+      {/* Glossy effect overlay */}
+      <div className="absolute inset-0 z-0" style={{ 
+        background: 'radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 100%)',
+        pointerEvents: 'none'
+      }} />
+      
+      {/* Grid overlay */}
+      <div className="absolute inset-0 z-0" style={{ 
+        backgroundImage: `
+          linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px)
+        `,
+        backgroundSize: '40px 40px',
+        pointerEvents: 'none',
+        opacity: 0.5
+      }} />
+      
+      {/* Header with SYNC logo */}
+      <div className="w-full flex justify-center pt-10 pb-6 relative z-10">
         <SyncLogo className="w-60 h-auto" />
       </div>
       
       {/* Main content - single column */}
-      <div className="flex-1 flex flex-col items-center px-4 pb-12">
+      <div className="flex-1 flex flex-col items-center px-4 pb-12 relative z-10">
         <div className="w-full max-w-md">
           {/* Short description */}
           <div className="text-center mb-10">
@@ -307,7 +331,8 @@ export default function AuthPage() {
           </Tabs>
           
           {/* Features as bullet points */}
-          <div className="mt-12 bg-blue-900/30 rounded-xl p-6">
+          <div className="mt-12 bg-blue-900/30 backdrop-blur-sm rounded-xl p-6" 
+               style={{ boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3), inset 0 1px 15px rgba(255, 255, 255, 0.1)' }}>
             <h3 className="text-2xl auth-heading mb-4 text-center">Features</h3>
             <ul className="space-y-3">
               <li className="flex items-start">
