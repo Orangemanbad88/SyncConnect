@@ -8,7 +8,7 @@ export type ColorScheme = {
   text: string;
 };
 
-const COLOR_SCHEMES: Record<TimeOfDay, ColorScheme> = {
+export const COLOR_SCHEMES: Record<TimeOfDay, ColorScheme> = {
   morning: {
     background: 'linear-gradient(150deg, #FEF9C3 0%, #FEF3F2 70%, #FCE7F3 100%)', // Soft yellow/peach gradient
     highlight: '#F59E0B', // Amber/orange

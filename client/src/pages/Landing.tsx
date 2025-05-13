@@ -4,6 +4,7 @@ import SyncLogo from '@/components/SyncLogo';
 import TwinFlames from '@/components/TwinFlames';
 import { Button } from '@/components/ui/button';
 import { useAmbient } from '@/context/AmbientContext';
+import { COLOR_SCHEMES } from '@/hooks/useAmbientColor';
 
 const Landing = () => {
   const [, setLocation] = useLocation();
@@ -23,8 +24,8 @@ const Landing = () => {
     <div 
       className="h-screen w-full flex flex-col items-center justify-center transition-all duration-1000 overflow-hidden relative"
       style={{ 
-        background: 'linear-gradient(135deg, #121212 0%, #1a1a1a 25%, #121212 50%, #0a0a0a 75%, #121212 100%)',
-        boxShadow: 'inset 0 0 100px rgba(255,255,255,0.05)'
+        background: COLOR_SCHEMES.sunset.background,
+        boxShadow: 'inset 0 0 100px rgba(255,255,255,0.15)'
       }}
     >
       {/* Sign Up button in top-left corner */}
@@ -34,9 +35,10 @@ const Landing = () => {
             className="px-3 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-sm transition-all duration-300 hover:opacity-90"
             variant="outline"
             style={{
-              borderColor: '#F87171',
-              color: '#F87171',
+              borderColor: COLOR_SCHEMES.sunset.highlight,
+              color: COLOR_SCHEMES.sunset.highlight,
               fontFamily: 'Georgia, serif',
+              fontWeight: 'bold'
             }}
           >
             Sign Up
@@ -56,29 +58,31 @@ const Landing = () => {
         <div className="flex flex-col items-center relative">
           {/* Interconnected hearts positioned in the center above the logo */}
           <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 z-10">
-            <TwinFlames className="mx-auto w-32 h-32 sm:w-40 sm:h-40" />
+            {/* Add sunset glow effect around the twin flames */}
+            <div className="absolute top-0 left-0 w-full h-full rounded-full filter blur-xl bg-gradient-to-b from-orange-500 via-red-600 to-amber-400 opacity-60 animate-pulse"></div>
+            <TwinFlames className="mx-auto w-32 h-32 sm:w-40 sm:h-40 relative z-20" />
           </div>
           
           <SyncLogo className="w-60 h-auto mx-auto mb-8 sm:mb-10 mt-16 sm:mt-24 max-w-full px-4 sm:px-0" />
           
           <div className="flex justify-center w-full relative px-4 sm:px-0 mt-16 sm:mt-20" style={{ maxWidth: '200px', margin: '0 auto' }}>
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 rounded-full animate-blue-glow" style={{ transform: 'scale(1.2)' }}></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-orange-500 via-red-500 to-amber-600 rounded-full animate-pulse" style={{ transform: 'scale(1.2)' }}></div>
             <Button 
               onClick={() => setLocation('/home')}
               className="px-4 py-3 sm:py-4 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg animate-pulse-glow w-full text-sm sm:text-base landing-button"
               style={{ 
-                background: 'linear-gradient(90deg, rgba(135, 206, 250, 0.98) 0%, rgba(100, 180, 245, 0.95) 50%, rgba(70, 150, 240, 0.9) 100%)',
+                background: 'linear-gradient(90deg, rgba(255, 140, 0, 0.98) 0%, rgba(255, 69, 0, 0.95) 50%, rgba(139, 0, 0, 0.9) 100%)',
                 backdropFilter: 'blur(4px)',
-                border: '2px solid rgba(70, 130, 235, 0.9)',
-                borderTop: '2px solid rgba(176, 226, 255, 0.98)',
-                borderBottom: '3px solid rgba(40, 100, 210, 0.9)',
+                border: '2px solid rgba(255, 99, 71, 0.9)',
+                borderTop: '2px solid rgba(255, 165, 0, 0.98)',
+                borderBottom: '3px solid rgba(178, 34, 34, 0.9)',
                 borderRadius: '999px',
-                color: '#05255e',
+                color: '#FFD700',
                 boxShadow: `
-                  0 4px 12px rgba(40, 90, 200, 0.7),
-                  0 2px 4px rgba(20, 60, 160, 0.6),
-                  inset 0 1px 3px rgba(200, 225, 255, 0.9),
-                  inset 0 -1px 2px rgba(60, 120, 200, 0.8)
+                  0 4px 12px rgba(255, 69, 0, 0.7),
+                  0 2px 4px rgba(178, 34, 34, 0.6),
+                  inset 0 1px 3px rgba(255, 165, 0, 0.9),
+                  inset 0 -1px 2px rgba(255, 140, 0, 0.8)
                 `,
                 fontFamily: 'Cinzel, serif',
                 fontSize: '1rem',
@@ -88,13 +92,13 @@ const Landing = () => {
                 textTransform: 'uppercase',
                 textShadow: `
                   0 1px 2px rgba(255, 255, 255, 0.9),
-                  0 0 10px rgba(160, 200, 255, 1),
-                  0 0 15px rgba(50, 110, 210, 0.7),
-                  0 0 2px rgba(0, 20, 80, 0.7)
+                  0 0 10px rgba(255, 215, 0, 1),
+                  0 0 15px rgba(255, 140, 0, 0.7),
+                  0 0 2px rgba(139, 0, 0, 0.7)
                 `
               }}
             >
-              <span className="inline-block font-semibold italic transform -skew-x-6" style={{ textShadow: '0 0 2px rgba(0, 40, 100, 0.8)' }}>ENTER</span>
+              <span className="inline-block font-semibold italic transform -skew-x-6" style={{ textShadow: '0 0 2px rgba(139, 0, 0, 0.8)' }}>ENTER</span>
             </Button>
           </div>
         </div>
