@@ -36,9 +36,12 @@ const Landing = () => {
             variant="outline"
             style={{
               borderColor: COLOR_SCHEMES.sunset.highlight,
+              borderBottomColor: COLOR_SCHEMES.sunset.text,
+              borderRightColor: COLOR_SCHEMES.sunset.text,
               color: COLOR_SCHEMES.sunset.highlight,
               fontFamily: 'Georgia, serif',
-              fontWeight: 'bold'
+              fontWeight: 'bold',
+              boxShadow: '0 0 10px rgba(65, 105, 225, 0.4)'
             }}
           >
             Sign Up
@@ -54,12 +57,28 @@ const Landing = () => {
         }}
       ></div>
       
+      {/* Blue accent rays at the bottom */}
+      <div 
+        className="absolute bottom-0 left-0 right-0 h-64 opacity-40"
+        style={{
+          background: 'linear-gradient(to top, rgba(25,25,112,0.6) 0%, rgba(65,105,225,0.3) 50%, transparent 100%)',
+          pointerEvents: 'none'
+        }}
+      ></div>
+      
+      {/* Blue accent elements */}
+      <div className="absolute bottom-10 left-10 w-20 h-20 rounded-full opacity-20 animate-pulse-slow"
+           style={{ background: 'radial-gradient(circle, #4169E1 0%, transparent 70%)' }}></div>
+      <div className="absolute top-20 right-14 w-16 h-16 rounded-full opacity-15 animate-pulse-slow"
+           style={{ background: 'radial-gradient(circle, #1E90FF 0%, transparent 70%)' }}></div>
+      
       <div className={`transform transition-all duration-1000 ease-out ${fadeIn ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'} flex flex-col items-center`}>
         <div className="flex flex-col items-center relative">
           {/* Interconnected hearts positioned in the center above the logo */}
           <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 z-10">
-            {/* Add sunset glow effect around the twin flames */}
-            <div className="absolute top-0 left-0 w-full h-full rounded-full filter blur-xl bg-gradient-to-b from-orange-500 via-red-600 to-amber-400 opacity-60 animate-pulse"></div>
+            {/* Add sunset glow effect around the twin flames with blue accents */}
+            <div className="absolute top-0 left-0 w-full h-full rounded-full filter blur-xl bg-gradient-to-b from-orange-500 via-red-600 to-indigo-600 opacity-60 animate-pulse"></div>
+            <div className="absolute top-0 left-0 w-full h-full rounded-full filter blur-xl bg-gradient-to-r from-blue-500/30 to-transparent opacity-40 animate-pulse-slow"></div>
             <TwinFlames className="mx-auto w-32 h-32 sm:w-40 sm:h-40 relative z-20" />
           </div>
           
@@ -81,8 +100,9 @@ const Landing = () => {
                 boxShadow: `
                   0 4px 12px rgba(255, 69, 0, 0.7),
                   0 2px 4px rgba(178, 34, 34, 0.6),
+                  0 0 20px rgba(65, 105, 225, 0.4),
                   inset 0 1px 3px rgba(255, 165, 0, 0.9),
-                  inset 0 -1px 2px rgba(255, 140, 0, 0.8)
+                  inset 0 -1px 2px rgba(65, 105, 225, 0.5)
                 `,
                 fontFamily: 'Cinzel, serif',
                 fontSize: '1rem',
@@ -94,6 +114,7 @@ const Landing = () => {
                   0 1px 2px rgba(255, 255, 255, 0.9),
                   0 0 10px rgba(255, 215, 0, 1),
                   0 0 15px rgba(255, 140, 0, 0.7),
+                  0 0 20px rgba(65, 105, 225, 0.6),
                   0 0 2px rgba(139, 0, 0, 0.7)
                 `
               }}

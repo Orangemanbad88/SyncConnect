@@ -25,9 +25,9 @@ export const COLOR_SCHEMES: Record<TimeOfDay, ColorScheme> = {
     text: '#8B5CF6',      // Purple
   },
   sunset: {
-    background: 'linear-gradient(150deg, #FF8C00 0%, #FF4500 40%, #8B0000 100%)', // Intense sunset: dark orange to orange-red to dark red
+    background: 'linear-gradient(150deg, #FF8C00 0%, #FF4500 30%, #8B0000 70%, #191970 100%)', // Sunset with deep blue at bottom
     highlight: '#FF6347', // Tomato red
-    text: '#FFD700',      // Gold
+    text: '#4169E1',      // Royal blue
   },
   night: {
     background: 'linear-gradient(150deg, #020617 0%, #1E293B 50%, #334155 100%)', // Dark blue to slate gradient
