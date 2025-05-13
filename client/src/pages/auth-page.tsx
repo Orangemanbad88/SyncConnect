@@ -99,10 +99,9 @@ export default function AuthPage() {
       {/* Main content - single column */}
       <div className="flex-1 flex flex-col items-center px-4 pb-12">
         <div className="w-full max-w-md">
-          {/* Title */}
+          {/* Short description */}
           <div className="text-center mb-8">
-            <h2 className="text-4xl font-bold font-georgia tracking-wide">Find Your Vibe</h2>
-            <p className="text-gray-400 mt-3 font-georgia italic">
+            <p className="text-gray-400 font-georgia italic text-lg">
               Connect with people nearby in real-time
             </p>
           </div>
