@@ -36,9 +36,9 @@ const TwinFlames: React.FC<TwinFlamesProps> = ({ className = '' }) => {
           }}
         />
         
-        {/* Left Pulse (Blue) */}
+        {/* Left Pulse Wave (Blue) */}
         <path 
-          d="M30 80 L45 80 L50 60 L60 100 L65 60 L70 90 L75 80 L80 80"
+          d="M25 80 L35 80 L40 65 L45 95 L50 50 L55 110 L60 65 L65 95 L70 80 L80 80"
           stroke="url(#bluePulseGradient)" 
           strokeWidth={isHovered ? 4 : 3}
           strokeLinecap="round" 
@@ -52,9 +52,9 @@ const TwinFlames: React.FC<TwinFlamesProps> = ({ className = '' }) => {
           }}
         />
         
-        {/* Right Pulse (Red) */}
+        {/* Right Pulse Wave (Red) */}
         <path 
-          d="M130 80 L115 80 L110 60 L100 100 L95 60 L90 90 L85 80 L80 80"
+          d="M135 80 L125 80 L120 65 L115 95 L110 50 L105 110 L100 65 L95 95 L90 80 L80 80"
           stroke="url(#redPulseGradient)" 
           strokeWidth={isHovered ? 4 : 3}
           strokeLinecap="round" 
@@ -81,65 +81,94 @@ const TwinFlames: React.FC<TwinFlamesProps> = ({ className = '' }) => {
           }}
         />
         
-        {/* Intertwining elements */}
+        {/* Intertwining pulse waves */}
         <g className={isHovered ? "animate-pulse-intertwine" : ""}>
-          {/* Blue intertwining element */}
+          {/* Blue intertwining pulse wave (crossing over) */}
           <path 
-            d="M60 80 C65 75 70 65 80 65 C70 65 65 55 60 50"
+            d="M55 80 C65 75 72 60 80 60 C88 60 90 45 100 55"
             stroke="url(#blueIntertwineGradient)" 
-            strokeWidth="2.5"
+            strokeWidth="3"
             strokeLinecap="round" 
             strokeLinejoin="round"
             fill="none"
+            style={{ 
+              filter: 'drop-shadow(0 0 6px rgba(59, 130, 246, 0.8))',
+              transition: 'all 0.3s ease',
+              opacity: isHovered ? 1 : 0.8,
+              zIndex: 10
+            }}
+          />
+          
+          {/* Blue intertwining pulse wave (crossing under) */}
+          <path 
+            d="M57 80 C67 85 73 100 80 100 C87 100 93 115 105 105"
+            stroke="url(#blueIntertwineGradient)" 
+            strokeWidth="3"
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+            fill="none"
+            style={{ 
+              filter: 'drop-shadow(0 0 6px rgba(59, 130, 246, 0.8))',
+              transition: 'all 0.3s ease',
+              opacity: isHovered ? 1 : 0.8
+            }}
+          />
+          
+          {/* Red intertwining pulse wave (crossing over) */}
+          <path 
+            d="M105 80 C95 75 88 60 80 60 C72 60 70 45 60 55"
+            stroke="url(#redIntertwineGradient)" 
+            strokeWidth="3"
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+            fill="none"
+            style={{ 
+              filter: 'drop-shadow(0 0 6px rgba(248, 113, 113, 0.8))',
+              transition: 'all 0.3s ease',
+              opacity: isHovered ? 1 : 0.8
+            }}
+          />
+          
+          {/* Red intertwining pulse wave (crossing under) */}
+          <path 
+            d="M103 80 C93 85 87 100 80 100 C73 100 67 115 55 105"
+            stroke="url(#redIntertwineGradient)" 
+            strokeWidth="3"
+            strokeLinecap="round" 
+            strokeLinejoin="round"
+            fill="none"
+            style={{ 
+              filter: 'drop-shadow(0 0 6px rgba(248, 113, 113, 0.8))',
+              transition: 'all 0.3s ease',
+              opacity: isHovered ? 1 : 0.8
+            }}
+          />
+          
+          {/* Additional small blue crossing pulses */}
+          <path 
+            d="M65 70 L75 70 M68 90 L78 90"
+            stroke="#3B82F6" 
+            strokeWidth="2"
+            strokeLinecap="round" 
+            strokeDasharray="1,3"
             style={{ 
               filter: 'drop-shadow(0 0 4px rgba(59, 130, 246, 0.7))',
-              transition: 'all 0.3s ease',
-              opacity: isHovered ? 0.9 : 0.7
+              opacity: isHovered ? 0.9 : 0.6,
+              animation: isHovered ? 'pulse-line 2s ease-in-out infinite' : 'none'
             }}
           />
           
-          {/* Blue intertwining element (bottom) */}
+          {/* Additional small red crossing pulses */}
           <path 
-            d="M60 80 C65 85 70 95 80 95 C70 95 65 105 60 110"
-            stroke="url(#blueIntertwineGradient)" 
-            strokeWidth="2.5"
-            strokeLinecap="round" 
-            strokeLinejoin="round"
-            fill="none"
-            style={{ 
-              filter: 'drop-shadow(0 0 4px rgba(59, 130, 246, 0.7))',
-              transition: 'all 0.3s ease',
-              opacity: isHovered ? 0.9 : 0.7
-            }}
-          />
-          
-          {/* Red intertwining element */}
-          <path 
-            d="M100 80 C95 75 90 65 80 65 C90 65 95 55 100 50"
-            stroke="url(#redIntertwineGradient)" 
-            strokeWidth="2.5"
-            strokeLinecap="round" 
-            strokeLinejoin="round"
-            fill="none"
+            d="M95 70 L85 70 M92 90 L82 90"
+            stroke="#F87171" 
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeDasharray="1,3"
             style={{ 
               filter: 'drop-shadow(0 0 4px rgba(248, 113, 113, 0.7))',
-              transition: 'all 0.3s ease',
-              opacity: isHovered ? 0.9 : 0.7
-            }}
-          />
-          
-          {/* Red intertwining element (bottom) */}
-          <path 
-            d="M100 80 C95 85 90 95 80 95 C90 95 95 105 100 110"
-            stroke="url(#redIntertwineGradient)" 
-            strokeWidth="2.5"
-            strokeLinecap="round" 
-            strokeLinejoin="round"
-            fill="none"
-            style={{ 
-              filter: 'drop-shadow(0 0 4px rgba(248, 113, 113, 0.7))',
-              transition: 'all 0.3s ease',
-              opacity: isHovered ? 0.9 : 0.7
+              opacity: isHovered ? 0.9 : 0.6,
+              animation: isHovered ? 'pulse-line 2s ease-in-out infinite 0.5s' : 'none'
             }}
           />
         </g>

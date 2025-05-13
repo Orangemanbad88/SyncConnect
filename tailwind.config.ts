@@ -9,6 +9,7 @@ export default {
         'cinzel': ['Cinzel', 'serif'],
         'barlow': ['Barlow', 'sans-serif'],
         'georgia': ['Georgia', 'Times New Roman', 'serif'],
+        'varela': ['Varela Round', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
