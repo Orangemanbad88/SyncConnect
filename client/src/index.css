@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Barlow:wght@300;400;500;600;700&family=Varela+Round&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Barlow:wght@300;400;500;600;700&family=Varela+Round&family=Almarai:wght@300;400;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -122,6 +122,46 @@
   
   .app-description {
     font-family: 'Poppins', sans-serif !important;
+  }
+  
+  /* Almarai font styles */
+  .font-almarai {
+    font-family: 'Almarai', sans-serif !important;
+  }
+  
+  .landing-text {
+    font-family: 'Almarai', sans-serif !important;
+    @apply font-medium tracking-wide;
+  }
+  
+  .auth-text {
+    font-family: 'Almarai', sans-serif !important;
+    @apply font-medium tracking-wide;
+  }
+  
+  .sync-logo-text {
+    font-family: 'Almarai', sans-serif !important;
+    @apply font-bold tracking-wider;
+  }
+  
+  .landing-button {
+    font-family: 'Almarai', sans-serif !important;
+    @apply font-bold uppercase tracking-wider;
+  }
+  
+  .auth-button {
+    font-family: 'Almarai', sans-serif !important;
+    @apply font-bold tracking-wider;
+  }
+  
+  .auth-heading {
+    font-family: 'Almarai', sans-serif !important;
+    @apply font-bold text-2xl tracking-wide;
+  }
+  
+  .auth-subheading {
+    font-family: 'Almarai', sans-serif !important;
+    @apply font-medium tracking-wide;
   }
   
   .online-indicator {

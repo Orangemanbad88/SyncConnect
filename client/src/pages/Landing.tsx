@@ -65,7 +65,7 @@ const Landing = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 rounded-full animate-blue-glow" style={{ transform: 'scale(1.2)' }}></div>
             <Button 
               onClick={() => setLocation('/home')}
-              className="px-4 py-3 sm:py-4 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg animate-pulse-glow w-full text-sm sm:text-base"
+              className="px-4 py-3 sm:py-4 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg animate-pulse-glow w-full text-sm sm:text-base landing-button"
               style={{ 
                 background: 'linear-gradient(90deg, rgba(135, 206, 250, 0.98) 0%, rgba(100, 180, 245, 0.95) 50%, rgba(70, 150, 240, 0.9) 100%)',
                 backdropFilter: 'blur(4px)',
