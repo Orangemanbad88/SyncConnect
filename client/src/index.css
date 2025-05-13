@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Barlow:wght@300;400;500;600;700&family=Varela+Round&family=Almarai:wght@300;400;700;800&family=Wallpoet&display=swap');
 
+@font-face {
+  font-family: 'Hot Rush';
+  src: url('https://fonts.cdnfonts.com/s/50262/HOT-RUSH.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

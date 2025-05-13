@@ -53,6 +53,7 @@ const SyncLogo: React.FC<SyncLogoProps> = ({ className = '' }) => {
         <h1 
           className="text-6xl uppercase sync-logo-text"
           style={{ 
+            fontFamily: 'Hot Rush, sans-serif',
             textShadow: `
               0 0 1px #FFFFFF,
               0 0 2px #FFFFFF,
