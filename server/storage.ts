@@ -375,6 +375,7 @@ export class MemStorage implements IStorage {
       },
       {
         username: "david",
+        email: "david@example.com",
         password: "password",
         fullName: "David Brown",
         age: 29,
@@ -388,6 +389,7 @@ export class MemStorage implements IStorage {
       // New nearby users
       {
         username: "olivia",
+        email: "olivia@example.com",
         password: "password",
         fullName: "Olivia Wilson",
         age: 26,

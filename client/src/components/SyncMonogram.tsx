@@ -9,7 +9,7 @@ const SyncMonogram: React.FC<SyncMonogramProps> = ({ className = '' }) => {
     <div className={`relative ${className}`}>
       {/* Monogram container with rounded corners and off-white background */}
       <div className="relative flex items-center justify-center bg-[#F9FAFB] rounded-lg p-1.5 shadow-md">
-        {/* SVG for the Comfortaa-style "S" */}
+        {/* SVG for the Varela Round-style "S" */}
         <svg 
           width="24" 
           height="24" 
@@ -29,7 +29,7 @@ const SyncMonogram: React.FC<SyncMonogramProps> = ({ className = '' }) => {
             style={{ opacity: 0.7 }}
           />
           
-          {/* Main S in rounded Comfortaa style */}
+          {/* Main S in rounded Varela Round style */}
           <path
             d="M17 8.5C17 8.5 13 6.5 10 8.5C7 10.5 11 13 11 13C11 13 15 15 10 17C8 18 6 16 6 16"
             stroke="#DC2626"
