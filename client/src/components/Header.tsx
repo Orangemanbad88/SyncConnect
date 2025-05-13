@@ -12,6 +12,7 @@ import {
 import { Bell, Dices, Loader2 } from "lucide-react";
 import SyncMonogram from "./SyncMonogram";
 import { Link, useLocation } from "wouter";
+import { COLOR_SCHEMES } from "@/hooks/useAmbientColor";
 
 const Header = () => {
   const { user } = useAuth();
@@ -21,12 +22,10 @@ const Header = () => {
   const [location] = useLocation();
 
   return (
-    <header className="shadow-md py-2 px-6 flex justify-between items-center transition-colors duration-500 backdrop-blur-sm" style={{ 
-      backgroundColor: timeOfDay === 'night' ? 'rgba(12, 12, 14, 0.9)' : 
-                      timeOfDay === 'evening' ? 'rgba(20, 20, 35, 0.9)' : 
-                      timeOfDay === 'afternoon' ? 'rgba(25, 25, 35, 0.9)' : 
-                      'rgba(30, 30, 40, 0.9)', 
-      borderBottom: `1px solid ${highlight}20`
+    <header className="shadow-md py-2 px-4 sm:px-6 flex justify-between items-center transition-colors duration-500 backdrop-blur-md" style={{ 
+      backgroundColor: 'rgba(0, 0, 0, 0.85)',
+      borderBottom: `1px solid ${COLOR_SCHEMES.sunset.highlight}30`,
+      boxShadow: `0 4px 20px rgba(0,0,0,0.5), 0 1px 0 ${COLOR_SCHEMES.sunset.highlight}10`
     }}>
       <div className="flex items-center">
         <Link to="/">
@@ -39,13 +38,28 @@ const Header = () => {
       <div className="flex items-center space-x-5">
         <nav className="hidden md:flex space-x-6 text-[#f0f0f0]">
           <Link to="/home">
-            <div className={`flex items-center py-2 px-3 transition-colors border-b-2 ${location === '/home' ? 'border-[#3B82F6]' : 'border-transparent hover:border-gray-400'}`}>
+            <div className={`flex items-center py-2 px-3 transition-all duration-300 ${location === '/home' ? 'text-[#FF8040]' : 'opacity-85 hover:opacity-100'}`}
+                style={location === '/home' ? { 
+                  textShadow: `0 0 5px ${COLOR_SCHEMES.sunset.highlight}, 0 0 10px ${COLOR_SCHEMES.sunset.highlight}40` 
+                } : {}}>
               <span className="text-xs font-medium tracking-wide">DISCOVER</span>
             </div>
           </Link>
+          <Link to="/map">
+            <div className={`flex items-center py-2 px-3 transition-all duration-300 ${location === '/map' ? 'text-[#FF8040]' : 'opacity-85 hover:opacity-100'}`}
+                style={location === '/map' ? { 
+                  textShadow: `0 0 5px ${COLOR_SCHEMES.sunset.highlight}, 0 0 10px ${COLOR_SCHEMES.sunset.highlight}40` 
+                } : {}}>
+              <span className="text-xs font-medium tracking-wide">MAP</span>
+            </div>
+          </Link>
           <Link to="/dice">
-            <div className={`flex items-center py-2 px-3 transition-colors border-b-2 ${location === '/dice' ? 'border-[#3B82F6]' : 'border-transparent hover:border-gray-400'}`}>
-              <Dices className="w-4 h-4 mr-2 opacity-80" />
+            <div className={`flex items-center py-2 px-3 transition-all duration-300 ${location === '/dice' ? 'text-[#FF8040]' : 'opacity-85 hover:opacity-100'}`}
+                style={location === '/dice' ? { 
+                  textShadow: `0 0 5px ${COLOR_SCHEMES.sunset.highlight}, 0 0 10px ${COLOR_SCHEMES.sunset.highlight}40` 
+                } : {}}>
+              <Dices className="w-4 h-4 mr-2" 
+                    style={location === '/dice' ? { filter: 'drop-shadow(0 0 3px #FF8040)' } : {}} />
               <span className="text-xs font-medium tracking-wide">DICE ROLL</span>
             </div>
           </Link>
@@ -55,7 +69,11 @@ const Header = () => {
           <button className="focus:outline-none hover:opacity-80 transition-opacity">
             <Bell className="w-4 h-4 text-[#f0f0f0]" />
             {notificationCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-[#3B82F6] text-white text-xs font-bold px-1.5 py-0.5 rounded-full shadow-md">
+              <span className="absolute -top-1 -right-1 text-white text-xs font-bold px-1.5 py-0.5 rounded-full shadow-lg"
+                style={{ 
+                  background: COLOR_SCHEMES.sunset.highlight,
+                  boxShadow: `0 0 5px ${COLOR_SCHEMES.sunset.highlight}70`
+                }}>
                 {notificationCount}
               </span>
             )}
@@ -69,20 +87,31 @@ const Header = () => {
                 <img
                   src={user?.profileImage || 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200'}
                   alt="Profile"
-                  className="w-7 h-7 rounded-full cursor-pointer object-cover border-2 border-[#3B82F6]/30"
+                  className="w-7 h-7 rounded-full cursor-pointer object-cover"
+                  style={{ 
+                    border: `2px solid ${COLOR_SCHEMES.sunset.highlight}40`,
+                    boxShadow: `0 0 5px ${COLOR_SCHEMES.sunset.highlight}30`
+                  }}
                 />
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="bg-black/95 text-[#f0f0f0] border border-gray-800">
-              <DropdownMenuItem className="cursor-pointer hover:bg-gray-800 focus:bg-gray-800">
-                Profile
-              </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer hover:bg-gray-800 focus:bg-gray-800">
+            <DropdownMenuContent align="end" 
+              className="bg-black/95 text-[#f0f0f0] backdrop-blur-md" 
+              style={{ 
+                borderColor: `${COLOR_SCHEMES.sunset.highlight}30`,
+                boxShadow: `0 4px 20px rgba(0,0,0,0.8), 0 0 3px ${COLOR_SCHEMES.sunset.highlight}20`
+              }}>
+              <Link to="/profile">
+                <DropdownMenuItem className="cursor-pointer hover:bg-gray-900/70 focus:bg-gray-900/70 transition-colors duration-200">
+                  Profile
+                </DropdownMenuItem>
+              </Link>
+              <DropdownMenuItem className="cursor-pointer hover:bg-gray-900/70 focus:bg-gray-900/70 transition-colors duration-200">
                 Settings
               </DropdownMenuItem>
-              <DropdownMenuSeparator className="bg-gray-700" />
+              <DropdownMenuSeparator className="bg-gray-800" />
               <DropdownMenuItem 
-                className="cursor-pointer hover:bg-gray-800 focus:bg-gray-800" 
+                className="cursor-pointer hover:bg-gray-900/70 focus:bg-gray-900/70 transition-colors duration-200" 
                 onClick={() => logoutMutation.mutate()}
                 disabled={logoutMutation.isPending}
               >
