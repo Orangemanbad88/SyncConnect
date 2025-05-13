@@ -59,19 +59,19 @@ const Landing = () => {
             <DynamicArrows className="mx-auto w-32 h-32 sm:w-40 sm:h-40" />
           </div>
           
-          <SyncLogo className="w-60 h-auto mx-auto mb-16 sm:mb-24 mt-16 sm:mt-24 max-w-full px-4 sm:px-0" />
+          <SyncLogo className="w-60 h-auto mx-auto mb-8 sm:mb-10 mt-16 sm:mt-24 max-w-full px-4 sm:px-0" />
           
-          <div className="flex justify-center w-full relative px-4 sm:px-0" style={{ maxWidth: '200px', margin: '0 auto', transform: 'translateX(-5px)' }}>
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 rounded-full animate-blue-glow" style={{ transform: 'scale(1.2)' }}></div>
+          <div className="flex justify-center w-full relative px-4 sm:px-0 mt-16 sm:mt-20" style={{ maxWidth: '200px', margin: '0 auto' }}>
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 rounded-full animate-blue-glow" style={{ transform: 'scale(1.2)' }}></div>
             <Button 
               onClick={() => setLocation('/home')}
               className="px-4 py-3 sm:py-4 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg animate-pulse-glow w-full text-sm sm:text-base"
               style={{ 
-                background: 'linear-gradient(90deg, rgba(160, 200, 255, 0.98) 0%, rgba(120, 170, 245, 0.95) 50%, rgba(90, 150, 240, 0.9) 100%)',
+                background: 'linear-gradient(90deg, rgba(100, 150, 255, 0.98) 0%, rgba(80, 120, 245, 0.95) 50%, rgba(50, 100, 240, 0.9) 100%)',
                 backdropFilter: 'blur(4px)',
-                border: '2px solid rgba(100, 160, 235, 0.9)',
-                borderTop: '1px solid rgba(180, 210, 255, 0.95)',
-                borderBottom: '3px solid rgba(60, 120, 210, 0.9)',
+                border: '2px solid rgba(70, 130, 235, 0.9)',
+                borderTop: '2px solid rgba(240, 245, 255, 0.98)',
+                borderBottom: '3px solid rgba(40, 100, 210, 0.9)',
                 borderRadius: '999px',
                 color: '#05255e',
                 boxShadow: `
