@@ -39,12 +39,12 @@ const Landing = () => {
               borderBottomColor: COLOR_SCHEMES.sunset.text,
               borderRightColor: COLOR_SCHEMES.sunset.text,
               color: COLOR_SCHEMES.sunset.highlight,
-              fontFamily: "'Michroma', sans-serif",
+              fontFamily: "'Aldrich', sans-serif",
               fontWeight: 'bold',
               boxShadow: '0 0 10px rgba(65, 105, 225, 0.4)'
             }}
           >
-            <span className="michroma-header">Sign Up</span>
+            <span className="aldrich-header">Sign Up</span>
           </Button>
         </Link>
       </div>
@@ -138,7 +138,7 @@ const Landing = () => {
               inset 0 1px 3px rgba(255, 142, 102, 0.9),
               inset 0 -1px 2px rgba(106, 124, 191, 0.7)
             `,
-            fontFamily: "'Michroma', sans-serif",
+            fontFamily: "'Aldrich', sans-serif",
             letterSpacing: '0.15em',
             textTransform: 'uppercase',
             textShadow: `
@@ -149,7 +149,7 @@ const Landing = () => {
             `
           }}
         >
-          <span className="inline-block transform tracking-wider michroma-header">JOIN</span>
+          <span className="inline-block transform tracking-wider aldrich-header">JOIN</span>
         </Button>
       </div>
     </div>

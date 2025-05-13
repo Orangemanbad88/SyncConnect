@@ -198,6 +198,12 @@
     letter-spacing: 0.1em;
   }
   
+  .aldrich-header {
+    font-family: 'Aldrich', sans-serif !important;
+    @apply font-medium tracking-wide uppercase;
+    letter-spacing: 0.05em;
+  }
+  
   .app-description {
     font-family: 'Poppins', sans-serif !important;
   }
