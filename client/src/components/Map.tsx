@@ -147,21 +147,23 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
       {/* Map grid overlay */}
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAgTSAwIDIwIEwgNDAgMjAgTSAyMCAwIEwgMjAgNDAgTSAwIDMwIEwgNDAgMzAgTSAzMCAwIEwgMzAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMzMzMyIgc3Ryb2tlLXdpZHRoPSIwLjUiIG9wYWNpdHk9IjAuMTUiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')]" style={{ pointerEvents: 'none', zIndex: 2, opacity: 0.3 }}></div>
       
+      {/* Static Map Background - positioned as an absolute background */}
+      <StaticMapBackground 
+        className="absolute inset-0 z-0" 
+        latitude={userCoords?.latitude} 
+        longitude={userCoords?.longitude}
+      />
+      
       <div
         ref={mapRef}
-        className="w-full h-full transition-all duration-300 shadow-inner"
+        className="w-full h-full transition-all duration-300 shadow-inner relative z-10"
         style={{
           transform: `scale(${zoom})`,
           transformOrigin: "center center",
           position: "relative",
-          overflow: "hidden"
-        }}
-      >
-        <StaticMapBackground 
-          className="absolute inset-0" 
-          latitude={userCoords?.latitude} 
-          longitude={userCoords?.longitude}
-        />
+          overflow: "hidden",
+          background: "transparent"
+        }}>
         {isLoading ? (
           <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>

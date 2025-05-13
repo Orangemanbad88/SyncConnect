@@ -48,19 +48,29 @@ const StaticMapBackground = ({
       className={`relative ${className}`} 
       style={{
         ...style,
-        background: '#112244',
-        backgroundImage: 'linear-gradient(120deg, #112255 0%, #223366 50%, #334477 100%)',
-        backgroundSize: '20px 20px',
+        background: '#0a192f',
+        backgroundImage: 'linear-gradient(120deg, #0a1930 0%, #142952 50%, #1e3a7a 100%)',
+        backgroundSize: '40px 40px',
         backgroundPosition: 'center',
       }}
     >
       {/* Grid overlay */}
       <div className="absolute inset-0" style={{ 
         backgroundImage: `
-          linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-          linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px)
+          linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px)
         `,
-        backgroundSize: '20px 20px',
+        backgroundSize: '40px 40px',
+        pointerEvents: 'none'
+      }} />
+      
+      {/* Secondary grid (smaller) */}
+      <div className="absolute inset-0" style={{ 
+        backgroundImage: `
+          linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px)
+        `,
+        backgroundSize: '10px 10px',
         pointerEvents: 'none'
       }} />
       
