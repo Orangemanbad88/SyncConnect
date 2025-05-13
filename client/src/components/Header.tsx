@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { Bell, Dices, Loader2 } from "lucide-react";
+import { Bell, Dices, Loader2, Sparkles } from "lucide-react";
 import SyncMonogram from "./SyncMonogram";
 import { Link, useLocation } from "wouter";
 import { COLOR_SCHEMES } from "@/hooks/useAmbientColor";
@@ -53,6 +53,17 @@ const Header = () => {
               <span className="text-xs font-medium tracking-wide">MAP</span>
             </div>
           </Link>
+          <Link to="/recommendations">
+            <div className={`flex items-center py-2 px-3 transition-all duration-300 ${location === '/recommendations' ? 'text-[#FF8040]' : 'opacity-85 hover:opacity-100'}`}
+                style={location === '/recommendations' ? { 
+                  textShadow: `0 0 5px ${COLOR_SCHEMES.sunset.highlight}, 0 0 10px ${COLOR_SCHEMES.sunset.highlight}40` 
+                } : {}}>
+              <Sparkles className="w-4 h-4 mr-2" 
+                    style={location === '/recommendations' ? { filter: 'drop-shadow(0 0 3px #FF8040)' } : {}} />
+              <span className="text-xs font-medium tracking-wide">MATCHES</span>
+            </div>
+          </Link>
+
           <Link to="/dice">
             <div className={`flex items-center py-2 px-3 transition-all duration-300 ${location === '/dice' ? 'text-[#FF8040]' : 'opacity-85 hover:opacity-100'}`}
                 style={location === '/dice' ? { 
