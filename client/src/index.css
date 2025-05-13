@@ -194,8 +194,8 @@
   }
   
   .sync-logo-text {
-    font-family: 'Wallpoet', sans-serif !important;
-    @apply tracking-wide;
+    font-family: 'Comfortaa', sans-serif !important;
+    @apply tracking-wide font-bold;
     letter-spacing: 0.1em;
   }
   
