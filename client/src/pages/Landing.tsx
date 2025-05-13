@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation, Link } from 'wouter';
 import SyncLogo from '@/components/SyncLogo';
-import DynamicArrows from '@/components/DynamicArrows';
+import FacingCharacters from '@/components/FacingCharacters';
 import { Button } from '@/components/ui/button';
 import { useAmbient } from '@/context/AmbientContext';
 
@@ -54,9 +54,9 @@ const Landing = () => {
       
       <div className={`transform transition-all duration-1000 ease-out ${fadeIn ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'} flex flex-col items-center`}>
         <div className="flex flex-col items-center relative">
-          {/* Dynamic Arrows positioned in the center above the logo */}
+          {/* Facing Characters positioned in the center above the logo */}
           <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 z-10">
-            <DynamicArrows className="mx-auto w-32 h-32 sm:w-40 sm:h-40" />
+            <FacingCharacters className="mx-auto w-32 h-32 sm:w-40 sm:h-40" />
           </div>
           
           <SyncLogo className="w-60 h-auto mx-auto mb-8 sm:mb-10 mt-16 sm:mt-24 max-w-full px-4 sm:px-0" />
@@ -94,8 +94,7 @@ const Landing = () => {
                 `
               }}
             >
-              <span className="inline-block font-semibold italic transform -skew-x-6" style={{ textShadow: '0 0 2px rgba(0, 40, 100, 0.8)' }}>LET'S</span> 
-              <span className="inline-block font-semibold italic transform -skew-x-6 ml-1" style={{ textShadow: '0 0 2px rgba(0, 40, 100, 0.8)' }}>VIBE</span>
+              <span className="inline-block font-semibold italic transform -skew-x-6" style={{ textShadow: '0 0 2px rgba(0, 40, 100, 0.8)' }}>ENTER</span>
             </Button>
           </div>
         </div>

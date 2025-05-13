@@ -292,9 +292,9 @@ export default function AuthPage() {
             </TabsContent>
           </Tabs>
           
-          {/* App features as bullet points */}
+          {/* Features as bullet points */}
           <div className="mt-12 bg-blue-900/30 rounded-xl p-6">
-            <h3 className="text-2xl font-georgia font-bold mb-4 text-center">App Features</h3>
+            <h3 className="text-2xl font-georgia font-bold mb-4 text-center">Features</h3>
             <ul className="space-y-3">
               <li className="flex items-start">
                 <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center mr-3 mt-0.5">
