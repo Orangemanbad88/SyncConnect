@@ -102,21 +102,18 @@ export default function AuthPage() {
           {/* Short description */}
           <div className="text-center mb-10">
             <h2 
-              className="text-white auth-text italic text-2xl md:text-3xl font-bold animate-pulse-slow"
+              className="text-white auth-text italic text-2xl md:text-3xl font-bold"
               style={{ 
                 textShadow: `
                   0 0 1px rgba(255, 255, 255, 1),
-                  0 0 5px rgba(255, 142, 102, 1),
+                  0 0 5px rgba(255, 107, 66, 1),
                   0 0 10px rgba(255, 107, 66, 0.8),
-                  0 0 15px rgba(106, 124, 191, 0.7),
-                  0 0 20px rgba(255, 142, 102, 0.6),
-                  0 0 25px rgba(255, 107, 66, 0.5)
+                  0 0 15px rgba(255, 107, 66, 0.7),
+                  0 0 20px rgba(255, 107, 66, 0.6)
                 `,
                 letterSpacing: '0.075em',
-                color: 'rgba(255, 236, 217, 0.95)',
-                background: 'linear-gradient(to right, rgba(255, 248, 240, 1), rgba(255, 177, 122, 0.9), rgba(255, 248, 240, 1))',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
+                color: '#FF8040',
+                WebkitTextStroke: '0.5px rgba(255, 255, 255, 0.4)'
               }}
             >
               Everything is Connected
