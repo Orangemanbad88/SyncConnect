@@ -6,7 +6,8 @@ import {
   updateUserLocationSchema, 
   updateUserOnlineStatusSchema,
   insertInterestSchema,
-  insertMoodReactionSchema
+  insertMoodReactionSchema,
+  insertRecommendationSchema
 } from "@shared/schema";
 import { WebSocketServer, WebSocket } from 'ws';
 import express from "express";
@@ -185,6 +186,70 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'An error occurred while creating mood reaction' });
+    }
+  });
+
+  // Recommendation API endpoints
+  
+  // Get recommendations for a user
+  app.get("/api/users/:id/recommendations", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.id);
+      const limit = req.query.limit ? parseInt(req.query.limit as string) : 10;
+      const recommendations = await storage.getRecommendationsForUser(userId, limit);
+      
+      // Fetch full user data for each recommendation
+      const recommendationsWithUserData = await Promise.all(
+        recommendations.map(async (rec) => {
+          const user = await storage.getUser(rec.recommendedUserId);
+          return {
+            ...rec,
+            user
+          };
+        })
+      );
+      
+      res.json(recommendationsWithUserData);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'An error occurred while fetching recommendations' });
+    }
+  });
+
+  // Create a recommendation
+  app.post("/api/recommendations", express.json(), async (req, res) => {
+    try {
+      const result = insertRecommendationSchema.safeParse(req.body);
+      
+      if (!result.success) {
+        return res.status(400).json({ 
+          message: 'Invalid recommendation data',
+          errors: result.error.errors 
+        });
+      }
+      
+      const recommendation = await storage.createRecommendation(result.data);
+      res.status(201).json(recommendation);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'An error occurred while creating recommendation' });
+    }
+  });
+
+  // Mark recommendation as viewed
+  app.patch("/api/recommendations/:id/viewed", async (req, res) => {
+    try {
+      const recommendationId = parseInt(req.params.id);
+      const updatedRecommendation = await storage.markRecommendationAsViewed(recommendationId);
+      
+      if (!updatedRecommendation) {
+        return res.status(404).json({ message: 'Recommendation not found' });
+      }
+      
+      res.json(updatedRecommendation);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'An error occurred while updating recommendation' });
     }
   });
 

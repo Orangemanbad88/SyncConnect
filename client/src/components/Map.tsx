@@ -10,9 +10,10 @@ interface MapProps {
   isLoading: boolean;
   onUserClick: (user: any) => void;
   userCoords: { latitude: number; longitude: number } | null;
+  highlightRecommended?: boolean;
 }
 
-const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
+const Map = ({ users, isLoading, onUserClick, userCoords, highlightRecommended = false }: MapProps) => {
   const mapRef = useRef<HTMLDivElement>(null);
   const [mapDimensions, setMapDimensions] = useState({ width: 0, height: 0 });
   const [zoom, setZoom] = useState(1);
