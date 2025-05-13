@@ -206,6 +206,12 @@
     letter-spacing: 0.1em;
   }
   
+  .archive-black-logo {
+    font-family: 'Archivo Black', sans-serif !important;
+    @apply tracking-wide font-bold;
+    letter-spacing: 0.1em;
+  }
+  
   .landing-button {
     font-family: 'Almarai', sans-serif !important;
     @apply font-bold uppercase tracking-wider;

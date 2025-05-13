@@ -47,13 +47,12 @@ const SyncLogo: React.FC<SyncLogoProps> = ({ className = '' }) => {
         )}
       </div>
 
-      {/* Main text with Hot Rush font */}
-      <div className="relative sync-logo-text text-center">
+      {/* Main text with Archivo Black font */}
+      <div className="relative text-center">
         {/* Base text */}
         <h1 
-          className="text-6xl uppercase sync-logo-text"
+          className="text-6xl uppercase archive-black-logo"
           style={{ 
-            fontFamily: 'Hot Rush, sans-serif',
             textShadow: `
               0 0 1px #FFFFFF,
               0 0 2px #FFFFFF,
