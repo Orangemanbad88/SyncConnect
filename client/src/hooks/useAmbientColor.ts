@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 // Define color schemes for different times of day
-export type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night';
+export type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night' | 'sunset';
 export type ColorScheme = {
   background: string;
   highlight: string;
@@ -23,6 +23,11 @@ const COLOR_SCHEMES: Record<TimeOfDay, ColorScheme> = {
     background: 'linear-gradient(150deg, #93C5FD 0%, #DDD6FE 50%, #FBCFE8 100%)', // Blue to purple to pink gradient
     highlight: '#EC4899', // Pink
     text: '#8B5CF6',      // Purple
+  },
+  sunset: {
+    background: 'linear-gradient(150deg, #FFA07A 0%, #FF6347 40%, #9370DB 100%)', // Dramatic sunset colors: light salmon to tomato to purple
+    highlight: '#FF4500', // Orange-red
+    text: '#FFD700',      // Gold
   },
   night: {
     background: 'linear-gradient(150deg, #020617 0%, #1E293B 50%, #334155 100%)', // Dark blue to slate gradient

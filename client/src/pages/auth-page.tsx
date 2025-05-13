@@ -102,7 +102,7 @@ export default function AuthPage() {
           {/* Short description */}
           <div className="text-center mb-8">
             <p className="text-gray-400 auth-text italic text-lg">
-              Connect with people nearby in real-time
+              Everything is Connected
             </p>
           </div>
 

@@ -7,7 +7,7 @@ const TimeChangerPanel: React.FC = () => {
   const { timeOfDay, setForcedTimeOfDay } = useAmbient();
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const timeOptions: TimeOfDay[] = ['morning', 'afternoon', 'evening', 'night'];
+  const timeOptions: TimeOfDay[] = ['morning', 'afternoon', 'evening', 'sunset', 'night'];
   
   const getIcon = (time: TimeOfDay) => {
     switch (time) {
@@ -17,6 +17,8 @@ const TimeChangerPanel: React.FC = () => {
         return <Sun size={18} />;
       case 'evening':
         return <Sunset size={18} />;
+      case 'sunset':
+        return <Sunset size={18} className="text-orange-500" />;
       case 'night':
         return <Moon size={18} />;
     }
@@ -71,6 +73,7 @@ const TimeChangerPanel: React.FC = () => {
           {timeOfDay === 'morning' && 'Good morning! Time for coffee.'}
           {timeOfDay === 'afternoon' && 'Good afternoon! The sun is shining.'}
           {timeOfDay === 'evening' && 'Good evening! Sunset vibes.'}
+          {timeOfDay === 'sunset' && 'Beautiful sunset! The perfect golden hour.'}
           {timeOfDay === 'night' && 'Good night! Time to wind down.'}
         </div>
       </div>
