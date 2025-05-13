@@ -144,15 +144,67 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
 
   return (
     <div className="flex-1 relative overflow-hidden">
-      {/* Static Map Background - Satellite with grid overlay */}
-      <StaticMapBackground 
+      {/* Map background */}
+      <div 
         className="absolute inset-0" 
-        latitude={userCoords?.latitude} 
-        longitude={userCoords?.longitude}
-        zoom={13}
-        width={mapDimensions.width || 1200}
-        height={mapDimensions.height || 800}
-      />
+        style={{
+          background: '#0a192f',
+          backgroundImage: 'linear-gradient(120deg, #0a1930 0%, #142952 50%, #1e3a7a 100%)',
+          pointerEvents: 'none',
+          zIndex: 0
+        }}
+      ></div>
+      
+      {/* Main grid overlay */}
+      <div 
+        className="absolute inset-0" 
+        style={{ 
+          backgroundImage: `
+            linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px)
+          `,
+          backgroundSize: '40px 40px',
+          pointerEvents: 'none',
+          zIndex: 1,
+          opacity: 0.8
+        }}
+      ></div>
+      
+      {/* Fine grid overlay */}
+      <div 
+        className="absolute inset-0" 
+        style={{ 
+          backgroundImage: `
+            linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px)
+          `,
+          backgroundSize: '10px 10px',
+          pointerEvents: 'none',
+          zIndex: 1,
+          opacity: 0.6
+        }}
+      ></div>
+      
+      {/* Glowing dots at intersections */}
+      <div className="absolute inset-0 opacity-40" 
+        style={{
+          backgroundImage: `radial-gradient(circle at center, rgba(255, 255, 255, 0.6) 1px, transparent 1px)`,
+          backgroundSize: '40px 40px',
+          backgroundPosition: '20px 20px',
+          pointerEvents: 'none',
+          zIndex: 1,
+        }}
+      ></div>
+      
+      {/* Radial gradient */}
+      <div 
+        className="absolute inset-0" 
+        style={{
+          background: 'radial-gradient(circle at center, rgba(100, 150, 255, 0.2) 0%, rgba(0, 20, 80, 0.2) 70%)',
+          pointerEvents: 'none',
+          zIndex: 1
+        }}
+      ></div>
       
       <div
         ref={mapRef}
@@ -164,6 +216,10 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
           overflow: "visible", // Allow markers to be visible outside bounds
           background: "transparent"
         }}>
+        
+        {/* Helper lines (latitude/longitude indicators) */}
+        <div className="absolute top-1/2 left-0 w-full h-px bg-blue-400/20 pointer-events-none"></div>
+        <div className="absolute top-0 left-1/2 w-px h-full bg-blue-400/20 pointer-events-none"></div>
         {isLoading ? (
           <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
@@ -181,10 +237,28 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
               const deltaLat = user.latitude - userCoords.latitude;
               const deltaLng = user.longitude - userCoords.longitude;
               
-              // Convert to pixel distance (larger scale factor = more spread out)
-              const scaleFactor = 2000;
-              const x = centerX + (deltaLng * scaleFactor);
-              const y = centerY - (deltaLat * scaleFactor);
+              // Convert to pixel distance (smaller scale factor = more centered)
+              const scaleFactor = 8000;
+              // Calculate distances but constrain them to be within reasonable range
+              const rawX = centerX + (deltaLng * scaleFactor);
+              const rawY = centerY - (deltaLat * scaleFactor);
+              
+              // Constrain positions to be visible on screen (within 250px of center point)
+              const maxDistance = 250;
+              const dx = rawX - centerX;
+              const dy = rawY - centerY;
+              const distance = Math.sqrt(dx * dx + dy * dy);
+              
+              let x, y;
+              if (distance > maxDistance) {
+                // Scale down to fit within maxDistance
+                const scale = maxDistance / distance;
+                x = centerX + (dx * scale);
+                y = centerY + (dy * scale);
+              } else {
+                x = rawX;
+                y = rawY;
+              }
               
               console.log(`User ${user.fullName} positioned at (${x}, ${y}) from center (${centerX}, ${centerY})`);
               
@@ -201,17 +275,26 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
                   onClick={() => onUserClick(user)}
                 >
                   <div className="relative group">
+                    {/* Animated pulse for online users */}
+                    {user.isOnline && (
+                      <div className="absolute -inset-2 rounded-full bg-blue-500/20 animate-pulse"></div>
+                    )}
+                    <div className="absolute -inset-1 rounded-full bg-white/10"></div>
+                    
+                    {/* User image */}
                     <div className="relative">
                       <img
                         src={user.profileImage}
                         alt={`${user.fullName}, ${user.age}`}
-                        className="w-10 h-10 md:w-14 md:h-14 rounded-full border-3 border-white object-cover shadow-lg"
+                        className="w-12 h-12 md:w-16 md:h-16 rounded-full border-2 border-white object-cover shadow-lg z-10"
                         style={{ boxShadow: '0 0 0 2px rgba(0,0,0,0.3), 0 4px 10px rgba(0,0,0,0.3)' }}
                         onMouseEnter={() => setHoveredUserId(user.id)}
                         onMouseLeave={() => setHoveredUserId(null)}
                         onTouchStart={() => user.isOnline && setHoveredUserId(user.id)}
                         onTouchEnd={() => setTimeout(() => setHoveredUserId(null), 3000)}
                       />
+                      
+                      {/* Image overlay gradient */}
                       <div className="absolute inset-0 rounded-full bg-gradient-to-b from-transparent to-black opacity-20 pointer-events-none"></div>
                     </div>
                     <span
