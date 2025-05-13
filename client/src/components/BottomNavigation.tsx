@@ -1,4 +1,4 @@
-import { Home, MapPin, MessageCircle, User, Dices } from "lucide-react";
+import { Home, MapPin, MessageCircle, User, Dices, Sparkles } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { COLOR_SCHEMES } from "@/hooks/useAmbientColor";
 
@@ -35,6 +35,17 @@ const BottomNavigation = () => {
           >
             <MapPin className="w-5 h-5" style={location === '/map' ? { filter: 'drop-shadow(0 0 3px #FF8040)' } : {}} />
             <span className="text-[10px] mt-1 tracking-wide font-medium uppercase">Map</span>
+          </button>
+        </Link>
+        
+        <Link to="/recommendations">
+          <button 
+            className={`flex flex-col items-center justify-center w-full py-3 text-[#f0f0f0] 
+            ${location === '/recommendations' ? 'text-[#FF8040]' : 'opacity-70 hover:opacity-100'}`}
+            style={location === '/recommendations' ? { textShadow: glowEffect } : {}}
+          >
+            <Sparkles className="w-5 h-5" style={location === '/recommendations' ? { filter: 'drop-shadow(0 0 3px #FF8040)' } : {}} />
+            <span className="text-[10px] mt-1 tracking-wide font-medium uppercase">Matches</span>
           </button>
         </Link>
         

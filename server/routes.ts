@@ -12,6 +12,7 @@ import {
 import { WebSocketServer, WebSocket } from 'ws';
 import express from "express";
 import { setupAuth } from './auth';
+import { recommendationEngine } from './recommendationEngine';
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Setup authentication
@@ -250,6 +251,46 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'An error occurred while updating recommendation' });
+    }
+  });
+  
+  // Generate recommendations for a user
+  app.post("/api/users/:id/generate-recommendations", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.id);
+      const count = req.body.count || 5; // Default to 5 recommendations
+      
+      // Check if user exists
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+      
+      // Generate recommendations using the recommendation engine
+      const success = await recommendationEngine.generateRecommendationsFor(userId, count);
+      
+      if (success) {
+        // Get the newly generated recommendations
+        const recommendations = await storage.getRecommendationsForUser(userId);
+        
+        // Fetch full user data for each recommendation
+        const recommendationsWithUserData = await Promise.all(
+          recommendations.map(async (rec) => {
+            const user = await storage.getUser(rec.recommendedUserId);
+            return {
+              ...rec,
+              user
+            };
+          })
+        );
+        
+        res.json(recommendationsWithUserData);
+      } else {
+        res.status(400).json({ message: 'Failed to generate recommendations' });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'An error occurred while generating recommendations' });
     }
   });
 

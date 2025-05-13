@@ -6,11 +6,13 @@ import BottomNavigation from "@/components/BottomNavigation";
 import { useGeolocation } from "@/hooks/useGeolocation";
 import { useAmbient } from "@/context/AmbientContext";
 import { useUser } from "@/context/UserContext";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useAuth } from "@/hooks/use-auth";
-import { Loader2 } from "lucide-react";
+import { Loader2, RefreshCw } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 const Recommendations = () => {
   const { coords } = useGeolocation();
@@ -18,6 +20,8 @@ const Recommendations = () => {
   const { user } = useAuth();
   const { nearbyUsers, isLoading: userLoading, selectUser } = useUser();
   const isMobile = useIsMobile();
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
   
   // Fetch recommendations to highlight on the map
   const { data: recommendations, isLoading: recommendationsLoading } = useQuery({
@@ -28,6 +32,30 @@ const Recommendations = () => {
       return await res.json();
     },
     enabled: !!user?.id,
+  });
+  
+  // Mutation for generating new recommendations
+  const generateRecommendationsMutation = useMutation({
+    mutationFn: async () => {
+      if (!user?.id) throw new Error("User not authenticated");
+      const res = await apiRequest('POST', `/api/users/${user.id}/generate-recommendations`, { count: 5 });
+      return await res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/users', user?.id, 'recommendations'] });
+      toast({
+        title: "Recommendations Generated",
+        description: "We've found some new potential matches for you!",
+        variant: "default",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Couldn't Generate Recommendations",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
   });
   
   // Extract recommended users to highlight them on the map
@@ -78,10 +106,31 @@ const Recommendations = () => {
           
           {/* Recommendation panel */}
           <div className={`${isMobile ? "h-1/2 overflow-auto" : "col-span-2 overflow-auto"} p-4 flex flex-col items-center`}>
-            <h2 className="text-2xl font-bold text-white mb-4 text-center">Your Connections</h2>
-            <p className="text-zinc-400 mb-6 text-center max-w-md">
-              Our algorithm has found these potential matches just for you!
-            </p>
+            <div className="flex flex-col items-center w-full max-w-md mb-4">
+              <h2 className="text-2xl font-bold text-white mb-2 text-center">Your Connections</h2>
+              <p className="text-zinc-400 mb-4 text-center">
+                Our algorithm has found these potential matches just for you!
+              </p>
+              
+              <Button 
+                onClick={() => generateRecommendationsMutation.mutate()}
+                disabled={generateRecommendationsMutation.isPending}
+                className="mb-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+              >
+                {generateRecommendationsMutation.isPending ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Generating...
+                  </>
+                ) : (
+                  <>
+                    <RefreshCw className="mr-2 h-4 w-4" />
+                    Generate New Matches
+                  </>
+                )}
+              </Button>
+            </div>
+            
             <RecommendationPanel />
           </div>
         </main>
