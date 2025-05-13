@@ -144,19 +144,15 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
 
   return (
     <div className="flex-1 relative overflow-hidden">
-      <div 
-        className="absolute inset-0 bg-[#0a192f]"
-        style={{
-          backgroundImage: `
-            linear-gradient(120deg, #0a1930 0%, #142952 50%, #1e3a7a 100%),
-            linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-            radial-gradient(circle at center, rgba(100, 150, 255, 0.1) 0%, rgba(0, 20, 80, 0.2) 70%)
-          `,
-          backgroundSize: '100% 100%, 40px 40px, 40px 40px, 100% 100%',
-          backgroundBlendMode: 'normal, normal, normal, overlay'
-        }}
-      ></div>
+      {/* Static Map Background - Satellite with grid overlay */}
+      <StaticMapBackground 
+        className="absolute inset-0" 
+        latitude={userCoords?.latitude} 
+        longitude={userCoords?.longitude}
+        zoom={13}
+        width={mapDimensions.width || 1200}
+        height={mapDimensions.height || 800}
+      />
       
       <div
         ref={mapRef}
