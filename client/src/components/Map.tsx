@@ -47,7 +47,7 @@ const Map = ({ users, isLoading, onUserClick, userCoords, highlightRecommended =
     // Force re-render after a short delay to ensure proper map display
     const timer = setTimeout(() => {
       handleResize();
-      console.log("Forced map dimensions update:", mapRef.current?.clientWidth, mapRef.current?.clientHeight);
+      // Update map dimensions after a delay to ensure proper rendering
     }, 500);
     
     return () => {
@@ -190,7 +190,7 @@ const Map = ({ users, isLoading, onUserClick, userCoords, highlightRecommended =
                   y = rawY;
                 }
                 
-                console.log(`User ${user.fullName} positioned at (${x}, ${y}) from center (${centerX}, ${centerY})`);
+                // User positioned relative to center
                 
                 return (
                   <div
