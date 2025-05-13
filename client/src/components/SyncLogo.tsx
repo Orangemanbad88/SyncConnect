@@ -128,21 +128,7 @@ const SyncLogo: React.FC<SyncLogoProps> = ({ className = '' }) => {
           SYNC
         </text>
         
-        {/* Pulse effect when animated */}
-        {isAnimating && (
-          <circle
-            cx="50"
-            cy="40"
-            r="30"
-            fill="none"
-            stroke="rgba(255, 0, 0, 0.4)"
-            strokeWidth="0.5"
-            style={{
-              animation: 'pulse 2s infinite',
-              transformOrigin: 'center',
-            }}
-          />
-        )}
+
       </svg>
     </div>
   );
