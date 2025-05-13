@@ -7,6 +7,7 @@ import ProfileModal from "@/components/ProfileModal";
 import VideoChatModal from "@/components/VideoChatModal";
 import TimeOfDayIndicator from "@/components/TimeOfDayIndicator";
 import TimeChangerPanel from "@/components/TimeChangerPanel";
+import NearbyUsersDebugger from "@/components/NearbyUsersDebugger";
 import { useUser } from "@/context/UserContext";
 import { useGeolocation } from "@/hooks/useGeolocation";
 import { distributeUsers } from "@/lib/mapUtils";
@@ -81,9 +82,10 @@ const Home = () => {
             />
           </div>
           
+          {/* Use distributed users for the sidebar */}
           <div className="hidden md:block">
             <DiscoverySidebar 
-              users={nearbyUsers}
+              users={distributedUsers}
               isLoading={isLoading}
               onUserClick={handleUserClick}
             />
@@ -109,6 +111,9 @@ const Home = () => {
           onClose={handleCloseVideoChat}
         />
       )}
+      
+      {/* Add the debugger component */}
+      <NearbyUsersDebugger />
     </div>
   );
 };

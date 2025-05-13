@@ -24,8 +24,10 @@ export default function VideoChat() {
   const [showProfileVideo, setShowProfileVideo] = useState<boolean>(false);
   
   // UI states
-  const [activeTab, setActiveTab] = useState<'public' | 'private'>('public');
+  const [activeTab, setActiveTab] = useState<'public' | 'private' | 'meeting'>('public');
   const [showPrivateTabInfo, setShowPrivateTabInfo] = useState<boolean>(false);
+  const [showMeetingTabInfo, setShowMeetingTabInfo] = useState<boolean>(false);
+  const [currentFilter, setCurrentFilter] = useState<'none' | 'warm' | 'cool' | 'dramatic' | 'vintage'>('none');
   
   const localVideoRef = useRef<HTMLVideoElement>(null);
   const remoteVideoRef = useRef<HTMLVideoElement>(null);
@@ -227,8 +229,28 @@ export default function VideoChat() {
               }`}
               onClick={() => setActiveTab('public')}
             >
-              Public Meeting
+              Public
             </button>
+            
+            <button 
+              className={`flex-1 px-4 py-2 text-sm font-medium relative ${
+                activeTab === 'meeting' ? 'bg-purple-600 text-white' : 'bg-transparent text-gray-400 hover:text-white'
+              }`}
+              onClick={() => setActiveTab('meeting')}
+              onMouseEnter={() => setShowMeetingTabInfo(true)}
+              onMouseLeave={() => setShowMeetingTabInfo(false)}
+            >
+              Meeting
+              <span className="ml-1 inline-flex items-center justify-center w-4 h-4 bg-gray-700 text-xs rounded-full">!</span>
+              
+              {/* Tooltip for Meeting Tab */}
+              {showMeetingTabInfo && (
+                <div className="absolute top-full mt-2 left-0 right-0 bg-black/90 text-white text-xs p-2 rounded-md z-50 whitespace-normal">
+                  The 2-minute video meeting experience with filters and effects. Perfect for making a first impression!
+                </div>
+              )}
+            </button>
+            
             <button 
               className={`flex-1 px-4 py-2 text-sm font-medium relative ${
                 activeTab === 'private' ? 'bg-blue-600 text-white' : 'bg-transparent text-gray-400 hover:text-white'
@@ -237,7 +259,7 @@ export default function VideoChat() {
               onMouseEnter={() => setShowPrivateTabInfo(true)}
               onMouseLeave={() => setShowPrivateTabInfo(false)}
             >
-              Private Stream
+              Private
               <span className="ml-1 inline-flex items-center justify-center w-4 h-4 bg-gray-700 text-xs rounded-full">?</span>
               
               {/* Tooltip for Private Tab */}
@@ -281,7 +303,7 @@ export default function VideoChat() {
                   {/* Edge highlight effect */}
                   <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/40 via-transparent to-black/20"></div>
                   
-                  {/* Time indicator */}
+                  {/* Mode indicator */}
                   <div className="absolute bottom-28 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-black/50 text-white text-xs rounded-full">
                     Public · Anyone can see this chat
                   </div>
@@ -299,6 +321,99 @@ export default function VideoChat() {
                     Connecting to {targetUser.fullName}...<br/>
                     <span className="text-sm text-gray-400">This won't take long</span>
                   </p>
+                </div>
+              )}
+            </div>
+          ) : activeTab === 'meeting' ? (
+            // Meeting tab content with enhanced effects
+            <div className="relative w-full h-full overflow-hidden">
+              {connectionState === 'connected' ? (
+                <>
+                  <video
+                    ref={remoteVideoRef}
+                    autoPlay
+                    playsInline
+                    className="w-full h-full object-cover"
+                  />
+                  
+                  {/* Special meeting effects */}
+                  <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-purple-900/30 via-transparent to-purple-900/20 mix-blend-overlay"></div>
+                  
+                  {/* Decorative elements for meeting mode */}
+                  <div className="absolute top-4 left-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xs px-3 py-1 rounded-full opacity-75">
+                    Sync Meeting
+                  </div>
+                  
+                  {/* Meeting timer display */}
+                  <div className="absolute top-4 right-4 font-mono text-sm bg-black/40 text-white px-3 py-1 rounded-full">
+                    {formatTime(timeLeft)}
+                  </div>
+                  
+                  {/* Meeting mode indicator */}
+                  <div className="absolute bottom-28 left-1/2 transform -translate-x-1/2 px-4 py-1.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xs rounded-full shadow-lg">
+                    2-Minute Meeting Mode
+                  </div>
+                  
+                  {/* Filter selection options */}
+                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2 flex flex-col space-y-3">
+                    <button 
+                      className={`w-8 h-8 rounded-full ${currentFilter === 'none' ? 'bg-purple-600/70 ring-2 ring-white' : 'bg-black/40 border border-white/20'} flex items-center justify-center hover:bg-purple-600/50 transition-colors`} 
+                      title="No filter"
+                      onClick={() => setCurrentFilter('none')}
+                    >
+                      <div className="w-6 h-6 rounded-full bg-gradient-to-br from-white to-gray-300"></div>
+                    </button>
+                    <button 
+                      className={`w-8 h-8 rounded-full ${currentFilter === 'warm' ? 'bg-purple-600/70 ring-2 ring-white' : 'bg-black/40 border border-white/20'} flex items-center justify-center hover:bg-purple-600/50 transition-colors`} 
+                      title="Warm filter"
+                      onClick={() => setCurrentFilter('warm')}
+                    >
+                      <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-300 to-red-300"></div>
+                    </button>
+                    <button 
+                      className={`w-8 h-8 rounded-full ${currentFilter === 'cool' ? 'bg-purple-600/70 ring-2 ring-white' : 'bg-black/40 border border-white/20'} flex items-center justify-center hover:bg-purple-600/50 transition-colors`} 
+                      title="Cool filter"
+                      onClick={() => setCurrentFilter('cool')}
+                    >
+                      <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-300 to-purple-300"></div>
+                    </button>
+                    <button 
+                      className={`w-8 h-8 rounded-full ${currentFilter === 'dramatic' ? 'bg-purple-600/70 ring-2 ring-white' : 'bg-black/40 border border-white/20'} flex items-center justify-center hover:bg-purple-600/50 transition-colors`} 
+                      title="Dramatic filter"
+                      onClick={() => setCurrentFilter('dramatic')}
+                    >
+                      <div className="w-6 h-6 rounded-full bg-gradient-to-br from-gray-900 to-gray-600"></div>
+                    </button>
+                    <button 
+                      className={`w-8 h-8 rounded-full ${currentFilter === 'vintage' ? 'bg-purple-600/70 ring-2 ring-white' : 'bg-black/40 border border-white/20'} flex items-center justify-center hover:bg-purple-600/50 transition-colors`} 
+                      title="Vintage filter"
+                      onClick={() => setCurrentFilter('vintage')}
+                    >
+                      <div className="w-6 h-6 rounded-full bg-gradient-to-br from-yellow-700 to-gray-500"></div>
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-purple-900/50 to-pink-900/50">
+                  <div className="relative w-24 h-24 mb-8">
+                    <div className="absolute inset-0 bg-purple-500/30 rounded-full animate-ping"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full opacity-70 animate-pulse"></div>
+                    <div className="relative flex items-center justify-center w-full h-full">
+                      <svg viewBox="0 0 24 24" className="w-12 h-12 text-white animate-spin-slow">
+                        <path fill="currentColor" d="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <h3 className="text-2xl font-bold mb-2 font-almarai text-white">
+                    Setting up meeting
+                  </h3>
+                  <p className="text-lg text-purple-100/80 text-center mb-6 max-w-sm">
+                    Preparing your 2-minute meeting with {targetUser.fullName}
+                  </p>
+                  <div className="w-64 h-2 bg-purple-900/60 rounded-full overflow-hidden">
+                    <div className="h-full bg-gradient-to-r from-purple-500 to-pink-500" 
+                         style={{width: '65%', animation: 'loading 2s infinite cubic-bezier(0.4, 0, 0.2, 1)'}}></div>
+                  </div>
                 </div>
               )}
             </div>

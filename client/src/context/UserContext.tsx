@@ -128,9 +128,23 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   // Update location when coords change
   useEffect(() => {
     if (isAuthenticated && coords) {
+      console.log("Updating location with coords:", coords);
       updateLocationMutation.mutate();
     }
   }, [coords, isAuthenticated]);
+  
+  // Debug nearby users
+  useEffect(() => {
+    console.log("Current location coordinates:", coords);
+    console.log("Nearby users count:", nearbyUsers?.length || 0);
+    
+    if (nearbyUsers?.length === 0 && coords) {
+      console.log("No nearby users found despite having coordinates. Will try to refresh.");
+      setTimeout(() => {
+        refreshNearbyUsers();
+      }, 1000);
+    }
+  }, [coords, nearbyUsers, refreshNearbyUsers]);
   
   const login = async (username: string, password: string) => {
     try {
