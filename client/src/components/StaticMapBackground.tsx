@@ -27,7 +27,8 @@ const StaticMapBackground = ({
   useEffect(() => {
     if (!latitude || !longitude) return;
     
-    const mapboxToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN || '';
+    // Use the environment variable MAPBOX_ACCESS_TOKEN directly
+    const mapboxToken = process.env.MAPBOX_ACCESS_TOKEN || '';
     
     // Generate a Mapbox Static Image URL
     const mapboxUrl = `https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/static/${longitude},${latitude},${zoom},0/${width}x${height}@2x?access_token=${mapboxToken}`;
