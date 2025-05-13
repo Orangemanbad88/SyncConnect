@@ -48,6 +48,7 @@ const Landing = () => {
           </Button>
         </Link>
       </div>
+      
       {/* Glossy effect overlay */}
       <div 
         className="absolute inset-0 opacity-20"
@@ -97,9 +98,10 @@ const Landing = () => {
       <div className="absolute top-32 left-2/3 w-1 h-1 rounded-full bg-white opacity-70"></div>
       <div className="absolute top-24 right-1/4 w-1 h-1 rounded-full bg-white opacity-60"></div>
       
+      {/* Main content */}
       <div className={`transform transition-all duration-1000 ease-out ${fadeIn ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'} flex flex-col items-center`}>
         <div className="flex flex-col items-center relative">
-          {/* Interconnected hearts positioned in the center above the logo */}
+          {/* Twin flames above the logo */}
           <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 z-10">
             {/* Add glow around the twin flames matching sunset photo */}
             <div className="absolute top-0 left-0 w-full h-full rounded-full filter blur-xl opacity-60 animate-pulse" 
@@ -111,47 +113,44 @@ const Landing = () => {
             <TwinFlames className="mx-auto w-32 h-32 sm:w-40 sm:h-40 relative z-20" />
           </div>
           
+          {/* SYNC logo */}
           <SyncLogo className="w-60 h-auto mx-auto mb-8 sm:mb-10 mt-16 sm:mt-24 max-w-full px-4 sm:px-0" />
-          
-          <div className="flex justify-center w-full relative px-4 sm:px-0 mt-16 sm:mt-20" style={{ maxWidth: '200px', margin: '0 auto' }}>
-            <div className="absolute inset-0 bg-gradient-to-r from-orange-500 via-red-500 to-amber-600 rounded-full animate-pulse" style={{ transform: 'scale(1.2)' }}></div>
-            <Button 
-              onClick={() => setLocation('/home')}
-              className="px-4 py-3 sm:py-4 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg animate-pulse-glow w-full text-sm sm:text-base landing-button"
-              style={{ 
-                background: 'linear-gradient(90deg, rgba(255, 140, 0, 0.98) 0%, rgba(255, 69, 0, 0.95) 50%, rgba(139, 0, 0, 0.9) 100%)',
-                backdropFilter: 'blur(4px)',
-                border: '2px solid rgba(255, 99, 71, 0.9)',
-                borderTop: '2px solid rgba(255, 165, 0, 0.98)',
-                borderBottom: '3px solid rgba(178, 34, 34, 0.9)',
-                borderRadius: '999px',
-                color: '#FFD700',
-                boxShadow: `
-                  0 4px 12px rgba(255, 69, 0, 0.7),
-                  0 2px 4px rgba(178, 34, 34, 0.6),
-                  0 0 20px rgba(65, 105, 225, 0.4),
-                  inset 0 1px 3px rgba(255, 165, 0, 0.9),
-                  inset 0 -1px 2px rgba(65, 105, 225, 0.5)
-                `,
-                fontFamily: 'Cinzel, serif',
-                fontSize: '1rem',
-                fontWeight: '600',
-                fontStyle: 'italic',
-                letterSpacing: '0.15em',
-                textTransform: 'uppercase',
-                textShadow: `
-                  0 1px 2px rgba(255, 255, 255, 0.9),
-                  0 0 10px rgba(255, 215, 0, 1),
-                  0 0 15px rgba(255, 140, 0, 0.7),
-                  0 0 20px rgba(65, 105, 225, 0.6),
-                  0 0 2px rgba(139, 0, 0, 0.7)
-                `
-              }}
-            >
-              <span className="inline-block font-semibold italic transform -skew-x-6" style={{ textShadow: '0 0 2px rgba(139, 0, 0, 0.8)' }}>ENTER</span>
-            </Button>
-          </div>
         </div>
+      </div>
+      
+      {/* JOIN button at the very bottom */}
+      <div className="absolute bottom-6 left-0 right-0 flex justify-center">
+        <Button 
+          onClick={() => setLocation('/home')}
+          className="px-8 py-3 sm:py-4 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg animate-pulse-glow text-base landing-button"
+          style={{ 
+            background: 'linear-gradient(90deg, rgba(25, 53, 84, 0.9) 0%, rgba(255, 107, 66, 0.95) 50%, rgba(25, 53, 84, 0.9) 100%)',
+            backdropFilter: 'blur(4px)',
+            border: '2px solid rgba(255, 107, 66, 0.9)',
+            borderTop: '2px solid rgba(106, 124, 191, 0.9)',
+            borderBottom: '3px solid rgba(25, 53, 84, 0.9)',
+            borderRadius: '999px',
+            color: '#FFFFFF',
+            boxShadow: `
+              0 4px 12px rgba(255, 107, 66, 0.7),
+              0 2px 4px rgba(25, 53, 84, 0.6),
+              0 0 20px rgba(106, 124, 191, 0.5),
+              inset 0 1px 3px rgba(255, 142, 102, 0.9),
+              inset 0 -1px 2px rgba(106, 124, 191, 0.7)
+            `,
+            fontFamily: 'Wallpoet, sans-serif',
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase',
+            textShadow: `
+              0 1px 2px rgba(255, 255, 255, 0.9),
+              0 0 10px rgba(255, 215, 0, 0.8),
+              0 0 15px rgba(255, 107, 66, 0.7),
+              0 0 20px rgba(106, 124, 191, 0.6)
+            `
+          }}
+        >
+          <span className="inline-block transform tracking-wider">JOIN</span>
+        </Button>
       </div>
     </div>
   );
