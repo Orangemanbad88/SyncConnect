@@ -60,11 +60,11 @@ const Recommendations = () => {
   
   // Extract recommended users to highlight them on the map
   const recommendedUserIds = recommendations 
-    ? recommendations.map(rec => rec.recommendedUserId) 
+    ? recommendations.map((rec: any) => rec.recommendedUserId) 
     : [];
   
   // Mark recommended users on the map
-  const usersWithRecommendationStatus = nearbyUsers.map(user => ({
+  const usersWithRecommendationStatus = nearbyUsers.map((user: any) => ({
     ...user,
     isRecommended: recommendedUserIds.includes(user.id),
   }));

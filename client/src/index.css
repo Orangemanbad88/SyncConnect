@@ -178,13 +178,18 @@
   }
   
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Playfair Display SC', serif;
     @apply font-medium;
   }
   
   .app-title {
     @apply text-3xl font-bold;
     font-family: 'Hot Rush', sans-serif !important;
+  }
+  
+  .playfair-header {
+    font-family: 'Playfair Display SC', serif !important;
+    @apply font-medium tracking-wide;
   }
   
   .app-description {
