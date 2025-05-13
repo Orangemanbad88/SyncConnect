@@ -23,23 +23,6 @@ const FacingCharacters: React.FC<FacingCharactersProps> = ({ className = '' }) =
         xmlns="http://www.w3.org/2000/svg"
         className="relative"
       >
-        {/* Main circle */}
-        <circle 
-          cx="80" 
-          cy="80" 
-          r={isHovered ? 52 : 50} 
-          stroke="white" 
-          strokeWidth={isHovered ? 4 : 3}
-          fill="none"
-          style={{ 
-            filter: isHovered 
-              ? 'drop-shadow(0 0 10px rgba(255, 255, 255, 0.9))'
-              : 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.7))',
-            opacity: isHovered ? 1 : 0.8,
-            transition: 'all 0.3s ease',
-          }}
-        />
-        
         {/* Blue character (left) */}
         <g className={isHovered ? "animate-pulse" : ""}>
           {/* Head */}
@@ -182,19 +165,77 @@ const FacingCharacters: React.FC<FacingCharactersProps> = ({ className = '' }) =
           />
         </g>
         
-        {/* Connection element - pulsing when hovered */}
-        {isHovered && (
+        {/* Connection wave elements */}
+        <g>
+          {/* First wave - always visible */}
           <path 
-            d="M65 70 L95 70" 
-            stroke="#FFFFFF" 
-            strokeWidth="2" 
+            d="M65 70 Q 80 60, 95 70" 
+            stroke="rgba(255, 255, 255, 0.4)" 
+            strokeWidth="1.5" 
+            fill="none"
             strokeDasharray="2,2"
-            className="animate-pulse"
             style={{ 
-              filter: 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.9))',
+              filter: 'drop-shadow(0 0 3px rgba(255, 255, 255, 0.5))',
             }}
           />
-        )}
+          
+          {/* Second wave - visible when hovered or animated */}
+          <path 
+            d="M65 70 Q 80 65, 95 70" 
+            stroke="rgba(255, 255, 255, 0.6)" 
+            strokeWidth="1.5" 
+            fill="none"
+            className={isHovered ? "animate-pulse" : ""}
+            style={{ 
+              filter: 'drop-shadow(0 0 3px rgba(255, 255, 255, 0.6))',
+              opacity: isHovered ? 1 : 0.4,
+            }}
+          />
+          
+          {/* Third wave - visible only when hovered */}
+          {isHovered && (
+            <path 
+              d="M65 70 Q 80 70, 95 70" 
+              stroke="rgba(255, 255, 255, 0.8)" 
+              strokeWidth="2" 
+              fill="none"
+              className="animate-pulse"
+              style={{ 
+                filter: 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.8))',
+              }}
+            />
+          )}
+          
+          {/* Fourth wave - visible only when hovered */}
+          {isHovered && (
+            <path 
+              d="M65 70 Q 80 75, 95 70" 
+              stroke="rgba(255, 255, 255, 1)" 
+              strokeWidth="2" 
+              fill="none"
+              className="animate-pulse"
+              style={{ 
+                filter: 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.9))',
+                animation: 'pulse 2s infinite',
+              }}
+            />
+          )}
+          
+          {/* Fifth wave - visible only when hovered */}
+          {isHovered && (
+            <path 
+              d="M65 70 Q 80 80, 95 70" 
+              stroke="rgba(255, 255, 255, 0.7)" 
+              strokeWidth="1.5" 
+              fill="none"
+              className="animate-pulse"
+              style={{ 
+                filter: 'drop-shadow(0 0 4px rgba(255, 255, 255, 0.7))',
+                animation: 'pulse 3s infinite',
+              }}
+            />
+          )}
+        </g>
       </svg>
     </div>
   );
