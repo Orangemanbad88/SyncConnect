@@ -256,16 +256,66 @@ export class MemStorage implements IStorage {
     this.videoConnections = new Map();
     this.matches = new Map();
     this.messages = new Map();
+    this.recommendations = new Map();
     this.currentId = 1;
     this.interestId = 1;
     this.moodReactionId = 1;
     this.videoConnectionId = 1;
     this.matchId = 1;
     this.messageId = 1;
+    this.recommendationId = 1;
     this.sessionStore = new MemoryStore({
       checkPeriod: 86400000 // prune expired entries every 24h
     });
     this.seedData();
+  }
+  
+  // Recommendation methods
+  async getRecommendationsForUser(userId: number, limit: number = 10): Promise<Recommendation[]> {
+    const recommendations: Recommendation[] = [];
+    
+    for (const recommendation of this.recommendations.values()) {
+      if (recommendation.userId === userId && !recommendation.isViewed) {
+        recommendations.push(recommendation);
+      }
+    }
+    
+    // Sort by score (highest first)
+    recommendations.sort((a, b) => b.score - a.score);
+    
+    // Return limited number of recommendations
+    return recommendations.slice(0, limit);
+  }
+  
+  async createRecommendation(recommendation: InsertRecommendation): Promise<Recommendation> {
+    const id = this.recommendationId++;
+    const now = new Date();
+    
+    const newRecommendation: Recommendation = {
+      ...recommendation,
+      id,
+      isViewed: false,
+      createdAt: now,
+    };
+    
+    this.recommendations.set(id, newRecommendation);
+    return newRecommendation;
+  }
+  
+  async markRecommendationAsViewed(id: number): Promise<Recommendation | undefined> {
+    const recommendation = this.recommendations.get(id);
+    
+    if (!recommendation) {
+      return undefined;
+    }
+    
+    const updatedRecommendation: Recommendation = {
+      ...recommendation,
+      isViewed: true,
+    };
+    
+    this.recommendations.set(id, updatedRecommendation);
+    return updatedRecommendation;
   }
 
   private seedData() {
@@ -273,6 +323,7 @@ export class MemStorage implements IStorage {
     const sampleUsers = [
       {
         username: "michael",
+        email: "michael@example.com",
         password: "password",
         fullName: "Michael Johnson",
         age: 28,
@@ -285,6 +336,7 @@ export class MemStorage implements IStorage {
       },
       {
         username: "sarah",
+        email: "sarah@example.com",
         password: "password",
         fullName: "Sarah Williams",
         age: 24,
@@ -297,6 +349,7 @@ export class MemStorage implements IStorage {
       },
       {
         username: "james",
+        email: "james@example.com",
         password: "password",
         fullName: "James Smith",
         age: 31,
@@ -309,6 +362,7 @@ export class MemStorage implements IStorage {
       },
       {
         username: "emma",
+        email: "emma@example.com",
         password: "password",
         fullName: "Emma Davis",
         age: 27,
