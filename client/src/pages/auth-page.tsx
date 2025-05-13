@@ -29,6 +29,7 @@ const loginSchema = z.object({
 const registerSchema = insertUserSchema
   .pick({
     username: true,
+    email: true,
     password: true,
     fullName: true,
     age: true,
@@ -70,6 +71,7 @@ export default function AuthPage() {
     resolver: zodResolver(registerSchema),
     defaultValues: {
       username: "",
+      email: "",
       password: "",
       confirmPassword: "",
       fullName: "",
@@ -92,11 +94,27 @@ export default function AuthPage() {
 
   return (
     <div 
-      className="min-h-screen flex flex-col text-white font-georgia relative"
+      className="min-h-screen flex flex-col text-white font-georgia relative overflow-hidden"
       style={{ 
         background: COLOR_SCHEMES.sunset.background,
         boxShadow: 'inset 0 0 100px rgba(255,255,255,0.15)' 
       }}>
+      
+      {/* Sky elements */}
+      <div className="absolute top-0 w-full h-64 sm:h-80 opacity-60" 
+           style={{ 
+             background: 'radial-gradient(ellipse at top, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0) 70%)',
+             pointerEvents: 'none'
+           }}></div>
+      
+      {/* Stars */}
+      <div className="absolute top-0 left-0 right-0 h-48 z-0" 
+           style={{ 
+             backgroundImage: 'radial-gradient(2px 2px at 20px 30px, #ffffff77, rgba(0,0,0,0)), radial-gradient(2px 2px at 40px 70px, #ffffff55, rgba(0,0,0,0)), radial-gradient(2px 2px at 60px 110px, #ffffff55, rgba(0,0,0,0)), radial-gradient(2px 2px at 80px 10px, #ffffff77, rgba(0,0,0,0))',
+             backgroundSize: '210px 210px',
+             pointerEvents: 'none',
+             opacity: 0.4
+           }}></div>
       {/* Header with SYNC logo */}
       {/* Glossy effect overlay */}
       <div className="absolute inset-0 z-0" style={{ 
