@@ -101,7 +101,7 @@ export default function AuthPage() {
         <div className="w-full max-w-md">
           {/* Short description */}
           <div className="text-center mb-8">
-            <p className="text-gray-400 font-georgia italic text-lg">
+            <p className="text-gray-400 auth-text italic text-lg">
               Connect with people nearby in real-time
             </p>
           </div>
@@ -275,7 +275,7 @@ export default function AuthPage() {
 
                   <Button
                     type="submit"
-                    className="w-full font-georgia text-lg py-6"
+                    className="w-full text-lg py-6 auth-button"
                     disabled={registerMutation.isPending}
                   >
                     {registerMutation.isPending ? (
@@ -294,25 +294,25 @@ export default function AuthPage() {
           
           {/* Features as bullet points */}
           <div className="mt-12 bg-blue-900/30 rounded-xl p-6">
-            <h3 className="text-2xl font-georgia font-bold mb-4 text-center">Features</h3>
+            <h3 className="text-2xl auth-heading mb-4 text-center">Features</h3>
             <ul className="space-y-3">
               <li className="flex items-start">
                 <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center mr-3 mt-0.5">
                   <span className="text-white font-bold">•</span>
                 </div>
-                <p className="font-georgia">Find people nearby using location-based matching</p>
+                <p className="auth-text">Find people nearby using location-based matching</p>
               </li>
               <li className="flex items-start">
                 <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center mr-3 mt-0.5">
                   <span className="text-white font-bold">•</span>
                 </div>
-                <p className="font-georgia">Connect through 2-minute video chats</p>
+                <p className="auth-text">Connect through 2-minute video chats</p>
               </li>
               <li className="flex items-start">
                 <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center mr-3 mt-0.5">
                   <span className="text-white font-bold">•</span>
                 </div>
-                <p className="font-georgia">Match instantly with compatible users</p>
+                <p className="auth-text">Match instantly with compatible users</p>
               </li>
               <li className="flex items-start">
                 <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center mr-3 mt-0.5">
