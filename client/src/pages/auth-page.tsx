@@ -113,10 +113,10 @@ export default function AuthPage() {
             className="w-full mb-8"
           >
             <TabsList className="w-full mb-6">
-              <TabsTrigger value="login" className="flex-1 font-georgia text-lg">
+              <TabsTrigger value="login" className="flex-1 auth-text text-lg">
                 Login
               </TabsTrigger>
-              <TabsTrigger value="register" className="flex-1 font-georgia text-lg">
+              <TabsTrigger value="register" className="flex-1 auth-text text-lg">
                 Register
               </TabsTrigger>
             </TabsList>
@@ -132,7 +132,7 @@ export default function AuthPage() {
                     name="username"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-base">Username</FormLabel>
+                        <FormLabel className="text-base auth-text">Username</FormLabel>
                         <FormControl>
                           <Input placeholder="Username" {...field} />
                         </FormControl>
@@ -146,7 +146,7 @@ export default function AuthPage() {
                     name="password"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-base">Password</FormLabel>
+                        <FormLabel className="text-base auth-text">Password</FormLabel>
                         <FormControl>
                           <Input
                             type="password"
@@ -189,7 +189,7 @@ export default function AuthPage() {
                       name="username"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-base">Username</FormLabel>
+                          <FormLabel className="text-base auth-text">Username</FormLabel>
                           <FormControl>
                             <Input placeholder="Username" {...field} />
                           </FormControl>
@@ -203,7 +203,7 @@ export default function AuthPage() {
                       name="password"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-base">Password</FormLabel>
+                          <FormLabel className="text-base auth-text">Password</FormLabel>
                           <FormControl>
                             <Input
                               type="password"
@@ -221,7 +221,7 @@ export default function AuthPage() {
                       name="confirmPassword"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-base">Confirm Password</FormLabel>
+                          <FormLabel className="text-base auth-text">Confirm Password</FormLabel>
                           <FormControl>
                             <Input
                               type="password"
@@ -239,7 +239,7 @@ export default function AuthPage() {
                       name="fullName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-base">Full Name</FormLabel>
+                          <FormLabel className="text-base auth-text">Full Name</FormLabel>
                           <FormControl>
                             <Input placeholder="Full Name" {...field} />
                           </FormControl>
@@ -253,7 +253,7 @@ export default function AuthPage() {
                       name="age"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-base">Age</FormLabel>
+                          <FormLabel className="text-base auth-text">Age</FormLabel>
                           <FormControl>
                             <Input
                               type="number"
@@ -318,13 +318,13 @@ export default function AuthPage() {
                 <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center mr-3 mt-0.5">
                   <span className="text-white font-bold">•</span>
                 </div>
-                <p className="font-georgia">Roll the dice for randomized matching</p>
+                <p className="auth-text">Roll the dice for randomized matching</p>
               </li>
               <li className="flex items-start">
                 <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center mr-3 mt-0.5">
                   <span className="text-white font-bold">•</span>
                 </div>
-                <p className="font-georgia">Message your matches instantly</p>
+                <p className="auth-text">Message your matches instantly</p>
               </li>
             </ul>
           </div>
