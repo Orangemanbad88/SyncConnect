@@ -9,6 +9,7 @@ import VideoChat from "@/pages/VideoChat";
 import Messages from "@/pages/Messages";
 import AuthPage from "@/pages/auth-page";
 import Profile from "@/pages/Profile";
+import MapPage from "@/pages/MapPage";
 import { ProtectedRoute } from "@/lib/protected-route";
 import { UserProvider } from "./context/UserContext";
 import { AmbientProvider } from "./context/AmbientContext";
@@ -21,6 +22,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Landing} />
       <Route path="/home" component={Home} />
+      <Route path="/map" component={MapPage} />
       <Route path="/dice" component={DiceRoll} />
       <Route path="/auth" component={AuthPage} />
       <ProtectedRoute path="/profile" component={Profile} />
