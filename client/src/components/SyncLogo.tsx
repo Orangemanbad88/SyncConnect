@@ -15,13 +15,13 @@ const SyncLogo: React.FC<SyncLogoProps> = ({ className = '' }) => {
       onTouchStart={() => setIsHovered(true)}
       onTouchEnd={() => setIsHovered(false)}
     >
-      {/* Golden Sunset Background */}
+      {/* Blue/Red Glow Background */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
         {isHovered && (
           <div 
             className="absolute w-full h-full"
             style={{
-              background: 'radial-gradient(circle at bottom, rgba(255, 149, 0, 0.08) 0%, transparent 80%)',
+              background: 'radial-gradient(circle at bottom, rgba(0, 98, 255, 0.08) 0%, transparent 80%)',
               opacity: 0.7
             }}
           />
@@ -31,26 +31,19 @@ const SyncLogo: React.FC<SyncLogoProps> = ({ className = '' }) => {
         {isHovered && (
           <>
             <div 
-              className="absolute bottom-0 left-0 right-0 h-16"
-              style={{
-                background: 'linear-gradient(to top, rgba(255, 149, 0, 0.1), transparent)',
-                filter: 'blur(12px)'
-              }}
-            />
-            <div 
-              className="absolute w-full h-16 bg-gradient-to-r from-transparent via-amber-500/10 to-transparent" 
+              className="absolute w-full h-16 bg-gradient-to-r from-transparent via-blue-500/15 to-transparent" 
               style={{ 
-                top: '45%',
+                top: '35%',
                 filter: 'blur(25px)',
-                animation: 'wave1 7s ease-in-out infinite'
+                animation: 'wave1 8s ease-in-out infinite'
               }}
             />
             <div 
-              className="absolute left-1/2 transform -translate-x-1/2 w-40 h-40"
-              style={{
-                background: 'radial-gradient(circle, rgba(255, 202, 40, 0.15) 0%, transparent 70%)',
-                filter: 'blur(20px)',
-                top: '10%'
+              className="absolute w-full h-16 bg-gradient-to-r from-transparent via-red-500/15 to-transparent" 
+              style={{ 
+                top: '55%',
+                filter: 'blur(25px)',
+                animation: 'wave2 7s ease-in-out infinite'
               }}
             />
           </>
@@ -65,23 +58,22 @@ const SyncLogo: React.FC<SyncLogoProps> = ({ className = '' }) => {
             letterSpacing: isHovered ? '0.2em' : '0.15em',
             textShadow: `
               0 0 2px #fff,
-              0 0 5px #FF9500,
-              0 0 10px #FF9500,
-              0 0 15px #FF9500,
-              0 0 30px #FF9500
+              0 0 5px #0062ff,
+              0 0 10px #0062ff,
+              0 0 15px #ff1f5a,
+              0 0 30px #ff1f5a
             `,
             color: '#fff',
-            background: 'linear-gradient(to right, #FFCA28 0%, #FF9500 30%, #fff 50%, #FF9500 70%, #FFCA28 100%)',
+            background: 'linear-gradient(to right, #0062ff 0%, #3b89ff 30%, #fff 50%, #ff1f5a 70%, #ff0037 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
-            transform: isHovered ? 'scale(1.1) translateY(-3px)' : 'scale(1)',
+            transform: isHovered ? 'scale(1.1)' : 'scale(1)',
             transition: 'all 0.3s ease, letter-spacing 0.5s ease',
             paddingLeft: '0.1em',
             paddingRight: '0.1em',
             fontSize: '5.2rem',
             lineHeight: '1',
-            fontWeight: '400',
-            filter: 'drop-shadow(0 0 3px rgba(255, 149, 0, 0.7))'
+            fontWeight: '400'
           }}
         >
           SYNC
@@ -94,11 +86,11 @@ const SyncLogo: React.FC<SyncLogoProps> = ({ className = '' }) => {
             opacity: 0.2,
             height: '50%',
             transform: 'rotateX(180deg) translateY(-50%)',
-            background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.5), transparent)',
+            background: 'linear-gradient(to bottom, rgba(59, 130, 246, 0.3), transparent)',
             letterSpacing: isHovered ? '0.2em' : '0.15em',
             color: 'transparent',
             WebkitBackgroundClip: 'text',
-            WebkitTextStroke: '1px rgba(255, 255, 255, 0.4)',
+            WebkitTextStroke: '1px rgba(255, 255, 255, 0.3)',
             paddingLeft: '0.1em',
             paddingRight: '0.1em',
             fontSize: '5.2rem',
