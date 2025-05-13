@@ -18,10 +18,15 @@ const BottomNavigation = () => {
           </button>
         </Link>
         
-        <button className="flex flex-col items-center justify-center w-full py-3 text-[#f0f0f0] opacity-60 hover:opacity-90">
-          <MapPin className="w-5 h-5" />
-          <span className="text-[10px] mt-1 tracking-wide font-medium uppercase">Map</span>
-        </button>
+        <Link to="/home">
+          <button 
+            className={`flex flex-col items-center justify-center w-full py-3 text-[#f0f0f0] 
+            ${location === '/map' ? 'border-t-2 border-[#3B82F6]' : 'opacity-60 hover:opacity-90'}`}
+          >
+            <MapPin className="w-5 h-5" />
+            <span className="text-[10px] mt-1 tracking-wide font-medium uppercase">Map</span>
+          </button>
+        </Link>
         
         <Link to="/dice">
           <button 
@@ -33,10 +38,15 @@ const BottomNavigation = () => {
           </button>
         </Link>
         
-        <button className="flex flex-col items-center justify-center w-full py-3 text-[#f0f0f0] opacity-60 hover:opacity-90">
-          <User className="w-5 h-5" />
-          <span className="text-[10px] mt-1 tracking-wide font-medium uppercase">Profile</span>
-        </button>
+        <Link to="/profile">
+          <button 
+            className={`flex flex-col items-center justify-center w-full py-3 text-[#f0f0f0] 
+            ${location === '/profile' ? 'border-t-2 border-[#3B82F6]' : 'opacity-60 hover:opacity-90'}`}
+          >
+            <User className="w-5 h-5" />
+            <span className="text-[10px] mt-1 tracking-wide font-medium uppercase">Profile</span>
+          </button>
+        </Link>
       </div>
     </nav>
   );

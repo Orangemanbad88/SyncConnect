@@ -25,13 +25,18 @@ const StaticMapBackground = ({
   const imgRef = useRef<HTMLImageElement>(null);
   
   useEffect(() => {
-    if (!latitude || !longitude) return;
+    if (!latitude || !longitude) {
+      console.log("Missing coordinates:", { latitude, longitude });
+      return;
+    }
     
-    // Use the environment variable MAPBOX_ACCESS_TOKEN directly
-    const mapboxToken = process.env.MAPBOX_ACCESS_TOKEN || '';
+    // Access the MAPBOX_ACCESS_TOKEN via Vite's import.meta.env
+    const mapboxToken = import.meta.env.VITE_MAPBOX_ACCESS_TOKEN || '';
+    console.log("MapBox token available:", Boolean(mapboxToken), "Length:", mapboxToken.length);
     
     // Generate a Mapbox Static Image URL
     const mapboxUrl = `https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/static/${longitude},${latitude},${zoom},0/${width}x${height}@2x?access_token=${mapboxToken}`;
+    console.log("Generated MapBox URL for coordinates:", { latitude, longitude });
     
     // Set the satellite map URL
     setMapUrl(mapboxUrl);
@@ -47,6 +52,8 @@ const StaticMapBackground = ({
     setIsLoading(false);
     setHasError(true);
     console.error("Failed to load satellite image");
+    console.error("MapBox token available:", Boolean(import.meta.env.VITE_MAPBOX_ACCESS_TOKEN));
+    console.error("MapBox URL:", mapUrl);
   };
   
   return (

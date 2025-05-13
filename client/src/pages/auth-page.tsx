@@ -160,76 +160,24 @@ export default function AuthPage() {
             </TabsList>
 
             <TabsContent value="login" className="space-y-4">
-              <Form {...loginForm}>
-                <form
-                  onSubmit={loginForm.handleSubmit(onLoginSubmit)}
-                  className="space-y-5"
-                >
-                  <FormField
-                    control={loginForm.control}
-                    name="username"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-base auth-text">Username</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Username" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={loginForm.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-base auth-text">Password</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="password"
-                            placeholder="Password"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <Button
-                    type="submit"
-                    className="w-full text-lg py-6 auth-button"
-                    disabled={loginMutation.isPending}
+              <div className="bg-black/30 backdrop-blur-md rounded-xl p-6 border border-gray-800/40 shadow-lg">
+                <Form {...loginForm}>
+                  <form
+                    onSubmit={loginForm.handleSubmit(onLoginSubmit)}
+                    className="space-y-5"
                   >
-                    {loginMutation.isPending ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Logging in...
-                      </>
-                    ) : (
-                      "Login"
-                    )}
-                  </Button>
-                </form>
-              </Form>
-            </TabsContent>
-
-            <TabsContent value="register" className="space-y-4">
-              <Form {...registerForm}>
-                <form
-                  onSubmit={registerForm.handleSubmit(onRegisterSubmit)}
-                  className="space-y-5"
-                >
-                  <div className="space-y-5">
                     <FormField
-                      control={registerForm.control}
+                      control={loginForm.control}
                       name="username"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="text-base auth-text">Username</FormLabel>
                           <FormControl>
-                            <Input placeholder="Username" {...field} />
+                            <Input 
+                              placeholder="Username" 
+                              className="rounded-lg bg-gray-900/70 border-gray-700" 
+                              {...field} 
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -237,7 +185,7 @@ export default function AuthPage() {
                     />
 
                     <FormField
-                      control={registerForm.control}
+                      control={loginForm.control}
                       name="password"
                       render={({ field }) => (
                         <FormItem>
@@ -246,6 +194,7 @@ export default function AuthPage() {
                             <Input
                               type="password"
                               placeholder="Password"
+                              className="rounded-lg bg-gray-900/70 border-gray-700"
                               {...field}
                             />
                           </FormControl>
@@ -253,80 +202,151 @@ export default function AuthPage() {
                         </FormItem>
                       )}
                     />
-                    
-                    <FormField
-                      control={registerForm.control}
-                      name="confirmPassword"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-base auth-text">Confirm Password</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="password"
-                              placeholder="Confirm Password"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={registerForm.control}
-                      name="fullName"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-base auth-text">Full Name</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Full Name" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={registerForm.control}
-                      name="age"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-base auth-text">Age</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              placeholder="Age"
-                              {...field}
-                              onChange={(e) => {
-                                const value = e.target.value
-                                  ? parseInt(e.target.value)
-                                  : undefined;
-                                field.onChange(value);
-                              }}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
 
-                  <Button
-                    type="submit"
-                    className="w-full text-lg py-6 auth-button"
-                    disabled={registerMutation.isPending}
+                    <Button
+                      type="submit"
+                      className="w-full text-lg py-6 auth-button rounded-lg"
+                      disabled={loginMutation.isPending}
+                    >
+                      {loginMutation.isPending ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Logging in...
+                        </>
+                      ) : (
+                        "Login"
+                      )}
+                    </Button>
+                  </form>
+                </Form>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="register" className="space-y-4">
+              <div className="bg-black/30 backdrop-blur-md rounded-xl p-6 border border-gray-800/40 shadow-lg">
+                <Form {...registerForm}>
+                  <form
+                    onSubmit={registerForm.handleSubmit(onRegisterSubmit)}
+                    className="space-y-5"
                   >
-                    {registerMutation.isPending ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Creating account...
-                      </>
-                    ) : (
-                      "Create Account"
-                    )}
-                  </Button>
-                </form>
-              </Form>
+                    <div className="space-y-5">
+                      <FormField
+                        control={registerForm.control}
+                        name="username"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-base auth-text">Username</FormLabel>
+                            <FormControl>
+                              <Input 
+                                placeholder="Username" 
+                                className="rounded-lg bg-gray-900/70 border-gray-700"
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={registerForm.control}
+                        name="password"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-base auth-text">Password</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="password"
+                                placeholder="Password"
+                                className="rounded-lg bg-gray-900/70 border-gray-700"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={registerForm.control}
+                        name="confirmPassword"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-base auth-text">Confirm Password</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="password"
+                                placeholder="Confirm Password"
+                                className="rounded-lg bg-gray-900/70 border-gray-700"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={registerForm.control}
+                        name="fullName"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-base auth-text">Full Name</FormLabel>
+                            <FormControl>
+                              <Input 
+                                placeholder="Full Name" 
+                                className="rounded-lg bg-gray-900/70 border-gray-700"
+                                {...field} 
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={registerForm.control}
+                        name="age"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-base auth-text">Age</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                placeholder="Age"
+                                className="rounded-lg bg-gray-900/70 border-gray-700"
+                                {...field}
+                                onChange={(e) => {
+                                  const value = e.target.value
+                                    ? parseInt(e.target.value)
+                                    : undefined;
+                                  field.onChange(value);
+                                }}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <Button
+                      type="submit"
+                      className="w-full text-lg py-6 auth-button rounded-lg"
+                      disabled={registerMutation.isPending}
+                    >
+                      {registerMutation.isPending ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Creating account...
+                        </>
+                      ) : (
+                        "Create Account"
+                      )}
+                    </Button>
+                  </form>
+                </Form>
+              </div>
             </TabsContent>
           </Tabs>
           

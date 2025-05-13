@@ -8,6 +8,7 @@ import DiceRoll from "@/pages/DiceRoll";
 import VideoChat from "@/pages/VideoChat";
 import Messages from "@/pages/Messages";
 import AuthPage from "@/pages/auth-page";
+import Profile from "@/pages/Profile";
 import { ProtectedRoute } from "@/lib/protected-route";
 import { UserProvider } from "./context/UserContext";
 import { AmbientProvider } from "./context/AmbientContext";
@@ -22,6 +23,7 @@ function Router() {
       <Route path="/home" component={Home} />
       <Route path="/dice" component={DiceRoll} />
       <Route path="/auth" component={AuthPage} />
+      <ProtectedRoute path="/profile" component={Profile} />
       <ProtectedRoute path="/video/:id" component={VideoChat} />
       <ProtectedRoute path="/messages/:id" component={Messages} />
       <Route component={NotFound} />
