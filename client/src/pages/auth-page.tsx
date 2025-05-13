@@ -90,14 +90,14 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-black text-white">
+    <div className="min-h-screen flex flex-col md:flex-row bg-black text-white font-georgia">
       {/* Left side - Auth forms */}
       <div className="flex-1 flex flex-col items-center justify-center p-6 md:p-10">
         <div className="w-full max-w-md space-y-8">
           <div className="text-center mb-8">
             <SyncLogo className="w-40 h-auto mx-auto mb-6" />
-            <h2 className="text-2xl font-bold">Join the vibe</h2>
-            <p className="text-gray-400 mt-2">
+            <h2 className="text-3xl font-bold font-georgia tracking-wide">Join the vibe</h2>
+            <p className="text-gray-400 mt-2 font-georgia italic">
               Connect with people nearby in real-time
             </p>
           </div>
@@ -108,10 +108,10 @@ export default function AuthPage() {
             className="w-full"
           >
             <TabsList className="w-full mb-8">
-              <TabsTrigger value="login" className="flex-1">
+              <TabsTrigger value="login" className="flex-1 font-georgia">
                 Login
               </TabsTrigger>
-              <TabsTrigger value="register" className="flex-1">
+              <TabsTrigger value="register" className="flex-1 font-georgia">
                 Register
               </TabsTrigger>
             </TabsList>
@@ -330,21 +330,21 @@ export default function AuthPage() {
       {/* Right side - Hero section */}
       <div className="hidden md:flex md:flex-1 bg-gradient-to-br from-blue-900 to-blue-700 p-10 items-center justify-center">
         <div className="max-w-lg text-center">
-          <h1 className="text-4xl font-bold mb-6">
+          <h1 className="text-5xl font-georgia font-bold mb-8 tracking-wide">
             Find Your Vibe in Real Time
           </h1>
-          <p className="text-xl mb-8">
+          <p className="text-xl mb-10 font-georgia italic">
             Connect with people nearby through video chat. Build genuine
             connections that matter.
           </p>
           <div className="grid grid-cols-2 gap-8 mt-12">
             <div className="text-center">
-              <div className="text-4xl font-bold mb-2">Real-time</div>
-              <p>Connect instantly through video with people nearby</p>
+              <div className="text-4xl font-georgia font-bold mb-2">Real-time</div>
+              <p className="font-georgia">Connect instantly through video with people nearby</p>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold mb-2">Authentic</div>
-              <p>No filters, no fake profiles, just genuine connections</p>
+              <div className="text-4xl font-georgia font-bold mb-2">Authentic</div>
+              <p className="font-georgia">No filters, no fake profiles, just genuine connections</p>
             </div>
           </div>
         </div>

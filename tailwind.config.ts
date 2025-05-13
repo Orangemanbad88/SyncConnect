@@ -8,6 +8,7 @@ export default {
       fontFamily: {
         'cinzel': ['Cinzel', 'serif'],
         'barlow': ['Barlow', 'sans-serif'],
+        'georgia': ['Georgia', 'Times New Roman', 'serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
