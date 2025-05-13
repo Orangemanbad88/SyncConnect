@@ -210,6 +210,12 @@
     letter-spacing: 0.02em;
   }
   
+  .unbounded-header {
+    font-family: 'Unbounded', sans-serif !important;
+    @apply font-medium tracking-normal;
+    letter-spacing: 0.01em;
+  }
+  
   .app-description {
     font-family: 'Poppins', sans-serif !important;
   }

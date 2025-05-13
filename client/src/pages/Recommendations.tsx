@@ -107,7 +107,7 @@ const Recommendations = () => {
           {/* Recommendation panel */}
           <div className={`${isMobile ? "h-1/2 overflow-auto" : "col-span-2 overflow-auto"} p-4 flex flex-col items-center`}>
             <div className="flex flex-col items-center w-full max-w-md mb-4">
-              <h2 className="text-2xl font-bold text-white mb-2 text-center righteous-header">Your Connections</h2>
+              <h2 className="text-2xl font-bold text-white mb-2 text-center unbounded-header">Your Connections</h2>
               <p className="text-zinc-400 mb-4 text-center">
                 Our algorithm has found these potential matches just for you!
               </p>
