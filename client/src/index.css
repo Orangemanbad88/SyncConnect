@@ -218,17 +218,11 @@
     letter-spacing: 0.1em;
   }
   
-  .retro-80s-logo {
-    font-family: 'Orbitron', sans-serif !important;
-    @apply tracking-widest font-bold uppercase;
-    letter-spacing: 0.15em;
+  .russo-one-logo {
+    font-family: 'Russo One', sans-serif !important;
+    @apply tracking-wide uppercase;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-  }
-  
-  .retro-pixelated {
-    font-family: 'Press Start 2P', cursive !important;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
   }
   
   .landing-button {

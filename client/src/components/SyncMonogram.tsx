@@ -7,42 +7,38 @@ interface SyncMonogramProps {
 const SyncMonogram: React.FC<SyncMonogramProps> = ({ className = '' }) => {
   return (
     <div className={`relative ${className}`}>
-      {/* Monogram container with 80s retro background */}
+      {/* Monogram container with modern background */}
       <div className="relative flex items-center justify-center bg-[#111111] rounded-lg p-1.5 shadow-md overflow-hidden">
-        {/* 80s grid background */}
+        {/* Background gradient */}
         <div 
           className="absolute inset-0 w-full h-full"
           style={{
-            background: 'linear-gradient(to right, rgba(33, 33, 33, 0.3) 1px, transparent 1px), linear-gradient(to bottom, rgba(33, 33, 33, 0.3) 1px, transparent 1px)',
-            backgroundSize: '8px 8px',
-            transform: 'perspective(200px) rotateX(60deg)',
-            transformOrigin: 'center bottom',
-            zIndex: 0,
-            opacity: 0.3
+            background: 'radial-gradient(circle at center, rgba(0, 61, 125, 0.3) 0%, rgba(0, 0, 0, 0) 70%)',
+            zIndex: 0
           }}
         />
         
-        {/* Neon glow */}
+        {/* Subtle blue glow */}
         <div 
           className="absolute inset-0"
           style={{
-            background: 'radial-gradient(circle, rgba(255, 17, 119, 0.2) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(0, 127, 255, 0.15) 0%, transparent 70%)',
             filter: 'blur(5px)',
             zIndex: 1
           }}
         />
         
-        {/* Text S in 80s retro style */}
+        {/* Text S in Russo One style */}
         <div 
-          className="retro-80s-logo text-xl font-bold flex items-center justify-center relative z-10"
+          className="russo-one-logo text-xl flex items-center justify-center relative z-10"
           style={{ 
-            background: 'linear-gradient(90deg, #FF1177 0%, #00FFFC 50%, #FF1177 100%)', 
+            background: 'linear-gradient(90deg, #0059B2 0%, #007FFF 40%, #fff 50%, #007FFF 60%, #0059B2 100%)', 
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             textShadow: `
               0 0 2px #fff,
-              0 0 5px #FF1177,
-              0 0 10px #FF1177
+              0 0 4px #007FFF,
+              0 0 6px #007FFF
             `,
             width: '24px',
             height: '24px'
