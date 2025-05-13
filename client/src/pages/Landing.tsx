@@ -54,7 +54,7 @@ const Landing = () => {
       
       <div className={`transform transition-all duration-1000 ease-out ${fadeIn ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'} flex flex-col items-center`}>
         <div className="flex flex-col items-center relative">
-          {/* Twin flames positioned in the center above the logo */}
+          {/* Interconnected hearts positioned in the center above the logo */}
           <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 z-10">
             <TwinFlames className="mx-auto w-32 h-32 sm:w-40 sm:h-40" />
           </div>
