@@ -57,51 +57,57 @@ const Landing = () => {
         }}
       ></div>
       
-      {/* Light blue to light orange fade at the bottom */}
+      {/* Dark blue to orange sunset gradient at the bottom */}
       <div 
         className="absolute bottom-0 left-0 right-0 h-64 opacity-40"
         style={{
-          background: 'linear-gradient(to top, rgba(70,130,180,0.6) 0%, rgba(135,206,250,0.4) 20%, rgba(255,213,128,0.3) 50%, rgba(255,160,122,0.2) 75%, transparent 100%)',
+          background: 'linear-gradient(to top, rgba(25,53,84,0.6) 0%, rgba(46,63,106,0.5) 20%, rgba(106,124,191,0.4) 40%, rgba(255,142,102,0.3) 70%, rgba(255,107,66,0.2) 85%, transparent 100%)',
           pointerEvents: 'none'
         }}
       ></div>
       
-      {/* Additional light blue accent at the bottom */}
+      {/* Ocean reflection gradient */}
       <div 
         className="absolute bottom-0 left-0 right-0 h-36 opacity-30"
         style={{
-          background: 'linear-gradient(to top, rgba(173,216,230,0.4) 0%, rgba(255,213,128,0.2) 40%, rgba(255,127,80,0.1) 70%, transparent 100%)',
+          background: 'linear-gradient(to top, rgba(25,53,84,0.4) 0%, rgba(106,124,191,0.3) 40%, rgba(255,142,102,0.2) 70%, transparent 100%)',
           pointerEvents: 'none'
         }}
       ></div>
       
-      {/* Accent elements with light blue to light orange fade */}
+      {/* Accent elements matching the sunset photo colors */}
       <div className="absolute bottom-10 left-10 w-20 h-20 rounded-full opacity-25 animate-pulse-slow"
-           style={{ background: 'radial-gradient(circle, #87CEFA 0%, transparent 70%)' }}></div>
+           style={{ background: 'radial-gradient(circle, #6A7CBF 0%, transparent 70%)' }}></div>
       <div className="absolute top-20 right-14 w-16 h-16 rounded-full opacity-20 animate-pulse-slow"
-           style={{ background: 'radial-gradient(circle, #FFD580 0%, transparent 70%)' }}></div>
+           style={{ background: 'radial-gradient(circle, #FF8E66 0%, transparent 70%)' }}></div>
       
-      {/* Additional light blue and light orange glow elements */}
+      {/* Additional glow elements matching sunset photo */}
       <div className="absolute top-1/2 right-8 w-32 h-32 rounded-full opacity-15 animate-pulse-slow"
-           style={{ background: 'radial-gradient(circle, #B0E0E6 0%, transparent 80%)' }}></div>
+           style={{ background: 'radial-gradient(circle, #2E3F6A 0%, transparent 80%)' }}></div>
       <div className="absolute bottom-1/3 left-4 w-24 h-24 rounded-full opacity-15 animate-pulse-slow"
-           style={{ background: 'radial-gradient(circle, #FFA07A 0%, transparent 75%)' }}></div>
+           style={{ background: 'radial-gradient(circle, #FF6B42 0%, transparent 75%)' }}></div>
       <div className="absolute top-1/4 left-16 w-28 h-28 rounded-full opacity-10 animate-pulse-slow"
-           style={{ background: 'radial-gradient(circle, #ADD8E6 0%, transparent 80%)' }}></div>
+           style={{ background: 'radial-gradient(circle, #1B2A4A 0%, transparent 80%)' }}></div>
       <div className="absolute bottom-1/4 right-20 w-16 h-16 rounded-full opacity-15 animate-pulse-slow"
-           style={{ background: 'radial-gradient(circle, #FF7F50 0%, transparent 70%)' }}></div>
+           style={{ background: 'radial-gradient(circle, #FF8E66 0%, transparent 70%)' }}></div>
+      
+      {/* Star-like elements in the sky */}
+      <div className="absolute top-20 left-1/3 w-1 h-1 rounded-full bg-white opacity-70"></div>
+      <div className="absolute top-16 left-1/4 w-1 h-1 rounded-full bg-white opacity-60"></div>
+      <div className="absolute top-32 left-2/3 w-1 h-1 rounded-full bg-white opacity-70"></div>
+      <div className="absolute top-24 right-1/4 w-1 h-1 rounded-full bg-white opacity-60"></div>
       
       <div className={`transform transition-all duration-1000 ease-out ${fadeIn ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'} flex flex-col items-center`}>
         <div className="flex flex-col items-center relative">
           {/* Interconnected hearts positioned in the center above the logo */}
           <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 z-10">
-            {/* Add light blue to light orange fade glow around the twin flames */}
+            {/* Add glow around the twin flames matching sunset photo */}
             <div className="absolute top-0 left-0 w-full h-full rounded-full filter blur-xl opacity-60 animate-pulse" 
-                 style={{ background: 'linear-gradient(to bottom, #87CEFA, #FFA07A, #ADD8E6)' }}></div>
+                 style={{ background: 'linear-gradient(to bottom, #0A1425, #FF8E66, #193554)' }}></div>
             <div className="absolute top-0 left-0 w-full h-full rounded-full filter blur-xl opacity-40 animate-pulse-slow"
-                 style={{ background: 'linear-gradient(to right, rgba(135, 206, 250, 0.4), rgba(255, 213, 128, 0.3))' }}></div>
+                 style={{ background: 'linear-gradient(to right, rgba(46, 63, 106, 0.5), rgba(255, 107, 66, 0.4))' }}></div>
             <div className="absolute -top-5 -left-5 right-0 bottom-0 w-[calc(100%+10px)] h-[calc(100%+10px)] rounded-full filter blur-xl opacity-50 animate-pulse-slow"
-                 style={{ background: 'linear-gradient(to top, rgba(255, 127, 80, 0.3), rgba(173, 216, 230, 0.2), transparent)' }}></div>
+                 style={{ background: 'linear-gradient(to top, rgba(255, 142, 102, 0.4), rgba(106, 124, 191, 0.3), transparent)' }}></div>
             <TwinFlames className="mx-auto w-32 h-32 sm:w-40 sm:h-40 relative z-20" />
           </div>
           
