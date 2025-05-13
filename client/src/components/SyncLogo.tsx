@@ -47,8 +47,8 @@ const SyncLogo: React.FC<SyncLogoProps> = ({ className = '' }) => {
         )}
       </div>
 
-      {/* Main text with smoother Varela Round font */}
-      <div className="relative font-varela font-bold tracking-wider text-center">
+      {/* Main text with Almarai font */}
+      <div className="relative sync-logo-text text-center">
         {/* Base text */}
         <h1 
           className="text-6xl font-black uppercase"

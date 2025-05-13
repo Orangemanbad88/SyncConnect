@@ -161,7 +161,7 @@ export default function AuthPage() {
 
                   <Button
                     type="submit"
-                    className="w-full font-georgia text-lg py-6"
+                    className="w-full text-lg py-6 auth-button"
                     disabled={loginMutation.isPending}
                   >
                     {loginMutation.isPending ? (
