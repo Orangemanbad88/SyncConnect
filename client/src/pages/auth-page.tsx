@@ -101,7 +101,18 @@ export default function AuthPage() {
         <div className="w-full max-w-md">
           {/* Short description */}
           <div className="text-center mb-8">
-            <p className="text-gray-400 auth-text italic text-lg">
+            <p 
+              className="text-blue-100 auth-text italic text-lg animate-pulse-slow"
+              style={{ 
+                textShadow: `
+                  0 0 5px rgba(173, 216, 230, 0.8),
+                  0 0 10px rgba(135, 206, 250, 0.6),
+                  0 0 15px rgba(100, 149, 237, 0.4),
+                  0 0 20px rgba(65, 105, 225, 0.3)
+                `,
+                letterSpacing: '0.05em'
+              }}
+            >
               Everything is Connected
             </p>
           </div>

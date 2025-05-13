@@ -61,24 +61,40 @@ const Landing = () => {
       <div 
         className="absolute bottom-0 left-0 right-0 h-64 opacity-40"
         style={{
-          background: 'linear-gradient(to top, rgba(25,25,112,0.6) 0%, rgba(65,105,225,0.3) 50%, transparent 100%)',
+          background: 'linear-gradient(to top, rgba(25,25,112,0.6) 0%, rgba(100,149,237,0.4) 30%, rgba(135,206,250,0.3) 60%, transparent 100%)',
           pointerEvents: 'none'
         }}
       ></div>
       
-      {/* Blue accent elements */}
-      <div className="absolute bottom-10 left-10 w-20 h-20 rounded-full opacity-20 animate-pulse-slow"
-           style={{ background: 'radial-gradient(circle, #4169E1 0%, transparent 70%)' }}></div>
-      <div className="absolute top-20 right-14 w-16 h-16 rounded-full opacity-15 animate-pulse-slow"
-           style={{ background: 'radial-gradient(circle, #1E90FF 0%, transparent 70%)' }}></div>
+      {/* Additional lighter blue accent at the bottom */}
+      <div 
+        className="absolute bottom-0 left-0 right-0 h-36 opacity-30"
+        style={{
+          background: 'linear-gradient(to top, rgba(173,216,230,0.4) 0%, rgba(135,206,250,0.2) 50%, transparent 100%)',
+          pointerEvents: 'none'
+        }}
+      ></div>
+      
+      {/* Blue accent elements - now with lighter blues */}
+      <div className="absolute bottom-10 left-10 w-20 h-20 rounded-full opacity-25 animate-pulse-slow"
+           style={{ background: 'radial-gradient(circle, #87CEFA 0%, transparent 70%)' }}></div>
+      <div className="absolute top-20 right-14 w-16 h-16 rounded-full opacity-20 animate-pulse-slow"
+           style={{ background: 'radial-gradient(circle, #ADD8E6 0%, transparent 70%)' }}></div>
+      
+      {/* Additional light blue glow element */}
+      <div className="absolute top-1/2 right-8 w-32 h-32 rounded-full opacity-15 animate-pulse-slow"
+           style={{ background: 'radial-gradient(circle, #B0E0E6 0%, transparent 80%)' }}></div>
+      <div className="absolute bottom-1/3 left-4 w-24 h-24 rounded-full opacity-10 animate-pulse-slow"
+           style={{ background: 'radial-gradient(circle, #E0FFFF 0%, transparent 75%)' }}></div>
       
       <div className={`transform transition-all duration-1000 ease-out ${fadeIn ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'} flex flex-col items-center`}>
         <div className="flex flex-col items-center relative">
           {/* Interconnected hearts positioned in the center above the logo */}
           <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 z-10">
-            {/* Add sunset glow effect around the twin flames with blue accents */}
-            <div className="absolute top-0 left-0 w-full h-full rounded-full filter blur-xl bg-gradient-to-b from-orange-500 via-red-600 to-indigo-600 opacity-60 animate-pulse"></div>
-            <div className="absolute top-0 left-0 w-full h-full rounded-full filter blur-xl bg-gradient-to-r from-blue-500/30 to-transparent opacity-40 animate-pulse-slow"></div>
+            {/* Add sunset glow effect around the twin flames with lighter blue accents */}
+            <div className="absolute top-0 left-0 w-full h-full rounded-full filter blur-xl bg-gradient-to-b from-orange-500 via-red-600 to-indigo-400 opacity-60 animate-pulse"></div>
+            <div className="absolute top-0 left-0 w-full h-full rounded-full filter blur-xl bg-gradient-to-r from-sky-300/40 to-transparent opacity-40 animate-pulse-slow"></div>
+            <div className="absolute -top-5 -left-5 right-0 bottom-0 w-[calc(100%+10px)] h-[calc(100%+10px)] rounded-full filter blur-xl bg-gradient-to-t from-cyan-200/20 via-blue-300/10 to-transparent opacity-50 animate-pulse-slow"></div>
             <TwinFlames className="mx-auto w-32 h-32 sm:w-40 sm:h-40 relative z-20" />
           </div>
           
