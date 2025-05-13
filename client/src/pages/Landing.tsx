@@ -118,8 +118,8 @@ const Landing = () => {
         </div>
       </div>
       
-      {/* JOIN button positioned slightly higher */}
-      <div className="absolute bottom-14 left-0 right-0 flex justify-center">
+      {/* JOIN button positioned even higher */}
+      <div className="absolute bottom-20 left-0 right-0 flex justify-center">
         <Button 
           onClick={() => setLocation('/home')}
           className="px-8 py-3 sm:py-4 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg animate-pulse-glow text-base landing-button"
