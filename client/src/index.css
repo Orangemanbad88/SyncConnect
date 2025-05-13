@@ -230,7 +230,7 @@
   }
   
   .gruppo-logo {
-    font-family: 'Gruppo', sans-serif !important;
+    font-family: 'Michroma', sans-serif !important;
     @apply tracking-wider uppercase;
     letter-spacing: 0.15em;
     text-transform: uppercase;

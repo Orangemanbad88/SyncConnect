@@ -55,7 +55,7 @@ const SyncLogo: React.FC<SyncLogoProps> = ({ className = '' }) => {
         <h1 
           className="text-6xl gruppo-logo"
           style={{ 
-            letterSpacing: isHovered ? '0.2em' : '0.15em',
+            letterSpacing: isHovered ? '0.15em' : '0.1em',
             textShadow: `
               0 0 2px #fff,
               0 0 5px #0062ff,
@@ -71,7 +71,7 @@ const SyncLogo: React.FC<SyncLogoProps> = ({ className = '' }) => {
             transition: 'all 0.3s ease, letter-spacing 0.5s ease',
             paddingLeft: '0.1em',
             paddingRight: '0.1em',
-            fontSize: '5.2rem',
+            fontSize: '4.8rem',
             lineHeight: '1',
             fontWeight: '400'
           }}
@@ -87,13 +87,13 @@ const SyncLogo: React.FC<SyncLogoProps> = ({ className = '' }) => {
             height: '50%',
             transform: 'rotateX(180deg) translateY(-50%)',
             background: 'linear-gradient(to bottom, rgba(59, 130, 246, 0.3), transparent)',
-            letterSpacing: isHovered ? '0.2em' : '0.15em',
+            letterSpacing: isHovered ? '0.15em' : '0.1em',
             color: 'transparent',
             WebkitBackgroundClip: 'text',
             WebkitTextStroke: '1px rgba(255, 255, 255, 0.3)',
             paddingLeft: '0.1em',
             paddingRight: '0.1em',
-            fontSize: '5.2rem',
+            fontSize: '4.8rem',
             pointerEvents: 'none'
           }}
         >
