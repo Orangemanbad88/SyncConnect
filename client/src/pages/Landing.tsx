@@ -118,16 +118,16 @@ const Landing = () => {
         </div>
       </div>
       
-      {/* JOIN button at the very bottom */}
-      <div className="absolute bottom-6 left-0 right-0 flex justify-center">
+      {/* JOIN button positioned higher */}
+      <div className="absolute bottom-10 left-0 right-0 flex justify-center">
         <Button 
           onClick={() => setLocation('/home')}
           className="px-8 py-3 sm:py-4 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg animate-pulse-glow text-base landing-button"
           style={{ 
-            background: 'linear-gradient(90deg, rgba(25, 53, 84, 0.9) 0%, rgba(255, 107, 66, 0.95) 50%, rgba(25, 53, 84, 0.9) 100%)',
+            background: 'linear-gradient(90deg, rgba(46, 63, 106, 0.95) 0%, rgba(106, 124, 191, 0.85) 50%, rgba(46, 63, 106, 0.95) 100%)',
             backdropFilter: 'blur(4px)',
-            border: '2px solid rgba(255, 107, 66, 0.9)',
-            borderTop: '2px solid rgba(106, 124, 191, 0.9)',
+            border: '2px solid rgba(106, 124, 191, 0.9)',
+            borderTop: '2px solid rgba(136, 172, 224, 0.9)',
             borderBottom: '3px solid rgba(25, 53, 84, 0.9)',
             borderRadius: '999px',
             color: '#FFFFFF',
