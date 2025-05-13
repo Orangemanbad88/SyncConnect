@@ -28,6 +28,7 @@ export default function VideoChat() {
   const [showPrivateTabInfo, setShowPrivateTabInfo] = useState<boolean>(false);
   const [showMeetingTabInfo, setShowMeetingTabInfo] = useState<boolean>(false);
   const [currentFilter, setCurrentFilter] = useState<'none' | 'warm' | 'cool' | 'dramatic' | 'vintage'>('none');
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   
   const localVideoRef = useRef<HTMLVideoElement>(null);
   const remoteVideoRef = useRef<HTMLVideoElement>(null);
@@ -333,7 +334,7 @@ export default function VideoChat() {
                     ref={remoteVideoRef}
                     autoPlay
                     playsInline
-                    className="w-full h-full object-cover"
+                    className={`w-full h-full object-cover ${currentFilter !== 'none' ? `filter-${currentFilter}` : ''}`}
                   />
                   
                   {/* Special meeting effects */}
@@ -349,10 +350,34 @@ export default function VideoChat() {
                     {formatTime(timeLeft)}
                   </div>
                   
+                  {/* Filter indicator */}
+                  {currentFilter !== 'none' && (
+                    <div className="absolute top-14 right-4 text-xs bg-gradient-to-r from-purple-600 to-pink-600 text-white px-3 py-1 rounded-full capitalize">
+                      {currentFilter} filter
+                    </div>
+                  )}
+                  
                   {/* Meeting mode indicator */}
                   <div className="absolute bottom-28 left-1/2 transform -translate-x-1/2 px-4 py-1.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xs rounded-full shadow-lg">
                     2-Minute Meeting Mode
                   </div>
+                  
+                  {/* Fullscreen toggle button */}
+                  <button 
+                    onClick={() => setIsFullscreen(!isFullscreen)}
+                    className="absolute top-4 left-32 bg-black/40 hover:bg-black/60 transition-colors p-2 rounded-lg"
+                    title={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
+                  >
+                    {isFullscreen ? (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 3v2H4v4H2V3h6zm14 0v6h-2V5h-4V3h6zm-6 18h-4v-2h4v-4h2v6h-2zm-10 0H2v-6h2v4h4v2z" fill="white"/>
+                      </svg>
+                    ) : (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 8V3h5v2H5v3H3zm5 13H3v-5h2v3h3v2zm13-5v5h-5v-2h3v-3h2zm0-10h-2V3h-3V1h5v5z" fill="white"/>
+                      </svg>
+                    )}
+                  </button>
                   
                   {/* Filter selection options */}
                   <div className="absolute left-4 top-1/2 transform -translate-y-1/2 flex flex-col space-y-3">
