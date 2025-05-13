@@ -94,7 +94,7 @@ const Landing = () => {
                 `
               }}
             >
-              <span className="inline-block font-semibold italic transform -skew-x-6" style={{ textShadow: '0 0 2px rgba(0, 40, 100, 0.8)' }}>LETS</span> 
+              <span className="inline-block font-semibold italic transform -skew-x-6" style={{ textShadow: '0 0 2px rgba(0, 40, 100, 0.8)' }}>LET'S</span> 
               <span className="inline-block font-semibold italic transform -skew-x-6 ml-1" style={{ textShadow: '0 0 2px rgba(0, 40, 100, 0.8)' }}>VIBE</span>
             </Button>
           </div>

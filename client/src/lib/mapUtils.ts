@@ -16,13 +16,24 @@ export const latLongToPixel = (
   width: number = 100,
   height: number = 100
 ): { x: number, y: number } => {
-  // This is a very simple conversion for demo purposes
-  // In a real app, we would use a proper map library like Mapbox or Leaflet
-  const latScale = height / 0.05; // 0.05 degrees of latitude
-  const longScale = width / 0.05; // 0.05 degrees of longitude
+  // This is a very simple conversion for demo purposes 
+  // Enhanced to handle edge cases better
   
-  const x = ((long - centerLong) * longScale) + width / 2;
-  const y = ((centerLat - lat) * latScale) + height / 2;
+  // Scale factors - how many pixels per degree of lat/long
+  // Using smaller values for a more zoomed-out view
+  const latScale = height / 0.1; // 0.1 degrees of latitude
+  const longScale = width / 0.1; // 0.1 degrees of longitude
+  
+  // Calculate pixel coordinates
+  let x = ((long - centerLong) * longScale) + (width / 2);
+  let y = ((centerLat - lat) * latScale) + (height / 2);
+  
+  // Constrain to keep markers on screen (with some padding)
+  const padding = 50;
+  x = Math.max(padding, Math.min(width - padding, x));
+  y = Math.max(padding, Math.min(height - padding, y));
+  
+  console.log(`Plotting point (${lat}, ${long}) at (${x}, ${y}) px`);
   
   return { x, y };
 };

@@ -144,65 +144,28 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
 
   return (
     <div className="flex-1 relative overflow-hidden">
-      {/* Map background */}
       <div 
-        className="absolute inset-0" 
+        className="absolute inset-0 bg-[#0a192f]"
         style={{
-          background: '#0a192f',
-          backgroundImage: 'linear-gradient(120deg, #0a1930 0%, #142952 50%, #1e3a7a 100%)',
-          pointerEvents: 'none',
-          zIndex: 0
-        }}
-      ></div>
-      
-      {/* Main grid overlay */}
-      <div 
-        className="absolute inset-0" 
-        style={{ 
           backgroundImage: `
+            linear-gradient(120deg, #0a1930 0%, #142952 50%, #1e3a7a 100%),
             linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px)
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+            radial-gradient(circle at center, rgba(100, 150, 255, 0.1) 0%, rgba(0, 20, 80, 0.2) 70%)
           `,
-          backgroundSize: '40px 40px',
-          pointerEvents: 'none',
-          zIndex: 1,
-          opacity: 0.7
-        }}
-      ></div>
-      
-      {/* Fine grid overlay */}
-      <div 
-        className="absolute inset-0" 
-        style={{ 
-          backgroundImage: `
-            linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px)
-          `,
-          backgroundSize: '10px 10px',
-          pointerEvents: 'none',
-          zIndex: 1,
-          opacity: 0.5
-        }}
-      ></div>
-      
-      {/* Radial gradient */}
-      <div 
-        className="absolute inset-0" 
-        style={{
-          background: 'radial-gradient(circle at center, rgba(100, 150, 255, 0.1) 0%, rgba(0, 20, 80, 0.2) 70%)',
-          pointerEvents: 'none',
-          zIndex: 1
+          backgroundSize: '100% 100%, 40px 40px, 40px 40px, 100% 100%',
+          backgroundBlendMode: 'normal, normal, normal, overlay'
         }}
       ></div>
       
       <div
         ref={mapRef}
-        className="w-full h-full transition-all duration-300 shadow-inner relative z-10"
+        className="w-full h-full transition-all duration-300 shadow-inner relative z-10 flex items-center justify-center"
         style={{
           transform: `scale(${zoom})`,
           transformOrigin: "center center",
           position: "relative",
-          overflow: "hidden",
+          overflow: "visible", // Allow markers to be visible outside bounds
           background: "transparent"
         }}>
         {isLoading ? (
@@ -210,69 +173,97 @@ const Map = ({ users, isLoading, onUserClick, userCoords }: MapProps) => {
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
           </div>
         ) : (
-          users.map(user => {
-            if (!user.latitude || !user.longitude || !userCoords) return null;
-            
-            const position = latLongToPixel(
-              user.latitude,
-              user.longitude,
-              userCoords.latitude,
-              userCoords.longitude,
-              mapDimensions.width * zoom,
-              mapDimensions.height * zoom
-            );
-            
-            return (
-              <div
-                key={user.id}
-                className="absolute cursor-pointer transition-transform hover:scale-110"
-                style={{
-                  top: `${position.y}px`,
-                  left: `${position.x}px`,
-                }}
-                onClick={() => onUserClick(user)}
-              >
-                <div className="relative group">
-                  <div className="relative">
-                    <img
-                      src={user.profileImage}
-                      alt={`${user.fullName}, ${user.age}`}
-                      className="w-10 h-10 md:w-14 md:h-14 rounded-full border-3 border-white object-cover shadow-lg"
-                      style={{ boxShadow: '0 0 0 2px rgba(0,0,0,0.3), 0 4px 10px rgba(0,0,0,0.3)' }}
-                      onMouseEnter={() => setHoveredUserId(user.id)}
-                      onMouseLeave={() => setHoveredUserId(null)}
-                      onTouchStart={() => user.isOnline && setHoveredUserId(user.id)}
-                      onTouchEnd={() => setTimeout(() => setHoveredUserId(null), 3000)}
-                    />
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-b from-transparent to-black opacity-20 pointer-events-none"></div>
+          <div className="relative w-full h-full">
+            {users.map(user => {
+              if (!user.latitude || !user.longitude || !userCoords) return null;
+              
+              // Use center of the window as reference point
+              const centerX = mapDimensions.width / 2;
+              const centerY = mapDimensions.height / 2;
+              
+              // Calculate relative position from center
+              const deltaLat = user.latitude - userCoords.latitude;
+              const deltaLng = user.longitude - userCoords.longitude;
+              
+              // Convert to pixel distance (larger scale factor = more spread out)
+              const scaleFactor = 2000;
+              const x = centerX + (deltaLng * scaleFactor);
+              const y = centerY - (deltaLat * scaleFactor);
+              
+              console.log(`User ${user.fullName} positioned at (${x}, ${y}) from center (${centerX}, ${centerY})`);
+              
+              return (
+                <div
+                  key={user.id}
+                  className="absolute cursor-pointer transition-transform hover:scale-110"
+                  style={{
+                    top: `${y}px`,
+                    left: `${x}px`,
+                    transform: 'translate(-50%, -50%)',
+                    zIndex: 50
+                  }}
+                  onClick={() => onUserClick(user)}
+                >
+                  <div className="relative group">
+                    <div className="relative">
+                      <img
+                        src={user.profileImage}
+                        alt={`${user.fullName}, ${user.age}`}
+                        className="w-10 h-10 md:w-14 md:h-14 rounded-full border-3 border-white object-cover shadow-lg"
+                        style={{ boxShadow: '0 0 0 2px rgba(0,0,0,0.3), 0 4px 10px rgba(0,0,0,0.3)' }}
+                        onMouseEnter={() => setHoveredUserId(user.id)}
+                        onMouseLeave={() => setHoveredUserId(null)}
+                        onTouchStart={() => user.isOnline && setHoveredUserId(user.id)}
+                        onTouchEnd={() => setTimeout(() => setHoveredUserId(null), 3000)}
+                      />
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-b from-transparent to-black opacity-20 pointer-events-none"></div>
+                    </div>
+                    <span
+                      className={`absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-white ${
+                        user.isOnline ? "bg-green-500" : "bg-gray-400"
+                      }`}
+                      style={{ boxShadow: '0 0 0 1px rgba(0,0,0,0.2)' }}
+                    ></span>
+                    <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white text-xs px-2 py-1 rounded-full whitespace-nowrap shadow-md">
+                      <span className="text-xs md:text-sm font-medium">{user.fullName.split(' ')[0]}, {user.age}</span>
+                    </div>
+                    
+                    {/* Video call button that appears on hover for online users */}
+                    {user.isOnline && hoveredUserId === user.id && (
+                      <button
+                        className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-purple-600 hover:bg-purple-700 text-white rounded-full p-2 shadow-lg transition-all duration-200 flex items-center justify-center gap-1"
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent triggering the parent onClick
+                          setLocation(`/video/${user.id}`);
+                        }}
+                      >
+                        <Video className="w-4 h-4" />
+                        <span className="text-xs font-medium">Call</span>
+                      </button>
+                    )}
                   </div>
-                  <span
-                    className={`absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-white ${
-                      user.isOnline ? "bg-green-500" : "bg-gray-400"
-                    }`}
-                    style={{ boxShadow: '0 0 0 1px rgba(0,0,0,0.2)' }}
-                  ></span>
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white text-xs px-2 py-1 rounded-full whitespace-nowrap shadow-md">
-                    <span className="text-xs md:text-sm font-medium">{user.fullName.split(' ')[0]}, {user.age}</span>
-                  </div>
-                  
-                  {/* Video call button that appears on hover for online users */}
-                  {user.isOnline && hoveredUserId === user.id && (
-                    <button
-                      className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-purple-600 hover:bg-purple-700 text-white rounded-full p-2 shadow-lg transition-all duration-200 flex items-center justify-center gap-1"
-                      onClick={(e) => {
-                        e.stopPropagation(); // Prevent triggering the parent onClick
-                        setLocation(`/video/${user.id}`);
-                      }}
-                    >
-                      <Video className="w-4 h-4" />
-                      <span className="text-xs font-medium">Call</span>
-                    </button>
-                  )}
                 </div>
+              );
+            })}
+            
+            {/* Current user indicator (always in center) */}
+            <div 
+              className="absolute"
+              style={{ 
+                top: '50%', 
+                left: '50%', 
+                transform: 'translate(-50%, -50%)',
+                zIndex: 100
+              }}
+            >
+              <div className="relative">
+                <div className="w-8 h-8 rounded-full bg-[#4287f5] border-2 border-white flex items-center justify-center">
+                  <div className="w-2 h-2 rounded-full bg-white"></div>
+                </div>
+                <div className="absolute -top-1 -left-1 w-10 h-10 rounded-full bg-[#4287f5] opacity-30 animate-ping"></div>
               </div>
-            );
-          })
+            </div>
+          </div>
         )}
       </div>
       
