@@ -44,6 +44,20 @@
   filter: sepia(0.4) grayscale(0.3) contrast(1.2);
 }
 
+/* Fullscreen transitions */
+.fullscreen-container {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Filter button animations */
+.filter-btn {
+  transition: all 0.2s ease-out;
+}
+
+.filter-btn:hover {
+  transform: scale(1.1);
+}
+
 @keyframes glow-pulse {
   0% {
     box-shadow: 0 4px 14px rgba(255, 252, 232, 0.7),

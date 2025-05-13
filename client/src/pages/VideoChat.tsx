@@ -327,7 +327,7 @@ export default function VideoChat() {
             </div>
           ) : activeTab === 'meeting' ? (
             // Meeting tab content with enhanced effects
-            <div className="relative w-full h-full overflow-hidden">
+            <div className={`relative fullscreen-container ${isFullscreen ? 'fixed inset-0 z-50 bg-black' : 'w-full h-full'} overflow-hidden`}>
               {connectionState === 'connected' ? (
                 <>
                   <video
@@ -380,37 +380,37 @@ export default function VideoChat() {
                   </button>
                   
                   {/* Filter selection options */}
-                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2 flex flex-col space-y-3">
+                  <div className={`absolute ${isFullscreen ? 'left-8' : 'left-4'} top-1/2 transform -translate-y-1/2 flex flex-col space-y-3`}>
                     <button 
-                      className={`w-8 h-8 rounded-full ${currentFilter === 'none' ? 'bg-purple-600/70 ring-2 ring-white' : 'bg-black/40 border border-white/20'} flex items-center justify-center hover:bg-purple-600/50 transition-colors`} 
+                      className={`filter-btn ${isFullscreen ? 'w-10 h-10' : 'w-8 h-8'} rounded-full ${currentFilter === 'none' ? 'bg-purple-600/70 ring-2 ring-white' : 'bg-black/40 border border-white/20'} flex items-center justify-center hover:bg-purple-600/50 transition-colors`} 
                       title="No filter"
                       onClick={() => setCurrentFilter('none')}
                     >
-                      <div className="w-6 h-6 rounded-full bg-gradient-to-br from-white to-gray-300"></div>
+                      <div className={`${isFullscreen ? 'w-7 h-7' : 'w-6 h-6'} rounded-full bg-gradient-to-br from-white to-gray-300`}></div>
                     </button>
                     <button 
-                      className={`w-8 h-8 rounded-full ${currentFilter === 'warm' ? 'bg-purple-600/70 ring-2 ring-white' : 'bg-black/40 border border-white/20'} flex items-center justify-center hover:bg-purple-600/50 transition-colors`} 
+                      className={`filter-btn ${isFullscreen ? 'w-10 h-10' : 'w-8 h-8'} rounded-full ${currentFilter === 'warm' ? 'bg-purple-600/70 ring-2 ring-white' : 'bg-black/40 border border-white/20'} flex items-center justify-center hover:bg-purple-600/50 transition-colors`} 
                       title="Warm filter"
                       onClick={() => setCurrentFilter('warm')}
                     >
                       <div className="w-6 h-6 rounded-full bg-gradient-to-br from-orange-300 to-red-300"></div>
                     </button>
                     <button 
-                      className={`w-8 h-8 rounded-full ${currentFilter === 'cool' ? 'bg-purple-600/70 ring-2 ring-white' : 'bg-black/40 border border-white/20'} flex items-center justify-center hover:bg-purple-600/50 transition-colors`} 
+                      className={`filter-btn ${isFullscreen ? 'w-10 h-10' : 'w-8 h-8'} rounded-full ${currentFilter === 'cool' ? 'bg-purple-600/70 ring-2 ring-white' : 'bg-black/40 border border-white/20'} flex items-center justify-center hover:bg-purple-600/50 transition-colors`} 
                       title="Cool filter"
                       onClick={() => setCurrentFilter('cool')}
                     >
                       <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-300 to-purple-300"></div>
                     </button>
                     <button 
-                      className={`w-8 h-8 rounded-full ${currentFilter === 'dramatic' ? 'bg-purple-600/70 ring-2 ring-white' : 'bg-black/40 border border-white/20'} flex items-center justify-center hover:bg-purple-600/50 transition-colors`} 
+                      className={`filter-btn ${isFullscreen ? 'w-10 h-10' : 'w-8 h-8'} rounded-full ${currentFilter === 'dramatic' ? 'bg-purple-600/70 ring-2 ring-white' : 'bg-black/40 border border-white/20'} flex items-center justify-center hover:bg-purple-600/50 transition-colors`} 
                       title="Dramatic filter"
                       onClick={() => setCurrentFilter('dramatic')}
                     >
                       <div className="w-6 h-6 rounded-full bg-gradient-to-br from-gray-900 to-gray-600"></div>
                     </button>
                     <button 
-                      className={`w-8 h-8 rounded-full ${currentFilter === 'vintage' ? 'bg-purple-600/70 ring-2 ring-white' : 'bg-black/40 border border-white/20'} flex items-center justify-center hover:bg-purple-600/50 transition-colors`} 
+                      className={`filter-btn ${isFullscreen ? 'w-10 h-10' : 'w-8 h-8'} rounded-full ${currentFilter === 'vintage' ? 'bg-purple-600/70 ring-2 ring-white' : 'bg-black/40 border border-white/20'} flex items-center justify-center hover:bg-purple-600/50 transition-colors`} 
                       title="Vintage filter"
                       onClick={() => setCurrentFilter('vintage')}
                     >
