@@ -323,6 +323,18 @@
   }
 }
 
+@keyframes pulse-radial {
+  0% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+
 @keyframes wave1 {
   0% {
     transform: scaleX(0.9) translateY(0px);

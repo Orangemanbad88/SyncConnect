@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useWebRTC } from "@/hooks/useWebRTC";
-import { Loader2, Mic, MicOff, Video as VideoIcon, VideoOff, ThumbsUp, ThumbsDown, X, Info } from "lucide-react";
+import { Loader2, Mic, MicOff, Video as VideoIcon, VideoOff, ThumbsUp, ThumbsDown, X, Info, Lock, Play } from "lucide-react";
 import { useUser } from "@/context/UserContext";
 import { useToast } from "@/hooks/use-toast";
 import { useAmbient } from "@/context/AmbientContext";
@@ -15,11 +15,17 @@ export default function VideoChat() {
   const { toast } = useToast();
   const { background, highlight } = useAmbient();
   
+  // Video chat states
   const [timeLeft, setTimeLeft] = useState<number>(120); // 2 minutes in seconds
   const [showDecision, setShowDecision] = useState<boolean>(false);
   const [partnerDecision, setPartnerDecision] = useState<boolean | null>(null);
   const [myDecision, setMyDecision] = useState<boolean | null>(null);
   const [matchComplete, setMatchComplete] = useState<boolean>(false);
+  const [showProfileVideo, setShowProfileVideo] = useState<boolean>(false);
+  
+  // UI states
+  const [activeTab, setActiveTab] = useState<'public' | 'private'>('public');
+  const [showPrivateTabInfo, setShowPrivateTabInfo] = useState<boolean>(false);
   
   const localVideoRef = useRef<HTMLVideoElement>(null);
   const remoteVideoRef = useRef<HTMLVideoElement>(null);
@@ -160,13 +166,22 @@ export default function VideoChat() {
       {/* Header with timer and user info */}
       <div className="w-full flex justify-between items-center p-4 z-10 bg-gradient-to-b from-black/80 to-transparent">
         <div className="flex items-center">
-          <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white/40 mr-3">
+          <div 
+            className="w-10 h-10 rounded-full overflow-hidden border-2 border-white/40 mr-3 relative cursor-pointer group"
+            onClick={() => setShowProfileVideo(true)}
+          >
             <img 
               src={targetUser.profileImage || 'https://randomuser.me/api/portraits/men/32.jpg'} 
               alt={targetUser.fullName}
               className="w-full h-full object-cover"
             />
+            
+            {/* Play button overlay on hover */}
+            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+              <Play className="w-4 h-4 text-white" />
+            </div>
           </div>
+          
           <div>
             <div className="text-xl font-bold font-almarai">
               {targetUser.fullName}, {targetUser.age}
@@ -202,6 +217,40 @@ export default function VideoChat() {
         </Button>
       </div>
       
+      {/* Tab Navigation */}
+      {!showDecision && (
+        <div className="w-full px-4 mt-2">
+          <div className="flex rounded-lg overflow-hidden border border-white/10 bg-black/50">
+            <button 
+              className={`flex-1 px-4 py-2 text-sm font-medium ${
+                activeTab === 'public' ? 'bg-red-600 text-white' : 'bg-transparent text-gray-400 hover:text-white'
+              }`}
+              onClick={() => setActiveTab('public')}
+            >
+              Public Meeting
+            </button>
+            <button 
+              className={`flex-1 px-4 py-2 text-sm font-medium relative ${
+                activeTab === 'private' ? 'bg-blue-600 text-white' : 'bg-transparent text-gray-400 hover:text-white'
+              }`}
+              onClick={() => setActiveTab('private')}
+              onMouseEnter={() => setShowPrivateTabInfo(true)}
+              onMouseLeave={() => setShowPrivateTabInfo(false)}
+            >
+              Private Stream
+              <span className="ml-1 inline-flex items-center justify-center w-4 h-4 bg-gray-700 text-xs rounded-full">?</span>
+              
+              {/* Tooltip for Private Tab */}
+              {showPrivateTabInfo && (
+                <div className="absolute top-full mt-2 left-0 right-0 bg-black/90 text-white text-xs p-2 rounded-md z-50 whitespace-normal">
+                  Private streams are only visible after both users have matched. This area will be unlocked after a successful match.
+                </div>
+              )}
+            </button>
+          </div>
+        </div>
+      )}
+      
       {/* Video container */}
       {!showDecision ? (
         <div className="relative w-full flex-1 flex flex-col items-center justify-center">
@@ -210,57 +259,109 @@ export default function VideoChat() {
             className="absolute inset-0 opacity-30" 
             style={{
               background: "radial-gradient(circle at center, rgba(255,50,50,0.1) 0%, rgba(0,0,0,0) 70%)",
-              animation: "pulse 3s ease-in-out infinite"
+              animation: "pulse-radial 3s ease-in-out infinite"
             }}
           ></div>
           
-          {/* Remote video (full screen) */}
-          <div className="relative w-full h-full overflow-hidden">
-            {connectionState === 'connected' ? (
-              <>
-                <video
-                  ref={remoteVideoRef}
-                  autoPlay
-                  playsInline
-                  className="w-full h-full object-cover"
-                />
-                
-                {/* Subtle frame overlay */}
-                <div className="absolute inset-0 pointer-events-none border border-white/10 shadow-[inset_0_0_40px_rgba(0,0,0,0.6)]"></div>
-                
-                {/* Edge highlight effect */}
-                <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/40 via-transparent to-black/20"></div>
-              </>
-            ) : (
-              <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 to-black">
-                <div className="relative w-20 h-20 mb-6">
-                  <div className="absolute inset-0 bg-blue-500 rounded-full opacity-20 animate-ping"></div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-red-500 rounded-full opacity-70 animate-pulse"></div>
-                  <div className="relative flex items-center justify-center w-full h-full">
-                    <Loader2 className="w-10 h-10 animate-spin text-white" />
+          {activeTab === 'public' ? (
+            // Public meeting tab content
+            <div className="relative w-full h-full overflow-hidden">
+              {connectionState === 'connected' ? (
+                <>
+                  <video
+                    ref={remoteVideoRef}
+                    autoPlay
+                    playsInline
+                    className="w-full h-full object-cover"
+                  />
+                  
+                  {/* Subtle frame overlay */}
+                  <div className="absolute inset-0 pointer-events-none border border-white/10 shadow-[inset_0_0_40px_rgba(0,0,0,0.6)]"></div>
+                  
+                  {/* Edge highlight effect */}
+                  <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/40 via-transparent to-black/20"></div>
+                  
+                  {/* Time indicator */}
+                  <div className="absolute bottom-28 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-black/50 text-white text-xs rounded-full">
+                    Public · Anyone can see this chat
+                  </div>
+                </>
+              ) : (
+                <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 to-black">
+                  <div className="relative w-20 h-20 mb-6">
+                    <div className="absolute inset-0 bg-blue-500 rounded-full opacity-20 animate-ping"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-red-500 rounded-full opacity-70 animate-pulse"></div>
+                    <div className="relative flex items-center justify-center w-full h-full">
+                      <Loader2 className="w-10 h-10 animate-spin text-white" />
+                    </div>
+                  </div>
+                  <p className="text-lg font-almarai text-center">
+                    Connecting to {targetUser.fullName}...<br/>
+                    <span className="text-sm text-gray-400">This won't take long</span>
+                  </p>
+                </div>
+              )}
+            </div>
+          ) : (
+            // Private stream tab content (locked)
+            <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 to-black p-8">
+              <div className="bg-black/60 p-8 rounded-xl border border-white/10 max-w-md flex flex-col items-center">
+                <div className="w-16 h-16 bg-blue-900/20 rounded-full flex items-center justify-center mb-4">
+                  <div className="w-8 h-8 text-blue-400 opacity-60">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
                   </div>
                 </div>
-                <p className="text-lg font-almarai text-center">
-                  Connecting to {targetUser.fullName}...<br/>
-                  <span className="text-sm text-gray-400">This won't take long</span>
+                
+                <h3 className="text-xl font-medium mb-2 text-white">Private Stream Locked</h3>
+                
+                <p className="text-gray-400 text-center mb-6">
+                  This feature will be unlocked if you and {targetUser.fullName} both match after your 2-minute meeting.
                 </p>
+                
+                <div className="w-full bg-gray-800 h-2 rounded-full mb-2">
+                  <div className="bg-blue-500 h-full rounded-full animate-pulse" style={{width: '30%'}}></div>
+                </div>
+                
+                <p className="text-xs text-gray-500">Match required to unlock private streams</p>
               </div>
-            )}
-          </div>
+            </div>
+          )}
           
-          {/* Local video (small overlay) */}
-          <div className="absolute bottom-24 right-4 w-1/3 max-w-[180px] aspect-video rounded-lg overflow-hidden border border-white/20 shadow-lg">
-            <video
-              ref={localVideoRef}
-              autoPlay
-              playsInline
-              muted
-              className="w-full h-full object-cover"
-            />
-            
-            {/* Local video overlay with gradient */}
-            <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_10px_rgba(0,0,0,0.3)] bg-gradient-to-t from-black/30 to-transparent"></div>
-          </div>
+          {/* Local video (small overlay) - only show in public tab */}
+          {activeTab === 'public' && (
+            <div className="absolute bottom-24 right-4 w-1/3 max-w-[180px] aspect-video rounded-lg overflow-hidden border border-white/20 shadow-lg">
+              <video
+                ref={localVideoRef}
+                autoPlay
+                playsInline
+                muted
+                className="w-full h-full object-cover"
+              />
+              
+              {/* Local video overlay with gradient */}
+              <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_10px_rgba(0,0,0,0.3)] bg-gradient-to-t from-black/30 to-transparent"></div>
+              
+              {/* "You" label */}
+              <div className="absolute bottom-1 left-1 bg-black/70 text-white text-xs px-2 py-0.5 rounded">You</div>
+            </div>
+          )}
+          
+          {/* Profile video preview - togglable component */}
+          {showProfileVideo && (
+            <div className="absolute inset-0 z-20 bg-black/80 flex items-center justify-center">
+              <div className="w-full max-w-lg aspect-video">
+                <ProfileVideoPreview 
+                  user={targetUser} 
+                  showVideo={true}
+                  onClose={() => setShowProfileVideo(false)}
+                  className="w-full h-full rounded-lg overflow-hidden"
+                />
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         // Decision screen
@@ -374,31 +475,46 @@ export default function VideoChat() {
       
       {/* Controls (only show during call) */}
       {isCallInProgress && !showDecision && (
-        <div className="w-full flex justify-center gap-4 mt-4">
-          <Button
-            variant="outline"
-            onClick={toggleAudio}
-            className={`p-3 rounded-full ${!isAudioEnabled ? 'bg-red-500 text-white border-red-500' : 'bg-gray-800 border-gray-700'}`}
-          >
-            {isAudioEnabled ? <Mic className="w-6 h-6" /> : <MicOff className="w-6 h-6" />}
-          </Button>
-          <Button
-            variant="outline"
-            onClick={toggleVideo}
-            className={`p-3 rounded-full ${!isVideoEnabled ? 'bg-red-500 text-white border-red-500' : 'bg-gray-800 border-gray-700'}`}
-          >
-            {isVideoEnabled ? <VideoIcon className="w-6 h-6" /> : <VideoOff className="w-6 h-6" />}
-          </Button>
-          <Button
-            variant="outline"
-            onClick={() => {
-              endCall();
-              setShowDecision(true);
-            }}
-            className="p-3 rounded-full bg-red-500 text-white border-red-500"
-          >
-            <X className="w-6 h-6" />
-          </Button>
+        <div className="w-full p-4 flex justify-center gap-4 bg-gradient-to-t from-black/80 to-transparent">
+          <div className="flex items-center bg-black/40 p-1 rounded-full shadow-lg">
+            <Button
+              variant="ghost"
+              onClick={toggleAudio}
+              className={`p-4 rounded-full transition-all duration-200 ${
+                !isAudioEnabled 
+                  ? 'bg-red-500 text-white hover:bg-red-600' 
+                  : 'bg-gray-800/70 text-white hover:bg-gray-700'
+              }`}
+              title={isAudioEnabled ? "Mute microphone" : "Unmute microphone"}
+            >
+              {isAudioEnabled ? <Mic className="w-6 h-6" /> : <MicOff className="w-6 h-6" />}
+            </Button>
+            
+            <Button
+              variant="ghost"
+              onClick={toggleVideo}
+              className={`p-4 rounded-full transition-all duration-200 mx-2 ${
+                !isVideoEnabled 
+                  ? 'bg-red-500 text-white hover:bg-red-600' 
+                  : 'bg-gray-800/70 text-white hover:bg-gray-700'
+              }`}
+              title={isVideoEnabled ? "Turn off camera" : "Turn on camera"}
+            >
+              {isVideoEnabled ? <VideoIcon className="w-6 h-6" /> : <VideoOff className="w-6 h-6" />}
+            </Button>
+            
+            <Button
+              variant="ghost"
+              onClick={() => {
+                endCall();
+                setShowDecision(true);
+              }}
+              className="p-4 rounded-full bg-red-600 text-white hover:bg-red-700 transition-all duration-200"
+              title="End call and go to match decision"
+            >
+              <X className="w-6 h-6" />
+            </Button>
+          </div>
         </div>
       )}
     </div>
