@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAmbient } from '@/context/AmbientContext';
 import { TimeOfDay } from '@/hooks/useAmbientColor';
 import { Coffee, Sun, Sunset, Moon } from 'lucide-react';
@@ -18,7 +18,7 @@ const TimeChangerPanel: React.FC = () => {
       case 'evening':
         return <Sunset size={18} />;
       case 'sunset':
-        return <Sunset size={18} className="text-orange-500" />;
+        return <Sunset size={20} className="text-orange-500 animate-pulse" />;
       case 'night':
         return <Moon size={18} />;
     }
@@ -27,6 +27,11 @@ const TimeChangerPanel: React.FC = () => {
   const handleTimeChange = (time: TimeOfDay) => {
     setForcedTimeOfDay(time === timeOfDay ? null : time);
   };
+
+  // Force the sunset theme when component loads
+  useEffect(() => {
+    setForcedTimeOfDay('sunset');
+  }, []);
 
   if (!isExpanded) {
     return (
@@ -60,7 +65,9 @@ const TimeChangerPanel: React.FC = () => {
               key={time}
               onClick={() => handleTimeChange(time)}
               className={`flex flex-col items-center p-2 rounded-lg transition-all ${
-                timeOfDay === time ? 'bg-purple-600/80 ring-2 ring-purple-300' : 'hover:bg-gray-800/80'
+                timeOfDay === time 
+                  ? (time === 'sunset' ? 'bg-orange-600/80 ring-2 ring-orange-300' : 'bg-purple-600/80 ring-2 ring-purple-300') 
+                  : (time === 'sunset' ? 'hover:bg-orange-800/50' : 'hover:bg-gray-800/80')
               }`}
             >
               {getIcon(time)}

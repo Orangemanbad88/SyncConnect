@@ -25,8 +25,8 @@ const COLOR_SCHEMES: Record<TimeOfDay, ColorScheme> = {
     text: '#8B5CF6',      // Purple
   },
   sunset: {
-    background: 'linear-gradient(150deg, #FFA07A 0%, #FF6347 40%, #9370DB 100%)', // Dramatic sunset colors: light salmon to tomato to purple
-    highlight: '#FF4500', // Orange-red
+    background: 'linear-gradient(150deg, #FF8C00 0%, #FF4500 40%, #8B0000 100%)', // Intense sunset: dark orange to orange-red to dark red
+    highlight: '#FF6347', // Tomato red
     text: '#FFD700',      // Gold
   },
   night: {
@@ -50,7 +50,9 @@ export const useAmbientColor = (forcedTimeOfDay?: TimeOfDay) => {
       return 'morning';
     } else if (hour >= 12 && hour < 17) {
       return 'afternoon';
-    } else if (hour >= 17 && hour < 21) {
+    } else if (hour >= 17 && hour < 18) {
+      return 'sunset'; // Specific time for sunset (5-6pm)
+    } else if (hour >= 18 && hour < 21) {
       return 'evening';
     } else {
       return 'night';
