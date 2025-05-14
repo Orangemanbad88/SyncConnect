@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getSatelliteMapUrl } from '@/lib/mapUtils';
 import { useAmbient } from '@/context/AmbientContext';
+import { TimeOfDay } from '@/hooks/useAmbientColor';
 
 interface StaticMapBackgroundProps {
   latitude?: number;
@@ -25,11 +26,13 @@ const StaticMapBackground = ({
   const [mapUrl, setMapUrl] = useState<string>('');
   
   // Apply time of day-specific filters to the map
-  const timeOfDayFilter = useMemo(() => {
-    if (timeOfDay === "dawn") {
-      return 'brightness(0.85) sepia(0.2) hue-rotate(10deg)';
-    } else if (timeOfDay === "day") {
+  const getTimeOfDayFilter = () => {
+    if (timeOfDay === "morning") {
       return 'brightness(1) saturate(1.1)';
+    } else if (timeOfDay === "afternoon") {
+      return 'brightness(1.05) saturate(1.1) contrast(1.05)';
+    } else if (timeOfDay === "evening") {
+      return 'brightness(0.9) sepia(0.15) hue-rotate(335deg)';
     } else if (timeOfDay === "sunset") {
       return 'brightness(0.8) sepia(0.3) hue-rotate(340deg)';
     } else if (timeOfDay === "night") {
@@ -37,7 +40,7 @@ const StaticMapBackground = ({
     } else {
       return 'brightness(1)';
     }
-  }, [timeOfDay]);
+  };
 
   // Generate map URL when coordinates or dimensions change
   useEffect(() => {
@@ -68,7 +71,7 @@ const StaticMapBackground = ({
             alt="Map view"
             className="w-full h-full object-cover"
             style={{ 
-              filter: timeOfDayFilter,
+              filter: getTimeOfDayFilter(),
               transition: 'filter 1s ease-in-out'
             }}
           />
