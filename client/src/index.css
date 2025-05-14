@@ -216,6 +216,12 @@
     letter-spacing: 0.01em;
   }
   
+  .russo-header {
+    font-family: 'Russo One', sans-serif !important;
+    @apply font-normal tracking-wide;
+    letter-spacing: 0.03em;
+  }
+  
   .app-description {
     font-family: 'Poppins', sans-serif !important;
   }
