@@ -1,4 +1,4 @@
-// Mock map data and utilities to work with the map
+// Map utilities to work with Mapbox and other mapping functionality
 
 export interface MapMarker {
   id: number;
@@ -91,4 +91,21 @@ export const distributeUsers = (
     }
     return user;
   });
+};
+
+// Get Mapbox satellite imagery URL for a given location
+export const getSatelliteMapUrl = (
+  latitude: number,
+  longitude: number,
+  zoom: number = 11,
+  width: number = 1200,
+  height: number = 1200,
+  pitch: number = 0,
+  bearing: number = 0,
+  style: 'satellite' | 'satellite-streets' = 'satellite'
+): string => {
+  // Mapbox style can be 'satellite' for pure satellite imagery or 'satellite-streets' for satellite with roads/labels
+  const mapboxStyle = style === 'satellite' ? 'mapbox/satellite-v9' : 'mapbox/satellite-streets-v12';
+  
+  return `https://api.mapbox.com/styles/v1/${mapboxStyle}/static/${longitude},${latitude},${zoom},${bearing},${pitch}/${width}x${height}?access_token=${import.meta.env.VITE_MAPBOX_ACCESS_TOKEN || ''}`;
 };

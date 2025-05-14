@@ -9,10 +9,10 @@ interface DiscoverySidebarProps {
 
 const DiscoverySidebar = ({ users, isLoading, onUserClick }: DiscoverySidebarProps) => {
   return (
-    <div className="w-80 lg:w-96 bg-black bg-opacity-85 backdrop-blur-md overflow-y-auto text-white" 
+    <div className="w-80 lg:w-96 bg-black bg-opacity-60 backdrop-blur-md overflow-y-auto text-white" 
          style={{ 
            borderLeft: '1px solid rgba(255, 142, 102, 0.3)',
-           boxShadow: '-4px 0 20px rgba(0, 0, 0, 0.5), -1px 0 5px rgba(255, 142, 102, 0.1)'
+           boxShadow: '-4px 0 20px rgba(0, 0, 0, 0.4), -1px 0 5px rgba(255, 142, 102, 0.15)'
          }}>
       <div className="p-6">
         <h2 className="text-3xl font-light gruppo-header tracking-wide mb-8 border-b border-white border-opacity-20 pb-3">Nearby</h2>
@@ -35,7 +35,7 @@ const DiscoverySidebar = ({ users, isLoading, onUserClick }: DiscoverySidebarPro
             {users.map(user => (
               <div
                 key={user.id}
-                className="flex items-center p-3 rounded-lg hover:bg-white hover:bg-opacity-20 transition cursor-pointer"
+                className="flex items-center p-3 rounded-lg bg-white bg-opacity-10 hover:bg-white hover:bg-opacity-25 transition cursor-pointer my-2 shadow-md"
                 onClick={() => onUserClick(user)}
               >
                 <div className="relative">

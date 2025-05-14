@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation } from "wouter";
 import { useAmbient } from "@/context/AmbientContext";
-import { Users, Video, Plus, Minus, ArrowUp } from "lucide-react";
+import { Users, Video, Plus, Minus, ArrowUp, Layers } from "lucide-react";
+import StaticMapBackground from "./StaticMapBackground";
 
 interface MapProps {
   users: any[];
