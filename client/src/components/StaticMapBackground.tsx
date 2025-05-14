@@ -1,7 +1,6 @@
-import { useMemo, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getSatelliteMapUrl } from '@/lib/mapUtils';
 import { useAmbient } from '@/context/AmbientContext';
-import { TimeOfDay } from '@/types';
 
 interface StaticMapBackgroundProps {
   latitude?: number;
@@ -27,17 +26,16 @@ const StaticMapBackground = ({
   
   // Apply time of day-specific filters to the map
   const timeOfDayFilter = useMemo(() => {
-    switch (timeOfDay) {
-      case 'dawn':
-        return 'brightness(0.85) sepia(0.2) hue-rotate(10deg)';
-      case 'day':
-        return 'brightness(1) saturate(1.1)';
-      case 'sunset':
-        return 'brightness(0.8) sepia(0.3) hue-rotate(340deg)';
-      case 'night':
-        return 'brightness(0.4) saturate(0.7) hue-rotate(210deg)';
-      default:
-        return 'brightness(1)';
+    if (timeOfDay === "dawn") {
+      return 'brightness(0.85) sepia(0.2) hue-rotate(10deg)';
+    } else if (timeOfDay === "day") {
+      return 'brightness(1) saturate(1.1)';
+    } else if (timeOfDay === "sunset") {
+      return 'brightness(0.8) sepia(0.3) hue-rotate(340deg)';
+    } else if (timeOfDay === "night") {
+      return 'brightness(0.4) saturate(0.7) hue-rotate(210deg)';
+    } else {
+      return 'brightness(1)';
     }
   }, [timeOfDay]);
 

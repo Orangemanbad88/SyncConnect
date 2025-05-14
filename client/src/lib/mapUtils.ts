@@ -1,4 +1,5 @@
 // Map utilities to work with Mapbox and other mapping functionality
+import { MAPBOX_ACCESS_TOKEN } from '../config';
 
 export interface MapMarker {
   id: number;
@@ -107,5 +108,5 @@ export const getSatelliteMapUrl = (
   // Mapbox style can be 'satellite' for pure satellite imagery or 'satellite-streets' for satellite with roads/labels
   const mapboxStyle = style === 'satellite' ? 'mapbox/satellite-v9' : 'mapbox/satellite-streets-v12';
   
-  return `https://api.mapbox.com/styles/v1/${mapboxStyle}/static/${longitude},${latitude},${zoom},${bearing},${pitch}/${width}x${height}?access_token=${import.meta.env.VITE_MAPBOX_ACCESS_TOKEN || ''}`;
+  return `https://api.mapbox.com/styles/v1/${mapboxStyle}/static/${longitude},${latitude},${zoom},${bearing},${pitch}/${width}x${height}?access_token=${MAPBOX_ACCESS_TOKEN}`;
 };

@@ -16,8 +16,10 @@ const Map = ({ users, isLoading, onUserClick, userCoords, highlightRecommended =
   const mapRef = useRef<HTMLDivElement>(null);
   const [mapDimensions, setMapDimensions] = useState({ width: 0, height: 0 });
   const [zoom, setZoom] = useState(1);
+  const [mapZoom, setMapZoom] = useState(11); // Separate zoom for satellite map
   const [showZoomTip, setShowZoomTip] = useState(true);
   const [hoveredUserId, setHoveredUserId] = useState<number | null>(null);
+  const [showSatellite, setShowSatellite] = useState(true);
   const [, setLocation] = useLocation();
   const { timeOfDay } = useAmbient();
 
@@ -128,6 +130,15 @@ const Map = ({ users, isLoading, onUserClick, userCoords, highlightRecommended =
   
   return (
     <div className="relative w-full h-full overflow-hidden bg-black">
+      {/* Satellite map background */}
+      {showSatellite && userCoords && (
+        <StaticMapBackground
+          latitude={userCoords.latitude}
+          longitude={userCoords.longitude}
+          zoom={mapZoom}
+        />
+      )}
+      
       {/* Zoom tip */}
       {showZoomTip && (
         <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-black/70 text-white text-xs px-4 py-2 rounded-full z-50 animate-fade-in-down">
@@ -301,7 +312,7 @@ const Map = ({ users, isLoading, onUserClick, userCoords, highlightRecommended =
       {/* Map controls */}
       <div className="absolute bottom-20 sm:bottom-24 right-3 sm:right-4 flex flex-col space-y-2">
         <div className="bg-blue-600/80 px-2 sm:px-3 py-1 sm:py-2 rounded-lg mb-1 text-center shadow-md">
-          <p className="text-white text-xs playfair-header">Zoom: {(zoom * 100).toFixed(0)}%</p>
+          <p className="text-white text-xs gruppo-header">Zoom: {(zoom * 100).toFixed(0)}%</p>
         </div>
         <button
           className="bg-blue-500/90 hover:bg-blue-600 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 transition-all border border-blue-400/30 text-white"
@@ -323,6 +334,13 @@ const Map = ({ users, isLoading, onUserClick, userCoords, highlightRecommended =
           title="Reset Zoom"
         >
           <ArrowUp className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+        </button>
+        <button
+          className={`${showSatellite ? 'bg-amber-500/90 hover:bg-amber-600 border-amber-400/30' : 'bg-gray-500/90 hover:bg-gray-600 border-gray-400/30'} rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 transition-all border text-white`}
+          onClick={() => setShowSatellite(prev => !prev)}
+          title={showSatellite ? "Hide Satellite View" : "Show Satellite View"}
+        >
+          <Layers className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
         </button>
       </div>
       
