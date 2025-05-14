@@ -222,20 +222,26 @@
     letter-spacing: 0.03em;
   }
   
+  .gruppo-header {
+    font-family: 'Gruppo', cursive !important;
+    @apply font-normal tracking-wide;
+    letter-spacing: 0.04em;
+  }
+  
   .app-description {
     font-family: 'Poppins', sans-serif !important;
   }
   
   .auth-heading {
-    font-family: 'Russo One', sans-serif !important;
+    font-family: 'Gruppo', cursive !important;
     @apply font-normal tracking-wide;
     letter-spacing: 0.04em;
   }
   
   .auth-text {
-    font-family: 'Russo One', sans-serif !important;
+    font-family: 'Gruppo', cursive !important;
     @apply font-normal;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.03em;
   }
   
   /* Almarai font styles */

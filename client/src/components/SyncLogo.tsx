@@ -53,7 +53,7 @@ const SyncLogo: React.FC<SyncLogoProps> = ({ className = '' }) => {
       {/* Main retro 80s logo text */}
       <div className="relative text-center">
         <h1 
-          className="text-6xl russo-header"
+          className="text-6xl gruppo-header"
           style={{ 
             letterSpacing: isHovered ? '0.15em' : '0.1em',
             textShadow: `
