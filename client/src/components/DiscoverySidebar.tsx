@@ -9,9 +9,13 @@ interface DiscoverySidebarProps {
 
 const DiscoverySidebar = ({ users, isLoading, onUserClick }: DiscoverySidebarProps) => {
   return (
-    <div className="hidden md:block w-80 lg:w-96 bg-[var(--primary-coral)] bg-opacity-95 shadow-lg overflow-y-auto text-white">
+    <div className="w-80 lg:w-96 bg-black bg-opacity-85 backdrop-blur-md overflow-y-auto text-white" 
+         style={{ 
+           borderLeft: '1px solid rgba(255, 142, 102, 0.3)',
+           boxShadow: '-4px 0 20px rgba(0, 0, 0, 0.5), -1px 0 5px rgba(255, 142, 102, 0.1)'
+         }}>
       <div className="p-6">
-        <h2 className="text-3xl font-light tracking-wide mb-8 border-b border-white border-opacity-20 pb-3">Nearby</h2>
+        <h2 className="text-3xl font-light gruppo-header tracking-wide mb-8 border-b border-white border-opacity-20 pb-3">Nearby</h2>
         
         {isLoading ? (
           <div className="space-y-4">
