@@ -226,6 +226,18 @@
     font-family: 'Poppins', sans-serif !important;
   }
   
+  .auth-heading {
+    font-family: 'Russo One', sans-serif !important;
+    @apply font-normal tracking-wide;
+    letter-spacing: 0.04em;
+  }
+  
+  .auth-text {
+    font-family: 'Russo One', sans-serif !important;
+    @apply font-normal;
+    letter-spacing: 0.02em;
+  }
+  
   /* Almarai font styles */
   .font-almarai {
     font-family: 'Almarai', sans-serif !important;

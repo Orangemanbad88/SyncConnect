@@ -144,7 +144,7 @@ export default function AuthPage() {
           {/* Short description */}
           <div className="text-center mb-10">
             <h2 
-              className="text-white auth-text italic text-2xl md:text-3xl font-bold"
+              className="text-white russo-header text-2xl md:text-3xl font-bold"
               style={{ 
                 textShadow: `
                   0 0 1px rgba(255, 255, 255, 1),
@@ -390,7 +390,7 @@ export default function AuthPage() {
           {/* Features as bullet points */}
           <div className="mt-12 bg-blue-900/30 backdrop-blur-sm rounded-xl p-6" 
                style={{ boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3), inset 0 1px 15px rgba(255, 255, 255, 0.1)' }}>
-            <h3 className="text-2xl auth-heading mb-4 text-center">Features</h3>
+            <h3 className="text-2xl russo-header mb-4 text-center">Features</h3>
             <ul className="space-y-3">
               <li className="flex items-start">
                 <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center mr-3 mt-0.5">

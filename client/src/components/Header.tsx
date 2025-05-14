@@ -42,7 +42,7 @@ const Header = () => {
                 style={location === '/home' ? { 
                   textShadow: `0 0 5px ${COLOR_SCHEMES.sunset.highlight}, 0 0 10px ${COLOR_SCHEMES.sunset.highlight}40` 
                 } : {}}>
-              <span className="text-xs playfair-header tracking-wide">DISCOVER</span>
+              <span className="text-xs russo-header tracking-wide">DISCOVER</span>
             </div>
           </Link>
           <Link to="/map">
@@ -50,7 +50,7 @@ const Header = () => {
                 style={location === '/map' ? { 
                   textShadow: `0 0 5px ${COLOR_SCHEMES.sunset.highlight}, 0 0 10px ${COLOR_SCHEMES.sunset.highlight}40` 
                 } : {}}>
-              <span className="text-xs playfair-header tracking-wide">MAP</span>
+              <span className="text-xs russo-header tracking-wide">MAP</span>
             </div>
           </Link>
           <Link to="/recommendations">
@@ -60,7 +60,7 @@ const Header = () => {
                 } : {}}>
               <Sparkles className="w-4 h-4 mr-2" 
                     style={location === '/recommendations' ? { filter: 'drop-shadow(0 0 3px #FF8040)' } : {}} />
-              <span className="text-xs playfair-header tracking-wide">MATCHES</span>
+              <span className="text-xs russo-header tracking-wide">MATCHES</span>
             </div>
           </Link>
 
@@ -71,7 +71,7 @@ const Header = () => {
                 } : {}}>
               <Dices className="w-4 h-4 mr-2" 
                     style={location === '/dice' ? { filter: 'drop-shadow(0 0 3px #FF8040)' } : {}} />
-              <span className="text-xs playfair-header tracking-wide">DICE ROLL</span>
+              <span className="text-xs russo-header tracking-wide">DICE ROLL</span>
             </div>
           </Link>
         </nav>
