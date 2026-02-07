@@ -1,75 +1,73 @@
-import { Home, MapPin, MessageCircle, User, Dices, Sparkles } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import { COLOR_SCHEMES } from "@/hooks/useAmbientColor";
+import { Home, MessageCircle, User, Stars } from "lucide-react";
+import { motion } from "framer-motion";
 
 const BottomNavigation = () => {
   const [location] = useLocation();
-  
-  // Using sunset color scheme to match desktop aesthetic
-  const activeColor = COLOR_SCHEMES.sunset.highlight;
-  const glowEffect = `0 0 5px ${activeColor}, 0 0 10px ${activeColor}40`;
-  
+
+  const navItems = [
+    { path: '/home', label: 'Discover', icon: Home },
+    { path: '/zodiac', label: 'Zodiac', icon: Stars },
+    { path: '/messages', label: 'Messages', icon: MessageCircle },
+    { path: '/profile', label: 'Profile', icon: User },
+  ];
+
+  const isActive = (path: string) => location === path;
+
   return (
-    <nav className="nav-bar border-t border-gray-800/50 fixed bottom-0 inset-x-0 z-10 md:hidden shadow-lg backdrop-blur-md" 
-         style={{ 
-           backgroundColor: 'rgba(0, 0, 0, 0.85)',
-           boxShadow: '0 -4px 20px rgba(0,0,0,0.7)'
-         }}>
-      <div className="flex justify-around">
-        <Link to="/home">
-          <button 
-            className={`flex flex-col items-center justify-center w-full py-3 text-[#f0f0f0] 
-            ${location === '/home' ? 'text-[#FF8040]' : 'opacity-70 hover:opacity-100'}`}
-            style={location === '/home' ? { textShadow: glowEffect } : {}}
-          >
-            <Home className="w-5 h-5" style={location === '/home' ? { filter: 'drop-shadow(0 0 3px #FF8040)' } : {}} />
-            <span className="text-[10px] mt-1 tracking-wide font-medium uppercase">Discover</span>
-          </button>
-        </Link>
-        
-        <Link to="/map">
-          <button 
-            className={`flex flex-col items-center justify-center w-full py-3 text-[#f0f0f0] 
-            ${location === '/map' ? 'text-[#FF8040]' : 'opacity-70 hover:opacity-100'}`}
-            style={location === '/map' ? { textShadow: glowEffect } : {}}
-          >
-            <MapPin className="w-5 h-5" style={location === '/map' ? { filter: 'drop-shadow(0 0 3px #FF8040)' } : {}} />
-            <span className="text-[10px] mt-1 tracking-wide font-medium uppercase">Map</span>
-          </button>
-        </Link>
-        
-        <Link to="/recommendations">
-          <button 
-            className={`flex flex-col items-center justify-center w-full py-3 text-[#f0f0f0] 
-            ${location === '/recommendations' ? 'text-[#FF8040]' : 'opacity-70 hover:opacity-100'}`}
-            style={location === '/recommendations' ? { textShadow: glowEffect } : {}}
-          >
-            <Sparkles className="w-5 h-5" style={location === '/recommendations' ? { filter: 'drop-shadow(0 0 3px #FF8040)' } : {}} />
-            <span className="text-[10px] mt-1 tracking-wide font-medium uppercase">Matches</span>
-          </button>
-        </Link>
-        
-        <Link to="/dice">
-          <button 
-            className={`flex flex-col items-center justify-center w-full py-3 text-[#f0f0f0]
-            ${location === '/dice' ? 'text-[#FF8040]' : 'opacity-70 hover:opacity-100'}`}
-            style={location === '/dice' ? { textShadow: glowEffect } : {}}
-          >
-            <Dices className="w-5 h-5" style={location === '/dice' ? { filter: 'drop-shadow(0 0 3px #FF8040)' } : {}} />
-            <span className="text-[10px] mt-1 tracking-wide font-medium uppercase">Dice</span>
-          </button>
-        </Link>
-        
-        <Link to="/profile">
-          <button 
-            className={`flex flex-col items-center justify-center w-full py-3 text-[#f0f0f0] 
-            ${location === '/profile' ? 'text-[#FF8040]' : 'opacity-70 hover:opacity-100'}`}
-            style={location === '/profile' ? { textShadow: glowEffect } : {}}
-          >
-            <User className="w-5 h-5" style={location === '/profile' ? { filter: 'drop-shadow(0 0 3px #FF8040)' } : {}} />
-            <span className="text-[10px] mt-1 tracking-wide font-medium uppercase">Profile</span>
-          </button>
-        </Link>
+    <nav
+      className="fixed bottom-0 inset-x-0 z-10"
+      style={{
+        background: 'linear-gradient(180deg, rgba(13, 15, 18, 0.95) 0%, rgba(10, 12, 14, 0.99) 100%)',
+        borderTop: '1px solid rgba(201, 169, 98, 0.12)',
+        paddingBottom: 'env(safe-area-inset-bottom)',
+        backdropFilter: 'blur(20px)',
+      }}
+    >
+      <div className="flex justify-around py-2">
+        {navItems.map((item) => {
+          const active = isActive(item.path);
+          const Icon = item.icon;
+          return (
+            <Link key={item.path} to={item.path}>
+              <motion.button
+                className="relative flex flex-col items-center justify-center px-5 py-2"
+                whileTap={{ scale: 0.95 }}
+              >
+                {/* Active background pill */}
+                {active && (
+                  <motion.div
+                    layoutId="activeTab"
+                    className="absolute inset-1 rounded-2xl"
+                    style={{
+                      background: 'rgba(201, 169, 98, 0.1)',
+                      border: '1px solid rgba(201, 169, 98, 0.2)',
+                    }}
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
+
+                <Icon
+                  className="w-5 h-5 mb-1 relative z-10 transition-colors duration-200"
+                  style={{
+                    color: active ? '#C9A962' : 'rgba(255, 255, 255, 0.35)',
+                    filter: active ? 'drop-shadow(0 0 6px rgba(201, 169, 98, 0.5))' : 'none',
+                  }}
+                />
+                <span
+                  className="relative z-10 text-[9px] tracking-[0.15em] uppercase transition-all duration-200"
+                  style={{
+                    fontFamily: "'Cinzel', serif",
+                    fontWeight: 600,
+                    color: active ? '#C9A962' : 'rgba(255, 255, 255, 0.35)',
+                  }}
+                >
+                  {item.label}
+                </span>
+              </motion.button>
+            </Link>
+          );
+        })}
       </div>
     </nav>
   );

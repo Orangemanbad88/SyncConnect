@@ -1,15 +1,23 @@
-import { Pool, neonConfig } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-serverless';
-import ws from "ws";
+import Database from 'better-sqlite3';
+import { drizzle } from 'drizzle-orm/better-sqlite3';
 import * as schema from "@shared/schema";
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-neonConfig.webSocketConstructor = ws;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-if (!process.env.DATABASE_URL) {
-  throw new Error(
-    "DATABASE_URL must be set. Did you forget to provision a database?",
-  );
+const dbPath = path.join(__dirname, '..', 'database.sqlite');
+
+let db: ReturnType<typeof drizzle> | null = null;
+
+try {
+  const sqlite = new Database(dbPath);
+  sqlite.pragma('foreign_keys = ON');
+  db = drizzle(sqlite, { schema });
+  console.log('SQLite database connected at', dbPath);
+} catch (error) {
+  console.log('SQLite database not initialized (using in-memory storage)');
 }
 
-export const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-export const db = drizzle({ client: pool, schema });
+export { db };

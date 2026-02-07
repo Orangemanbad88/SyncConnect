@@ -3,6 +3,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useGeolocation } from "@/hooks/useGeolocation";
 import { queryClient } from "@/lib/queryClient";
+import { useAuth } from "@/hooks/use-auth";
 
 interface UserContextType {
   currentUser: any | null;
@@ -11,77 +12,91 @@ interface UserContextType {
   selectedUser: any | null;
   isLoading: boolean;
   error: Error | null;
-  login: (username: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
   refreshNearbyUsers: () => void;
   selectUser: (user: any) => void;
+  blockedUserIds: number[];
+  availableNowUserIds: number[];
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
+// Mock user for testing without login
+const MOCK_USER = {
+  id: 1,
+  username: "testuser",
+  email: "test@example.com",
+  fullName: "Test User",
+  age: 25,
+  job: "Developer",
+  bio: "Testing the app",
+  profileImage: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop",
+  coverImage: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=800&h=300&fit=crop",
+  latitude: 40.7128,
+  longitude: -74.006,
+  isOnline: true,
+};
+
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [currentUser, setCurrentUser] = useState<any | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const { user: authUser, isLoading: authLoading } = useAuth();
   const [selectedUser, setSelectedUser] = useState<any | null>(null);
   const [error, setError] = useState<Error | null>(null);
-  
-  // Mock user for demonstration
-  const mockUser = {
-    id: 999,
-    username: "currentuser",
-    fullName: "Current User",
-    age: 26,
-    job: "Product Designer",
-    bio: "Always looking for new connections and experiences. Love travel, photography, and good coffee.",
-    profileImage: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=120&h=120",
-    isOnline: true
-  };
-  
-  // Auto-login with mock user for Home page
-  useEffect(() => {
-    setCurrentUser(mockUser);
-    setIsAuthenticated(true);
-    
-    // Set online status after a short delay
-    setTimeout(() => {
-      updateOnlineStatusMutation.mutate(true);
-    }, 500);
-  }, []);
-  
+
+  // Use mock user if not authenticated (for testing)
+  const currentUser = authUser || MOCK_USER;
+  const isAuthenticated = true; // Always authenticated for testing
+
   // Get user's location with enhanced tracking
-  const { 
-    coords, 
-    locationError, 
-    isTracking, 
-    permissionStatus, 
-    timeSinceUpdate 
+  const {
+    coords,
+    locationError,
+    isTracking,
+    permissionStatus,
+    timeSinceUpdate
   } = useGeolocation({
-    updateInterval: 15000, // Update location every 15 seconds
+    updateInterval: 15000,
     highAccuracy: true
   });
-  
+
+  // Fetch blocked user IDs
+  const { data: blockedUserIds = [] } = useQuery<number[]>({
+    queryKey: ['/api/blocks'],
+    enabled: isAuthenticated,
+    refetchInterval: 60000,
+  });
+
+  // Fetch available users now
+  const { data: availableNowUserIds = [] } = useQuery<number[]>({
+    queryKey: ['/api/users/available/now'],
+    enabled: true,
+    refetchInterval: 60000,
+  });
+
   // Fetch nearby users when location changes
-  const { 
-    data: nearbyUsers = [], 
-    isLoading, 
-    refetch: refreshNearbyUsers 
+  const {
+    data: nearbyUsers = [],
+    isLoading: usersLoading,
+    refetch: refreshNearbyUsers
   } = useQuery({
     queryKey: ['/api/users', coords?.latitude, coords?.longitude],
-    enabled: !!coords?.latitude && !!coords?.longitude,
-    refetchInterval: 30000, // Refresh every 30 seconds
+    enabled: true, // Always enabled for testing
+    refetchInterval: 30000,
+    staleTime: 60000, // Consider data stale after 1 minute
     select: (data: unknown) => {
-      // Add additional info like timeAgo
       const users = data as any[];
-      return users.map(user => ({
-        ...user,
-        locationTimestamp: user.locationTimestamp || Date.now(),
-        locationAge: user.locationTimestamp 
-          ? Math.floor((Date.now() - user.locationTimestamp) / 1000) 
-          : null
-      }));
+      return users
+        .filter(user => user.id !== currentUser?.id) // Exclude current user
+        .filter(user => !blockedUserIds.includes(user.id)) // Exclude blocked users
+        .map(user => ({
+          ...user,
+          locationTimestamp: user.locationTimestamp || Date.now(),
+          locationAge: user.locationTimestamp
+            ? Math.floor((Date.now() - user.locationTimestamp) / 1000)
+            : null,
+          isAvailableNow: availableNowUserIds.includes(user.id),
+        }));
     }
   });
-  
+
   // Update location mutation
   const updateLocationMutation = useMutation({
     mutationFn: async () => {
@@ -93,9 +108,12 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/users'] });
+    },
+    onError: (err) => {
+      console.error('Failed to update location:', err);
     }
   });
-  
+
   // Update online status mutation
   const updateOnlineStatusMutation = useMutation({
     mutationFn: async (isOnline: boolean) => {
@@ -106,72 +124,37 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/users'] });
+    },
+    onError: (err) => {
+      console.error('Failed to update online status:', err);
     }
   });
-  
-  // Set mock user as authenticated on initial load
+
+  // Set user online when authenticated
   useEffect(() => {
-    setCurrentUser(mockUser);
-    setIsAuthenticated(true);
-    
-    // Set user as online
-    updateOnlineStatusMutation.mutate(true);
-    
-    // Set to offline when component unmounts
-    return () => {
-      if (isAuthenticated) {
+    if (isAuthenticated && currentUser) {
+      updateOnlineStatusMutation.mutate(true);
+
+      // Set to offline when component unmounts or user logs out
+      return () => {
         updateOnlineStatusMutation.mutate(false);
-      }
-    };
-  }, []);
-  
+      };
+    }
+  }, [isAuthenticated, currentUser?.id]);
+
   // Update location when coords change
   useEffect(() => {
-    if (isAuthenticated && coords) {
-      console.log("Updating location with coords:", coords);
+    if (isAuthenticated && coords && currentUser) {
       updateLocationMutation.mutate();
     }
-  }, [coords, isAuthenticated]);
-  
-  // Debug nearby users
-  useEffect(() => {
-    console.log("Current location coordinates:", coords);
-    console.log("Nearby users count:", nearbyUsers?.length || 0);
-    
-    if (nearbyUsers?.length === 0 && coords) {
-      console.log("No nearby users found despite having coordinates. Will try to refresh.");
-      setTimeout(() => {
-        refreshNearbyUsers();
-      }, 1000);
-    }
-  }, [coords, nearbyUsers, refreshNearbyUsers]);
-  
-  const login = async (username: string, password: string) => {
-    try {
-      // In a real app, we would make an API request here
-      setCurrentUser(mockUser);
-      setIsAuthenticated(true);
-      updateOnlineStatusMutation.mutate(true);
-    } catch (err) {
-      setError(err as Error);
-    }
-  };
-  
-  const logout = async () => {
-    try {
-      // Set user offline before logging out
-      await updateOnlineStatusMutation.mutateAsync(false);
-      setCurrentUser(null);
-      setIsAuthenticated(false);
-    } catch (err) {
-      setError(err as Error);
-    }
-  };
-  
+  }, [coords?.latitude, coords?.longitude, isAuthenticated, currentUser?.id]);
+
   const selectUser = (user: any) => {
     setSelectedUser(user);
   };
-  
+
+  const isLoading = authLoading || usersLoading;
+
   return (
     <UserContext.Provider
       value={{
@@ -181,10 +164,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         selectedUser,
         isLoading,
         error,
-        login,
-        logout,
         refreshNearbyUsers,
-        selectUser
+        selectUser,
+        blockedUserIds,
+        availableNowUserIds,
       }}
     >
       {children}

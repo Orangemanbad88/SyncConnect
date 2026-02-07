@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { useUser } from '@/context/UserContext';
 import { useToast } from '@/hooks/use-toast';
+import { getWsUrl } from '@/lib/capacitor';
+
+// Permission states
+export type PermissionState = 'prompt' | 'granted' | 'denied' | 'checking';
 
 // Define the types for the hook
 interface UseWebRTCProps {
@@ -11,6 +15,12 @@ interface UseWebRTCProps {
   onCallAccepted?: () => void;
   onCallRejected?: () => void;
   onCallEnded?: () => void;
+  onPermissionDenied?: () => void;
+  onSparkQuestion?: (question: string, from: number) => void;
+  onSpeedRollIncoming?: (data: { rollId: number; fromUser: any; compatibilityScore: number }) => void;
+  onSpeedRollAccepted?: (data: { rollId: number; targetUser: any }) => void;
+  onSpeedRollDeclined?: (data: { rollId: number }) => void;
+  onSpeedRollExpired?: (data: { rollId: number }) => void;
 }
 
 interface WebRTCHookReturn {
@@ -27,6 +37,9 @@ interface WebRTCHookReturn {
   toggleVideo: () => void;
   isAudioEnabled: boolean;
   isVideoEnabled: boolean;
+  permissionState: PermissionState;
+  checkPermissions: () => Promise<PermissionState>;
+  requestPermissions: () => Promise<boolean>;
 }
 
 export const useWebRTC = ({
@@ -36,12 +49,18 @@ export const useWebRTC = ({
   onCallReceived,
   onCallAccepted,
   onCallRejected,
-  onCallEnded
+  onCallEnded,
+  onPermissionDenied,
+  onSparkQuestion,
+  onSpeedRollIncoming,
+  onSpeedRollAccepted,
+  onSpeedRollDeclined,
+  onSpeedRollExpired
 }: UseWebRTCProps = {}): WebRTCHookReturn => {
   // Get current user
   const { currentUser } = useUser();
   const { toast } = useToast();
-  
+
   // WebRTC state
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
@@ -50,19 +69,100 @@ export const useWebRTC = ({
   const [isCaller, setIsCaller] = useState(false);
   const [isAudioEnabled, setIsAudioEnabled] = useState(true);
   const [isVideoEnabled, setIsVideoEnabled] = useState(true);
-  
+  const [permissionState, setPermissionState] = useState<PermissionState>('checking');
+
   // WebRTC refs
   const peerConnectionRef = useRef<RTCPeerConnection | null>(null);
   const websocketRef = useRef<WebSocket | null>(null);
   const targetUserIdRef = useRef<number | null>(null);
   const incomingCallUserRef = useRef<any | null>(null);
+
+  // Check camera/microphone permissions
+  const checkPermissions = useCallback(async (): Promise<PermissionState> => {
+    try {
+      // Check if permissions API is available
+      if (navigator.permissions) {
+        const [cameraResult, micResult] = await Promise.all([
+          navigator.permissions.query({ name: 'camera' as PermissionName }),
+          navigator.permissions.query({ name: 'microphone' as PermissionName })
+        ]);
+
+        if (cameraResult.state === 'denied' || micResult.state === 'denied') {
+          setPermissionState('denied');
+          return 'denied';
+        }
+
+        if (cameraResult.state === 'granted' && micResult.state === 'granted') {
+          setPermissionState('granted');
+          return 'granted';
+        }
+
+        setPermissionState('prompt');
+        return 'prompt';
+      }
+
+      // Fallback: try to get media to check permissions
+      setPermissionState('prompt');
+      return 'prompt';
+    } catch (error) {
+      console.error('Error checking permissions:', error);
+      setPermissionState('prompt');
+      return 'prompt';
+    }
+  }, []);
+
+  // Request camera/microphone permissions
+  const requestPermissions = useCallback(async (): Promise<boolean> => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true
+      });
+
+      // Stop the test stream immediately
+      stream.getTracks().forEach(track => track.stop());
+
+      setPermissionState('granted');
+      return true;
+    } catch (error: any) {
+      console.error('Permission request failed:', error);
+
+      if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+        setPermissionState('denied');
+        onPermissionDenied?.();
+        toast({
+          title: "Permission Denied",
+          description: "Camera and microphone access is required for video calls",
+          variant: "destructive"
+        });
+      } else if (error.name === 'NotFoundError') {
+        toast({
+          title: "Device Not Found",
+          description: "No camera or microphone found on this device",
+          variant: "destructive"
+        });
+      } else {
+        toast({
+          title: "Media Error",
+          description: "Could not access camera or microphone",
+          variant: "destructive"
+        });
+      }
+
+      return false;
+    }
+  }, [toast, onPermissionDenied]);
+
+  // Check permissions on mount
+  useEffect(() => {
+    checkPermissions();
+  }, [checkPermissions]);
   
   // Initialize WebSocket connection
   useEffect(() => {
     if (!currentUser) return;
     
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const wsUrl = `${protocol}//${window.location.host}/ws`;
+    const wsUrl = getWsUrl();
     const ws = new WebSocket(wsUrl);
     
     ws.onopen = () => {
@@ -137,6 +237,30 @@ export const useWebRTC = ({
           });
           break;
           
+        case 'spark-question':
+          onSparkQuestion?.(data.question, data.from);
+          break;
+
+        case 'speed-roll-incoming':
+          onSpeedRollIncoming?.({
+            rollId: data.rollId,
+            fromUser: data.fromUser,
+            compatibilityScore: data.compatibilityScore,
+          });
+          break;
+
+        case 'speed-roll-accepted':
+          onSpeedRollAccepted?.({ rollId: data.rollId, targetUser: data.targetUser });
+          break;
+
+        case 'speed-roll-declined':
+          onSpeedRollDeclined?.({ rollId: data.rollId });
+          break;
+
+        case 'speed-roll-expired':
+          onSpeedRollExpired?.({ rollId: data.rollId });
+          break;
+
         case 'error':
           toast({
             title: "Error",
@@ -174,12 +298,33 @@ export const useWebRTC = ({
   const createPeerConnection = useCallback(async () => {
     try {
       // ICE servers for WebRTC (STUN/TURN servers)
+      // TURN servers are essential for connections behind strict NATs/firewalls
       const iceServers = {
         iceServers: [
+          // Google STUN servers
           { urls: 'stun:stun.l.google.com:19302' },
           { urls: 'stun:stun1.l.google.com:19302' },
           { urls: 'stun:stun2.l.google.com:19302' },
-        ]
+          { urls: 'stun:stun3.l.google.com:19302' },
+          { urls: 'stun:stun4.l.google.com:19302' },
+          // Open Relay TURN servers (free tier)
+          {
+            urls: 'turn:openrelay.metered.ca:80',
+            username: 'openrelayproject',
+            credential: 'openrelayproject'
+          },
+          {
+            urls: 'turn:openrelay.metered.ca:443',
+            username: 'openrelayproject',
+            credential: 'openrelayproject'
+          },
+          {
+            urls: 'turn:openrelay.metered.ca:443?transport=tcp',
+            username: 'openrelayproject',
+            credential: 'openrelayproject'
+          },
+        ],
+        iceCandidatePoolSize: 10
       };
       
       const pc = new RTCPeerConnection(iceServers);
@@ -237,16 +382,40 @@ export const useWebRTC = ({
       };
       
       return pc;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error creating peer connection:', error);
-      toast({
-        title: "Media Error",
-        description: "Could not access camera or microphone",
-        variant: "destructive"
-      });
+
+      // Handle specific permission errors
+      if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+        setPermissionState('denied');
+        onPermissionDenied?.();
+        toast({
+          title: "Permission Denied",
+          description: "Please allow camera and microphone access to make video calls",
+          variant: "destructive"
+        });
+      } else if (error.name === 'NotFoundError') {
+        toast({
+          title: "Device Not Found",
+          description: "No camera or microphone detected on this device",
+          variant: "destructive"
+        });
+      } else if (error.name === 'NotReadableError') {
+        toast({
+          title: "Device In Use",
+          description: "Your camera or microphone is being used by another application",
+          variant: "destructive"
+        });
+      } else {
+        toast({
+          title: "Connection Error",
+          description: "Could not establish video connection",
+          variant: "destructive"
+        });
+      }
       throw error;
     }
-  }, [currentUser, onLocalStream, onRemoteStream, onConnectionStateChange]);
+  }, [currentUser, onLocalStream, onRemoteStream, onConnectionStateChange, toast, onPermissionDenied]);
   
   // Handle incoming call (offer)
   const handleIncomingCall = async (offer: RTCSessionDescriptionInit, fromUserId: number) => {
@@ -451,6 +620,9 @@ export const useWebRTC = ({
     toggleAudio,
     toggleVideo,
     isAudioEnabled,
-    isVideoEnabled
+    isVideoEnabled,
+    permissionState,
+    checkPermissions,
+    requestPermissions
   };
 };

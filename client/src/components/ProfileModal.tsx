@@ -1,12 +1,19 @@
-import { X, MapPin, Video, Clock, Wifi, AlertTriangle, MapPinned, Star } from "lucide-react";
+import { X, MapPin, Video, Clock, Wifi, AlertTriangle, MapPinned, Star, Heart, Users, Sparkles, Coffee } from "lucide-react";
 import { useLocation } from "wouter";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";
-import MoodReactions from "./MoodReactions";
 import { calculateDistance, formatDistance } from "@/lib/mapUtils";
 import { useGeolocation } from "@/hooks/useGeolocation";
+
+// Relationship types with icons
+const RELATIONSHIP_TYPES = [
+  { id: 'serious', label: 'Serious Relationship', icon: Heart, color: 'text-red-500', bg: 'bg-red-50' },
+  { id: 'casual', label: 'Casual Dating', icon: Coffee, color: 'text-orange-500', bg: 'bg-orange-50' },
+  { id: 'friendship', label: 'New Friends', icon: Users, color: 'text-blue-500', bg: 'bg-blue-50' },
+  { id: 'undecided', label: 'Open to Anything', icon: Sparkles, color: 'text-purple-500', bg: 'bg-purple-50' },
+];
 
 interface ProfileModalProps {
   user: any;
@@ -159,7 +166,24 @@ const ProfileModal = ({ user, onClose, onStartVideoChat }: ProfileModalProps) =>
           </div>
           
           <div className="border-t border-gray-200 pt-4 mb-6">
-            <MoodReactions toUserId={user.id} />
+            <h3 className="font-semibold text-[var(--text-dark)] mb-3">Looking For</h3>
+            <div className="flex flex-wrap gap-2">
+              {(() => {
+                // Generate a consistent relationship type based on user id
+                const typeIndex = user.id % RELATIONSHIP_TYPES.length;
+                const relType = RELATIONSHIP_TYPES[typeIndex];
+                const Icon = relType.icon;
+                return (
+                  <Badge
+                    variant="outline"
+                    className={`flex items-center gap-2 px-3 py-2 ${relType.bg} rounded-full text-sm`}
+                  >
+                    <Icon className={`w-4 h-4 ${relType.color}`} />
+                    <span className="text-gray-700 font-medium">{relType.label}</span>
+                  </Badge>
+                );
+              })()}
+            </div>
           </div>
           
           <Button 

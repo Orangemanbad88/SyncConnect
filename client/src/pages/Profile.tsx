@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { useAuth } from '@/hooks/use-auth';
 import { Redirect } from 'wouter';
-import { Loader2, Settings, LogOut, Moon, Sun, Sunset, Coffee, Clock } from 'lucide-react';
+import { Loader2, Settings, LogOut, Moon, Sun, Sunset, Coffee, Clock, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import BottomNavigation from '@/components/BottomNavigation';
 import StaticMapBackground from '@/components/StaticMapBackground';
 import { useAmbient } from '@/context/AmbientContext';
 import { TimeOfDay } from '@/hooks/useAmbientColor';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import AvailabilityScheduler from '@/components/AvailabilityScheduler';
 
 const ProfilePage = () => {
   const { user, logoutMutation, isLoading } = useAuth();
@@ -71,10 +72,14 @@ const ProfilePage = () => {
           </div>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid grid-cols-2 mb-6">
+            <TabsList className="grid grid-cols-3 mb-6">
               <TabsTrigger value="settings">
                 <Settings className="w-4 h-4 mr-2" />
                 Settings
+              </TabsTrigger>
+              <TabsTrigger value="availability">
+                <Calendar className="w-4 h-4 mr-2" />
+                Schedule
               </TabsTrigger>
               <TabsTrigger value="appearance">
                 <Sun className="w-4 h-4 mr-2" />
@@ -107,6 +112,12 @@ const ProfilePage = () => {
                     )}
                   </Button>
                 </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="availability" className="space-y-4">
+              <div className="bg-gray-900/60 rounded-lg p-4">
+                <AvailabilityScheduler userId={user?.id || 0} />
               </div>
             </TabsContent>
 

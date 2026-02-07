@@ -20,16 +20,43 @@ type AuthContextType = {
 type LoginData = Pick<InsertUser, "username" | "password">;
 
 export const AuthContext = createContext<AuthContextType | null>(null);
+// TESTING MODE: Set to true to bypass login
+const BYPASS_AUTH = true;
+
+const mockUser: SelectUser = {
+  id: 1,
+  username: "testuser",
+  email: "test@example.com",
+  password: "",
+  fullName: "Test User",
+  age: 28,
+  job: "Developer",
+  bio: "Testing the app",
+  location: "New York",
+  zodiacSign: null,
+  profileImage: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop",
+  coverImage: null,
+  latitude: 40.7128,
+  longitude: -74.006,
+  isOnline: true,
+  isVerified: false,
+};
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
   const {
-    data: user,
+    data: fetchedUser,
     error,
-    isLoading,
+    isLoading: isFetching,
   } = useQuery<SelectUser | null, Error>({
     queryKey: ["/api/user"],
     queryFn: getQueryFn({ on401: "returnNull" }),
+    enabled: !BYPASS_AUTH,
   });
+
+  // Use mock user if bypassing auth
+  const user = BYPASS_AUTH ? mockUser : fetchedUser;
+  const isLoading = BYPASS_AUTH ? false : isFetching;
 
   const loginMutation = useMutation({
     mutationFn: async (credentials: LoginData) => {
@@ -61,7 +88,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       queryClient.setQueryData(["/api/user"], user);
       toast({
         title: "Registration successful",
-        description: `Welcome to Sync, ${user.fullName || user.username}!`,
+        description: `Welcome to SYNC, ${user.fullName || user.username}!`,
       });
     },
     onError: (error: Error) => {

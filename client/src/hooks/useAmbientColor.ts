@@ -10,29 +10,29 @@ export type ColorScheme = {
 
 export const COLOR_SCHEMES: Record<TimeOfDay, ColorScheme> = {
   morning: {
-    background: 'linear-gradient(150deg, #FEF9C3 0%, #FEF3F2 70%, #FCE7F3 100%)', // Soft yellow/peach gradient
-    highlight: '#F59E0B', // Amber/orange
-    text: '#3B82F6',      // Blue
+    background: 'linear-gradient(135deg, #1A1D23 0%, #252A33 50%, #2D3340 100%)',
+    highlight: '#C9A962', // Gold
+    text: '#E8E4DF',      // Warm white
   },
   afternoon: {
-    background: 'linear-gradient(150deg, #E0F2FE 0%, #F5F5F4 50%, #FEF3F2 100%)', // Light blue to white to peach
-    highlight: '#F87171', // Coral
-    text: '#3B82F6',      // Blue
+    background: 'linear-gradient(135deg, #1A1D23 0%, #22262E 50%, #2A2F38 100%)',
+    highlight: '#D4A574', // Amber
+    text: '#E8E4DF',      // Warm white
   },
   evening: {
-    background: 'linear-gradient(150deg, #93C5FD 0%, #DDD6FE 50%, #FBCFE8 100%)', // Blue to purple to pink gradient
-    highlight: '#EC4899', // Pink
-    text: '#8B5CF6',      // Purple
+    background: 'linear-gradient(135deg, #151820 0%, #1A1D23 50%, #252A33 100%)',
+    highlight: '#C17767', // Muted coral
+    text: '#E8E4DF',      // Warm white
   },
   sunset: {
-    background: 'linear-gradient(to bottom, #0A1425 0%, #1B2A4A 20%, #2E3F6A 40%, #6A7CBF 60%, #FF8E66 80%, #FF6B42 90%, #193554 100%)', // Matching sunset photo gradient
-    highlight: '#FF7F50', // Coral
-    text: '#87CEFA',      // Light sky blue
+    background: 'linear-gradient(135deg, #0D0F12 0%, #1A1D23 40%, #252A33 70%, #1A1D23 100%)',
+    highlight: '#C9A962', // Gold
+    text: '#E8E4DF',      // Warm white
   },
   night: {
-    background: 'linear-gradient(150deg, #020617 0%, #1E293B 50%, #334155 100%)', // Dark blue to slate gradient
-    highlight: '#A78BFA', // Purple
-    text: '#E2E8F0',      // Light gray
+    background: 'linear-gradient(135deg, #0D0F12 0%, #151820 50%, #1A1D23 100%)',
+    highlight: '#8B7355', // Muted bronze
+    text: '#9CA3AF',      // Soft gray
   },
 };
 

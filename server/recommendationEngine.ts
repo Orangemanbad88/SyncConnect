@@ -83,7 +83,7 @@ export class RecommendationEngine {
    * @param user2 The second user
    * @returns Object containing similarity score and reason for recommendation
    */
-  private async calculateUserSimilarity(user1: User, user2: User): Promise<{ score: number, reason: string }> {
+  public async calculateUserSimilarity(user1: User, user2: User): Promise<{ score: number, reason: string }> {
     // Initialize factors
     let locationScore = 0;
     let ageScore = 0;

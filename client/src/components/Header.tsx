@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { useUser } from "@/context/UserContext";
-import { useAmbient } from "@/context/AmbientContext";
 import { useAuth } from "@/hooks/use-auth";
 import {
   DropdownMenu,
@@ -9,133 +7,141 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { Bell, Dices, Loader2, Sparkles } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import SyncMonogram from "./SyncMonogram";
 import { Link, useLocation } from "wouter";
-import { COLOR_SCHEMES } from "@/hooks/useAmbientColor";
 
 const Header = () => {
-  const { user } = useAuth();
-  const { logoutMutation } = useAuth();
-  const { highlight, text, background, timeOfDay } = useAmbient();
-  const [notificationCount] = useState(3);
+  const { user, logoutMutation } = useAuth();
   const [location] = useLocation();
 
-  return (
-    <header className="shadow-md py-2 px-4 sm:px-6 flex justify-between items-center transition-colors duration-500 backdrop-blur-md" style={{ 
-      backgroundColor: 'rgba(0, 0, 0, 0.85)',
-      borderBottom: `1px solid ${COLOR_SCHEMES.sunset.highlight}30`,
-      boxShadow: `0 4px 20px rgba(0,0,0,0.5), 0 1px 0 ${COLOR_SCHEMES.sunset.highlight}10`
-    }}>
-      <div className="flex items-center">
-        <Link to="/">
-          <div className="flex items-center cursor-pointer">
-            <SyncMonogram className="w-8 h-8" />
-          </div>
-        </Link>
-      </div>
-      
-      <div className="flex items-center space-x-5">
-        <nav className="hidden md:flex space-x-6 text-[#f0f0f0]">
-          <Link to="/home">
-            <div className={`flex items-center py-2 px-3 transition-all duration-300 ${location === '/home' ? 'text-[#FF8040]' : 'opacity-85 hover:opacity-100'}`}
-                style={location === '/home' ? { 
-                  textShadow: `0 0 5px ${COLOR_SCHEMES.sunset.highlight}, 0 0 10px ${COLOR_SCHEMES.sunset.highlight}40` 
-                } : {}}>
-              <span className="text-xs gruppo-header tracking-wide">DISCOVER</span>
-            </div>
-          </Link>
-          <Link to="/map">
-            <div className={`flex items-center py-2 px-3 transition-all duration-300 ${location === '/map' ? 'text-[#FF8040]' : 'opacity-85 hover:opacity-100'}`}
-                style={location === '/map' ? { 
-                  textShadow: `0 0 5px ${COLOR_SCHEMES.sunset.highlight}, 0 0 10px ${COLOR_SCHEMES.sunset.highlight}40` 
-                } : {}}>
-              <span className="text-xs gruppo-header tracking-wide">MAP</span>
-            </div>
-          </Link>
-          <Link to="/recommendations">
-            <div className={`flex items-center py-2 px-3 transition-all duration-300 ${location === '/recommendations' ? 'text-[#FF8040]' : 'opacity-85 hover:opacity-100'}`}
-                style={location === '/recommendations' ? { 
-                  textShadow: `0 0 5px ${COLOR_SCHEMES.sunset.highlight}, 0 0 10px ${COLOR_SCHEMES.sunset.highlight}40` 
-                } : {}}>
-              <Sparkles className="w-4 h-4 mr-2" 
-                    style={location === '/recommendations' ? { filter: 'drop-shadow(0 0 3px #FF8040)' } : {}} />
-              <span className="text-xs gruppo-header tracking-wide">MATCHES</span>
-            </div>
-          </Link>
+  const isActive = (path: string) => {
+    if (path === '/video') return location === '/video' || location.startsWith('/video/');
+    return location === path;
+  };
 
-          <Link to="/dice">
-            <div className={`flex items-center py-2 px-3 transition-all duration-300 ${location === '/dice' ? 'text-[#FF8040]' : 'opacity-85 hover:opacity-100'}`}
-                style={location === '/dice' ? { 
-                  textShadow: `0 0 5px ${COLOR_SCHEMES.sunset.highlight}, 0 0 10px ${COLOR_SCHEMES.sunset.highlight}40` 
-                } : {}}>
-              <Dices className="w-4 h-4 mr-2" 
-                    style={location === '/dice' ? { filter: 'drop-shadow(0 0 3px #FF8040)' } : {}} />
-              <span className="text-xs gruppo-header tracking-wide">DICE ROLL</span>
-            </div>
-          </Link>
-        </nav>
-      
-        <div className="relative mr-4">
-          <button className="focus:outline-none hover:opacity-80 transition-opacity">
-            <Bell className="w-4 h-4 text-[#f0f0f0]" />
-            {notificationCount > 0 && (
-              <span className="absolute -top-1 -right-1 text-white text-xs font-bold px-1.5 py-0.5 rounded-full shadow-lg"
-                style={{ 
-                  background: COLOR_SCHEMES.sunset.highlight,
-                  boxShadow: `0 0 5px ${COLOR_SCHEMES.sunset.highlight}70`
-                }}>
-                {notificationCount}
-              </span>
-            )}
-          </button>
+  const navItems = [
+    { path: '/home', label: 'Discover' },
+    { path: '/video', label: 'Video' },
+    { path: '/vibe-check', label: 'Vibe' },
+    { path: '/dice', label: 'Roll the Dice' },
+  ];
+
+  return (
+    <header
+      className="py-4 px-6 flex justify-between items-center"
+      style={{
+        backgroundColor: 'rgba(13, 15, 18, 0.98)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
+      }}
+    >
+      {/* Logo */}
+      <Link to="/">
+        <div className="flex items-center cursor-pointer group">
+          <SyncMonogram className="w-7 h-7 transition-transform duration-300 group-hover:scale-105" />
         </div>
-        
-        <div className="relative">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button className="focus:outline-none ring-offset-black hover:opacity-90 transition-opacity">
-                <img
-                  src={user?.profileImage || 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200'}
-                  alt="Profile"
-                  className="w-7 h-7 rounded-full cursor-pointer object-cover"
-                  style={{ 
-                    border: `2px solid ${COLOR_SCHEMES.sunset.highlight}40`,
-                    boxShadow: `0 0 5px ${COLOR_SCHEMES.sunset.highlight}30`
-                  }}
-                />
+      </Link>
+
+      {/* Center Navigation */}
+      <nav className="hidden md:flex items-center">
+        <div className="flex items-center gap-8">
+          {navItems.map((item) => (
+            <Link key={item.path} to={item.path}>
+              <button className="relative py-2 nav-link-btn">
+                <span
+                  className={`nav-link-text text-[11px] tracking-[0.2em] uppercase ${isActive(item.path) ? 'active' : ''}`}
+                  style={{ fontFamily: "'Cinzel', serif", fontWeight: 600 }}
+                >
+                  {item.label}
+                </span>
               </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" 
-              className="bg-black/95 text-[#f0f0f0] backdrop-blur-md" 
-              style={{ 
-                borderColor: `${COLOR_SCHEMES.sunset.highlight}30`,
-                boxShadow: `0 4px 20px rgba(0,0,0,0.8), 0 0 3px ${COLOR_SCHEMES.sunset.highlight}20`
-              }}>
-              <Link to="/profile">
-                <DropdownMenuItem className="cursor-pointer hover:bg-gray-900/70 focus:bg-gray-900/70 transition-colors duration-200">
-                  Profile
-                </DropdownMenuItem>
-              </Link>
-              <DropdownMenuItem className="cursor-pointer hover:bg-gray-900/70 focus:bg-gray-900/70 transition-colors duration-200">
-                Settings
-              </DropdownMenuItem>
-              <DropdownMenuSeparator className="bg-gray-800" />
-              <DropdownMenuItem 
-                className="cursor-pointer hover:bg-gray-900/70 focus:bg-gray-900/70 transition-colors duration-200" 
-                onClick={() => logoutMutation.mutate()}
-                disabled={logoutMutation.isPending}
-              >
-                {logoutMutation.isPending ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Logging out...
-                  </>
-                ) : "Logout"}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+            </Link>
+          ))}
         </div>
+        <style>{`
+          .nav-link-text {
+            color: #C9A962;
+            opacity: 0.5;
+            transition: all 0.3s ease;
+          }
+          .nav-link-text.active {
+            opacity: 1;
+            text-shadow: 0 0 20px rgba(201, 169, 98, 0.8), 0 0 40px rgba(201, 169, 98, 0.4);
+          }
+          .nav-link-btn:hover .nav-link-text {
+            opacity: 1;
+            text-shadow: 0 0 20px rgba(201, 169, 98, 0.8), 0 0 40px rgba(201, 169, 98, 0.4);
+          }
+        `}</style>
+      </nav>
+
+      {/* Right Side */}
+      <div className="flex items-center gap-4">
+        {/* Notification dot */}
+        <div className="relative">
+          <div
+            className="w-2 h-2 rounded-full"
+            style={{
+              backgroundColor: '#C9A962',
+              boxShadow: '0 0 8px rgba(201, 169, 98, 0.6)',
+            }}
+          />
+        </div>
+
+        {/* Profile */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="focus:outline-none group">
+              <div
+                className="w-8 h-8 rounded-full overflow-hidden transition-all duration-300 group-hover:ring-2 group-hover:ring-[rgba(201,169,98,0.3)]"
+              >
+                <img
+                  src={user?.profileImage || 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop'}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="end"
+            className="min-w-[160px] p-1"
+            style={{
+              backgroundColor: 'rgba(20, 22, 26, 0.98)',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              backdropFilter: 'blur(20px)',
+            }}
+          >
+            <Link to="/profile">
+              <DropdownMenuItem
+                className="cursor-pointer rounded-md text-[#E8E4DF] text-sm py-2.5 px-3 focus:bg-white/5 focus:text-[#C9A962]"
+                style={{ fontFamily: "'Barlow', sans-serif" }}
+              >
+                Profile
+              </DropdownMenuItem>
+            </Link>
+            <DropdownMenuItem
+              className="cursor-pointer rounded-md text-[#E8E4DF] text-sm py-2.5 px-3 focus:bg-white/5 focus:text-[#C9A962]"
+              style={{ fontFamily: "'Barlow', sans-serif" }}
+            >
+              Settings
+            </DropdownMenuItem>
+            <DropdownMenuSeparator className="bg-white/10 my-1" />
+            <DropdownMenuItem
+              className="cursor-pointer rounded-md text-[#9CA3AF] text-sm py-2.5 px-3 focus:bg-white/5 focus:text-white"
+              style={{ fontFamily: "'Barlow', sans-serif" }}
+              onClick={() => logoutMutation.mutate()}
+              disabled={logoutMutation.isPending}
+            >
+              {logoutMutation.isPending ? (
+                <span className="flex items-center gap-2">
+                  <Loader2 className="w-3 h-3 animate-spin" />
+                  Logging out...
+                </span>
+              ) : "Log out"}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   );

@@ -3,6 +3,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useUser } from '@/context/UserContext';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getQueryFn, queryClient, apiRequest } from '@/lib/queryClient';
+import { apiUrl } from '@/lib/capacitor';
 
 // Define common emoji reactions
 const MOOD_EMOJIS = [
@@ -40,7 +41,7 @@ const MoodReactions: React.FC<MoodReactionsProps> = ({ toUserId, className = '' 
     queryFn: async () => {
       if (!currentUser || !toUserId) return [];
       try {
-        const response = await fetch(`/api/users/${currentUser.id}/mood-reactions/${toUserId}`);
+        const response = await fetch(apiUrl(`/api/users/${currentUser.id}/mood-reactions/${toUserId}`));
         if (!response.ok) {
           throw new Error('Failed to fetch reactions');
         }
@@ -57,7 +58,7 @@ const MoodReactions: React.FC<MoodReactionsProps> = ({ toUserId, className = '' 
   // Mutation to send a new reaction
   const mutation = useMutation({
     mutationFn: async ({ emoji }: { emoji: string }) => {
-      const response = await fetch('/api/mood-reactions', {
+      const response = await fetch(apiUrl('/api/mood-reactions'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

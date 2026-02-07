@@ -16,7 +16,7 @@ const Map = ({ users, isLoading, onUserClick, userCoords, highlightRecommended =
   const mapRef = useRef<HTMLDivElement>(null);
   const [mapDimensions, setMapDimensions] = useState({ width: 0, height: 0 });
   const [zoom, setZoom] = useState(1);
-  const [mapZoom, setMapZoom] = useState(11); // Separate zoom for satellite map
+  const [mapZoom, setMapZoom] = useState(13); // Satellite map zoom level (higher = more zoomed in)
   const [showZoomTip, setShowZoomTip] = useState(true);
   const [hoveredUserId, setHoveredUserId] = useState<number | null>(null);
   const [showSatellite, setShowSatellite] = useState(true);
@@ -68,13 +68,18 @@ const Map = ({ users, isLoading, onUserClick, userCoords, highlightRecommended =
         const newZoom = Math.max(0.5, Math.min(2, prev + delta));
         return newZoom;
       });
+      // Also adjust satellite map zoom
+      setMapZoom(prev => {
+        const mapDelta = Math.sign(e.deltaY) * -0.5;
+        return Math.max(8, Math.min(18, prev + mapDelta));
+      });
     };
-    
+
     const mapElement = mapRef.current;
     if (mapElement) {
       mapElement.addEventListener('wheel', handleWheel, { passive: false });
     }
-    
+
     return () => {
       if (mapElement) {
         mapElement.removeEventListener('wheel', handleWheel);
@@ -123,10 +128,19 @@ const Map = ({ users, isLoading, onUserClick, userCoords, highlightRecommended =
     };
   }, [zoom]);
   
-  // Zoom control button handlers
-  const handleZoomIn = () => setZoom(prev => Math.min(2, prev + 0.2));
-  const handleZoomOut = () => setZoom(prev => Math.max(0.5, prev - 0.2));
-  const handleReset = () => setZoom(1);
+  // Zoom control button handlers - affects both UI scale and map zoom level
+  const handleZoomIn = () => {
+    setZoom(prev => Math.min(2, prev + 0.2));
+    setMapZoom(prev => Math.min(18, prev + 1));
+  };
+  const handleZoomOut = () => {
+    setZoom(prev => Math.max(0.5, prev - 0.2));
+    setMapZoom(prev => Math.max(8, prev - 1));
+  };
+  const handleReset = () => {
+    setZoom(1);
+    setMapZoom(13);
+  };
   
   return (
     <div className="relative w-full h-full overflow-hidden bg-black">
@@ -311,36 +325,36 @@ const Map = ({ users, isLoading, onUserClick, userCoords, highlightRecommended =
       
       {/* Map controls */}
       <div className="absolute bottom-20 sm:bottom-24 right-3 sm:right-4 flex flex-col space-y-2">
-        <div className="bg-blue-600/80 px-2 sm:px-3 py-1 sm:py-2 rounded-lg mb-1 text-center shadow-md">
-          <p className="text-white text-xs gruppo-header">Zoom: {(zoom * 100).toFixed(0)}%</p>
+        <div className="bg-[#1A1D23]/90 border border-[#C9A962]/30 px-2 sm:px-3 py-1 sm:py-2 rounded-lg mb-1 text-center shadow-md">
+          <p className="text-[#C9A962] text-xs" style={{ fontFamily: "'Barlow', sans-serif" }}>Level {mapZoom}</p>
         </div>
         <button
-          className="bg-blue-500/90 hover:bg-blue-600 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 transition-all border border-blue-400/30 text-white"
+          className="bg-[#1A1D23]/90 hover:bg-[#252A33] rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 transition-all border border-[#C9A962]/30"
           onClick={handleZoomIn}
           title="Zoom In"
         >
-          <Plus className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+          <Plus className="w-5 h-5 sm:w-6 sm:h-6 text-[#C9A962]" />
         </button>
         <button
-          className="bg-blue-500/90 hover:bg-blue-600 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 transition-all border border-blue-400/30 text-white"
+          className="bg-[#1A1D23]/90 hover:bg-[#252A33] rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 transition-all border border-[#C9A962]/30"
           onClick={handleZoomOut}
           title="Zoom Out"
         >
-          <Minus className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+          <Minus className="w-5 h-5 sm:w-6 sm:h-6 text-[#C9A962]" />
         </button>
         <button
-          className="bg-purple-500/90 hover:bg-purple-600 rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 transition-all border border-purple-400/30 text-white"
+          className="bg-[#1A1D23]/90 hover:bg-[#252A33] rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 transition-all border border-[#C17767]/30"
           onClick={handleReset}
           title="Reset Zoom"
         >
-          <ArrowUp className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+          <ArrowUp className="w-5 h-5 sm:w-6 sm:h-6 text-[#C17767]" />
         </button>
         <button
-          className={`${showSatellite ? 'bg-amber-500/90 hover:bg-amber-600 border-amber-400/30' : 'bg-gray-500/90 hover:bg-gray-600 border-gray-400/30'} rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 transition-all border text-white`}
+          className={`${showSatellite ? 'bg-[#C9A962]/20 border-[#C9A962]/50' : 'bg-[#1A1D23]/90 border-[#2D3139]'} rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 transition-all border`}
           onClick={() => setShowSatellite(prev => !prev)}
           title={showSatellite ? "Hide Satellite View" : "Show Satellite View"}
         >
-          <Layers className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+          <Layers className={`w-5 h-5 sm:w-6 sm:h-6 ${showSatellite ? 'text-[#C9A962]' : 'text-[#9CA3AF]'}`} />
         </button>
       </div>
       

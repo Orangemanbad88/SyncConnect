@@ -54,7 +54,7 @@ export default function AuthPage() {
 
   // Redirect if already logged in
   if (user) {
-    return <Redirect to="/" />;
+    return <Redirect to="/home" />;
   }
 
   // Login form setup
@@ -93,69 +93,39 @@ export default function AuthPage() {
   };
 
   return (
-    <div 
-      className="min-h-screen flex flex-col text-white font-georgia relative overflow-hidden"
-      style={{ 
-        background: COLOR_SCHEMES.sunset.background,
-        boxShadow: 'inset 0 0 100px rgba(255,255,255,0.15)' 
+    <div
+      className="min-h-screen flex flex-col text-white relative overflow-hidden"
+      style={{
+        background: 'linear-gradient(135deg, #0D0F12 0%, #1A1D23 40%, #252A33 70%, #1A1D23 100%)',
       }}>
-      
-      {/* Sky elements */}
-      <div className="absolute top-0 w-full h-64 sm:h-80 opacity-60" 
-           style={{ 
-             background: 'radial-gradient(ellipse at top, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0) 70%)',
-             pointerEvents: 'none'
-           }}></div>
-      
-      {/* Stars */}
-      <div className="absolute top-0 left-0 right-0 h-48 z-0" 
-           style={{ 
-             backgroundImage: 'radial-gradient(2px 2px at 20px 30px, #ffffff77, rgba(0,0,0,0)), radial-gradient(2px 2px at 40px 70px, #ffffff55, rgba(0,0,0,0)), radial-gradient(2px 2px at 60px 110px, #ffffff55, rgba(0,0,0,0)), radial-gradient(2px 2px at 80px 10px, #ffffff77, rgba(0,0,0,0))',
-             backgroundSize: '210px 210px',
-             pointerEvents: 'none',
-             opacity: 0.4
-           }}></div>
-      {/* Header with SYNC logo */}
-      {/* Glossy effect overlay */}
-      <div className="absolute inset-0 z-0" style={{ 
-        background: 'radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 100%)',
-        pointerEvents: 'none'
-      }} />
-      
-      {/* Grid overlay */}
-      <div className="absolute inset-0 z-0" style={{ 
-        backgroundImage: `
-          linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-          linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px)
-        `,
-        backgroundSize: '40px 40px',
-        pointerEvents: 'none',
-        opacity: 0.5
-      }} />
-      
+
+      {/* Subtle ambient glow */}
+      <div
+        className="absolute inset-0 opacity-30"
+        style={{
+          background: 'radial-gradient(ellipse at 50% 20%, rgba(201, 169, 98, 0.08) 0%, transparent 50%)',
+          pointerEvents: 'none'
+        }}
+      />
+
       {/* Header with SYNC logo */}
       <div className="w-full flex justify-center pt-10 pb-6 relative z-10">
-        <SyncLogo className="w-60 h-auto" />
+        <SyncLogo className="w-52 h-auto" />
       </div>
-      
+
       {/* Main content - single column */}
       <div className="flex-1 flex flex-col items-center px-4 pb-12 relative z-10">
         <div className="w-full max-w-md">
           {/* Short description */}
           <div className="text-center mb-10">
-            <h2 
-              className="text-white gruppo-header text-2xl md:text-3xl font-bold"
-              style={{ 
-                textShadow: `
-                  0 0 1px rgba(255, 255, 255, 1),
-                  0 0 5px rgba(255, 107, 66, 1),
-                  0 0 10px rgba(255, 107, 66, 0.8),
-                  0 0 15px rgba(255, 107, 66, 0.7),
-                  0 0 20px rgba(255, 107, 66, 0.6)
-                `,
-                letterSpacing: '0.075em',
-                color: '#FF8040',
-                WebkitTextStroke: '0.5px rgba(255, 255, 255, 0.4)'
+            <h2
+              className="text-2xl md:text-3xl"
+              style={{
+                fontFamily: "'Cinzel', serif",
+                fontWeight: '600',
+                letterSpacing: '0.1em',
+                color: '#C9A962',
+                textShadow: '0 0 20px rgba(201, 169, 98, 0.3)'
               }}
             >
               Everything is Connected
@@ -168,17 +138,25 @@ export default function AuthPage() {
             onValueChange={setActiveTab}
             className="w-full mb-8"
           >
-            <TabsList className="w-full mb-6">
-              <TabsTrigger value="login" className="flex-1 auth-text text-lg">
+            <TabsList className="w-full mb-6 bg-[#1A1D23] border border-[#2D3139]">
+              <TabsTrigger
+                value="login"
+                className="flex-1 text-base data-[state=active]:bg-[#C9A962] data-[state=active]:text-[#0D0F12]"
+                style={{ fontFamily: "'Cinzel', serif", fontWeight: '600' }}
+              >
                 Login
               </TabsTrigger>
-              <TabsTrigger value="register" className="flex-1 auth-text text-lg">
+              <TabsTrigger
+                value="register"
+                className="flex-1 text-base data-[state=active]:bg-[#C9A962] data-[state=active]:text-[#0D0F12]"
+                style={{ fontFamily: "'Cinzel', serif", fontWeight: '600' }}
+              >
                 Register
               </TabsTrigger>
             </TabsList>
 
             <TabsContent value="login" className="space-y-4">
-              <div className="bg-black/30 backdrop-blur-md rounded-xl p-6 border border-gray-800/40 shadow-lg">
+              <div className="bg-[#151820] rounded-xl p-6 border border-[#2D3139] shadow-lg">
                 <Form {...loginForm}>
                   <form
                     onSubmit={loginForm.handleSubmit(onLoginSubmit)}
@@ -189,12 +167,12 @@ export default function AuthPage() {
                       name="username"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-base auth-text">Username</FormLabel>
+                          <FormLabel className="text-sm text-[#9CA3AF]" style={{ fontFamily: "'Barlow', sans-serif" }}>Username</FormLabel>
                           <FormControl>
-                            <Input 
-                              placeholder="Username" 
-                              className="rounded-lg bg-gray-900/70 border-gray-700" 
-                              {...field} 
+                            <Input
+                              placeholder="Username"
+                              className="rounded-md bg-[#1A1D23] border-[#2D3139] text-[#E8E4DF] placeholder:text-[#4D5565]"
+                              {...field}
                             />
                           </FormControl>
                           <FormMessage />
@@ -207,12 +185,12 @@ export default function AuthPage() {
                       name="password"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-base auth-text">Password</FormLabel>
+                          <FormLabel className="text-sm text-[#9CA3AF]" style={{ fontFamily: "'Barlow', sans-serif" }}>Password</FormLabel>
                           <FormControl>
                             <Input
                               type="password"
                               placeholder="Password"
-                              className="rounded-lg bg-gray-900/70 border-gray-700"
+                              className="rounded-md bg-[#1A1D23] border-[#2D3139] text-[#E8E4DF] placeholder:text-[#4D5565]"
                               {...field}
                             />
                           </FormControl>
@@ -223,7 +201,14 @@ export default function AuthPage() {
 
                     <Button
                       type="submit"
-                      className="w-full text-lg py-6 auth-button rounded-lg"
+                      className="w-full text-base py-5 rounded-md"
+                      style={{
+                        background: 'linear-gradient(135deg, #C9A962 0%, #D4A574 50%, #C9A962 100%)',
+                        color: '#0D0F12',
+                        fontFamily: "'Cinzel', serif",
+                        fontWeight: '700',
+                        letterSpacing: '0.1em'
+                      }}
                       disabled={loginMutation.isPending}
                     >
                       {loginMutation.isPending ? (
@@ -241,7 +226,7 @@ export default function AuthPage() {
             </TabsContent>
 
             <TabsContent value="register" className="space-y-4">
-              <div className="bg-black/30 backdrop-blur-md rounded-xl p-6 border border-gray-800/40 shadow-lg">
+              <div className="bg-[#151820] rounded-xl p-6 border border-[#2D3139] shadow-lg">
                 <Form {...registerForm}>
                   <form
                     onSubmit={registerForm.handleSubmit(onRegisterSubmit)}
@@ -253,12 +238,12 @@ export default function AuthPage() {
                         name="username"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-base auth-text">Username</FormLabel>
+                            <FormLabel className="text-sm text-[#9CA3AF]" style={{ fontFamily: "'Barlow', sans-serif" }}>Username</FormLabel>
                             <FormControl>
-                              <Input 
-                                placeholder="Username" 
-                                className="rounded-lg bg-gray-900/70 border-gray-700"
-                                {...field} 
+                              <Input
+                                placeholder="Username"
+                                className="rounded-md bg-[#1A1D23] border-[#2D3139] text-[#E8E4DF] placeholder:text-[#4D5565]"
+                                {...field}
                               />
                             </FormControl>
                             <FormMessage />
@@ -271,13 +256,13 @@ export default function AuthPage() {
                         name="email"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-base auth-text">Email</FormLabel>
+                            <FormLabel className="text-sm text-[#9CA3AF]" style={{ fontFamily: "'Barlow', sans-serif" }}>Email</FormLabel>
                             <FormControl>
-                              <Input 
+                              <Input
                                 type="email"
-                                placeholder="your@email.com" 
-                                className="rounded-lg bg-gray-900/70 border-gray-700"
-                                {...field} 
+                                placeholder="your@email.com"
+                                className="rounded-md bg-[#1A1D23] border-[#2D3139] text-[#E8E4DF] placeholder:text-[#4D5565]"
+                                {...field}
                               />
                             </FormControl>
                             <FormMessage />
@@ -290,12 +275,12 @@ export default function AuthPage() {
                         name="password"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-base auth-text">Password</FormLabel>
+                            <FormLabel className="text-sm text-[#9CA3AF]" style={{ fontFamily: "'Barlow', sans-serif" }}>Password</FormLabel>
                             <FormControl>
                               <Input
                                 type="password"
                                 placeholder="Password"
-                                className="rounded-lg bg-gray-900/70 border-gray-700"
+                                className="rounded-md bg-[#1A1D23] border-[#2D3139] text-[#E8E4DF] placeholder:text-[#4D5565]"
                                 {...field}
                               />
                             </FormControl>
@@ -303,18 +288,18 @@ export default function AuthPage() {
                           </FormItem>
                         )}
                       />
-                      
+
                       <FormField
                         control={registerForm.control}
                         name="confirmPassword"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-base auth-text">Confirm Password</FormLabel>
+                            <FormLabel className="text-sm text-[#9CA3AF]" style={{ fontFamily: "'Barlow', sans-serif" }}>Confirm Password</FormLabel>
                             <FormControl>
                               <Input
                                 type="password"
                                 placeholder="Confirm Password"
-                                className="rounded-lg bg-gray-900/70 border-gray-700"
+                                className="rounded-md bg-[#1A1D23] border-[#2D3139] text-[#E8E4DF] placeholder:text-[#4D5565]"
                                 {...field}
                               />
                             </FormControl>
@@ -322,36 +307,36 @@ export default function AuthPage() {
                           </FormItem>
                         )}
                       />
-                      
+
                       <FormField
                         control={registerForm.control}
                         name="fullName"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-base auth-text">Full Name</FormLabel>
+                            <FormLabel className="text-sm text-[#9CA3AF]" style={{ fontFamily: "'Barlow', sans-serif" }}>Full Name</FormLabel>
                             <FormControl>
-                              <Input 
-                                placeholder="Full Name" 
-                                className="rounded-lg bg-gray-900/70 border-gray-700"
-                                {...field} 
+                              <Input
+                                placeholder="Full Name"
+                                className="rounded-md bg-[#1A1D23] border-[#2D3139] text-[#E8E4DF] placeholder:text-[#4D5565]"
+                                {...field}
                               />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
-                      
+
                       <FormField
                         control={registerForm.control}
                         name="age"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-base auth-text">Age</FormLabel>
+                            <FormLabel className="text-sm text-[#9CA3AF]" style={{ fontFamily: "'Barlow', sans-serif" }}>Age</FormLabel>
                             <FormControl>
                               <Input
                                 type="number"
                                 placeholder="Age"
-                                className="rounded-lg bg-gray-900/70 border-gray-700"
+                                className="rounded-md bg-[#1A1D23] border-[#2D3139] text-[#E8E4DF] placeholder:text-[#4D5565]"
                                 {...field}
                                 onChange={(e) => {
                                   const value = e.target.value
@@ -369,7 +354,14 @@ export default function AuthPage() {
 
                     <Button
                       type="submit"
-                      className="w-full text-lg py-6 auth-button rounded-lg"
+                      className="w-full text-base py-5 rounded-md"
+                      style={{
+                        background: 'linear-gradient(135deg, #C9A962 0%, #D4A574 50%, #C9A962 100%)',
+                        color: '#0D0F12',
+                        fontFamily: "'Cinzel', serif",
+                        fontWeight: '700',
+                        letterSpacing: '0.1em'
+                      }}
                       disabled={registerMutation.isPending}
                     >
                       {registerMutation.isPending ? (
@@ -386,41 +378,40 @@ export default function AuthPage() {
               </div>
             </TabsContent>
           </Tabs>
-          
-          {/* Features as bullet points */}
-          <div className="mt-12 bg-blue-900/30 backdrop-blur-sm rounded-xl p-6" 
-               style={{ boxShadow: '0 4px 30px rgba(0, 0, 0, 0.3), inset 0 1px 15px rgba(255, 255, 255, 0.1)' }}>
-            <h3 className="text-2xl gruppo-header mb-4 text-center">Features</h3>
+
+          {/* Features section */}
+          <div className="mt-10 bg-[#151820] rounded-xl p-6 border border-[#2D3139]">
+            <h3
+              className="text-xl mb-5 text-center"
+              style={{
+                fontFamily: "'Cinzel', serif",
+                fontWeight: '600',
+                color: '#C9A962',
+                letterSpacing: '0.1em'
+              }}
+            >
+              Features
+            </h3>
             <ul className="space-y-3">
               <li className="flex items-start">
-                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center mr-3 mt-0.5">
-                  <span className="text-white font-bold">•</span>
-                </div>
-                <p className="auth-text">Find people nearby using location-based matching</p>
+                <div className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-[#C9A962] mr-3 mt-2" />
+                <p className="text-[#9CA3AF] text-sm" style={{ fontFamily: "'Barlow', sans-serif" }}>Find people nearby using location-based matching</p>
               </li>
               <li className="flex items-start">
-                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center mr-3 mt-0.5">
-                  <span className="text-white font-bold">•</span>
-                </div>
-                <p className="auth-text">Connect through 2-minute video chats</p>
+                <div className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-[#C9A962] mr-3 mt-2" />
+                <p className="text-[#9CA3AF] text-sm" style={{ fontFamily: "'Barlow', sans-serif" }}>Connect through 2-minute video chats</p>
               </li>
               <li className="flex items-start">
-                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center mr-3 mt-0.5">
-                  <span className="text-white font-bold">•</span>
-                </div>
-                <p className="auth-text">Match instantly with compatible users</p>
+                <div className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-[#C9A962] mr-3 mt-2" />
+                <p className="text-[#9CA3AF] text-sm" style={{ fontFamily: "'Barlow', sans-serif" }}>Match instantly with compatible users</p>
               </li>
               <li className="flex items-start">
-                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center mr-3 mt-0.5">
-                  <span className="text-white font-bold">•</span>
-                </div>
-                <p className="auth-text">Roll the dice for randomized matching</p>
+                <div className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-[#C9A962] mr-3 mt-2" />
+                <p className="text-[#9CA3AF] text-sm" style={{ fontFamily: "'Barlow', sans-serif" }}>Roll the dice for randomized matching</p>
               </li>
               <li className="flex items-start">
-                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center mr-3 mt-0.5">
-                  <span className="text-white font-bold">•</span>
-                </div>
-                <p className="auth-text">Message your matches instantly</p>
+                <div className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-[#C9A962] mr-3 mt-2" />
+                <p className="text-[#9CA3AF] text-sm" style={{ fontFamily: "'Barlow', sans-serif" }}>Message your matches instantly</p>
               </li>
             </ul>
           </div>

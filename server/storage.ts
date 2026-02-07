@@ -1,14 +1,18 @@
-import { 
-  users, 
+import {
+  users,
   interests,
   moodReactions,
   videoConnections,
   matches,
   messages,
   userRecommendations,
-  type User, 
-  type InsertUser, 
-  type Interest, 
+  reports,
+  blocks,
+  availabilityWindows,
+  speedRolls,
+  type User,
+  type InsertUser,
+  type Interest,
   type InsertInterest,
   type MoodReaction,
   type InsertMoodReaction,
@@ -23,12 +27,29 @@ import {
   type UpdateUserLocation,
   type UpdateUserOnlineStatus,
   type Recommendation,
-  type InsertRecommendation
+  type InsertRecommendation,
+  type Report,
+  type InsertReport,
+  type Block,
+  type InsertBlock,
+  type AvailabilityWindow,
+  type InsertAvailabilityWindow,
+  type SpeedRoll,
+  type InsertSpeedRoll
 } from "@shared/schema";
 import session from "express-session";
 import createMemoryStore from "memorystore";
+import { scrypt, randomBytes } from "crypto";
+import { promisify } from "util";
 
 const MemoryStore = createMemoryStore(session);
+const scryptAsync = promisify(scrypt);
+
+async function hashPassword(password: string): Promise<string> {
+  const salt = randomBytes(16).toString("hex");
+  const buf = (await scryptAsync(password, salt, 64)) as Buffer;
+  return `${buf.toString("hex")}.${salt}`;
+}
 
 export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
@@ -71,6 +92,29 @@ export interface IStorage {
   createRecommendation(recommendation: InsertRecommendation): Promise<Recommendation>;
   markRecommendationAsViewed(id: number): Promise<Recommendation | undefined>;
   
+  // Report methods
+  createReport(report: InsertReport): Promise<Report>;
+  getReportsForUser(userId: number): Promise<Report[]>;
+
+  // Block methods
+  createBlock(block: InsertBlock): Promise<Block>;
+  removeBlock(blockerUserId: number, blockedUserId: number): Promise<boolean>;
+  isBlocked(userId1: number, userId2: number): Promise<boolean>;
+  getBlockedUserIds(userId: number): Promise<number[]>;
+
+  // Availability methods
+  getUserAvailability(userId: number): Promise<AvailabilityWindow[]>;
+  setUserAvailability(userId: number, windows: InsertAvailabilityWindow[]): Promise<AvailabilityWindow[]>;
+  deleteAvailabilityWindow(id: number): Promise<boolean>;
+  getAvailableUsersNow(): Promise<number[]>;
+
+  // Speed Roll methods
+  createSpeedRoll(roll: InsertSpeedRoll): Promise<SpeedRoll>;
+  getSpeedRoll(id: number): Promise<SpeedRoll | undefined>;
+  updateSpeedRollStatus(id: number, status: string): Promise<SpeedRoll | undefined>;
+  getUserSpeedRollsToday(userId: number): Promise<number>;
+  getPendingSpeedRollForUser(targetUserId: number): Promise<SpeedRoll | undefined>;
+
   // Session store
   sessionStore: session.Store;
 }
@@ -83,6 +127,10 @@ export class MemStorage implements IStorage {
   private matches: Map<number, Match>;
   private messages: Map<number, Message>;
   private recommendations: Map<number, Recommendation>;
+  private reports_store: Map<number, Report>;
+  private blocks_store: Map<number, Block>;
+  private availabilityWindows_store: Map<number, AvailabilityWindow>;
+  private speedRolls_store: Map<number, SpeedRoll>;
   currentId: number;
   interestId: number;
   moodReactionId: number;
@@ -90,6 +138,10 @@ export class MemStorage implements IStorage {
   matchId: number;
   messageId: number;
   recommendationId: number;
+  reportId: number;
+  blockId: number;
+  availabilityWindowId: number;
+  speedRollId: number;
   sessionStore: session.Store;
   
   // Video Connection methods
@@ -98,7 +150,7 @@ export class MemStorage implements IStorage {
     const newConnection: VideoConnection = {
       ...connection,
       id,
-      startedAt: new Date(),
+      startedAt: new Date().toISOString(),
       endedAt: null,
       duration: null,
       userOnePicked: false,
@@ -155,7 +207,7 @@ export class MemStorage implements IStorage {
     const newMatch: Match = {
       ...match,
       id,
-      createdAt: new Date(),
+      createdAt: new Date().toISOString(),
       isActive: true,
     };
     this.matches.set(id, newMatch);
@@ -202,7 +254,7 @@ export class MemStorage implements IStorage {
       ...message,
       id,
       content: message.content,
-      createdAt: new Date(),
+      createdAt: new Date().toISOString(),
       isRead: false,
     };
     this.messages.set(id, newMessage);
@@ -216,8 +268,8 @@ export class MemStorage implements IStorage {
         conversation.push(message);
       }
     }
-    return conversation.sort((a, b) => 
-      a.createdAt.getTime() - b.createdAt.getTime()
+    return conversation.sort((a, b) =>
+      (a.createdAt || '').localeCompare(b.createdAt || '')
     );
   }
   
@@ -257,6 +309,10 @@ export class MemStorage implements IStorage {
     this.matches = new Map();
     this.messages = new Map();
     this.recommendations = new Map();
+    this.reports_store = new Map();
+    this.blocks_store = new Map();
+    this.availabilityWindows_store = new Map();
+    this.speedRolls_store = new Map();
     this.currentId = 1;
     this.interestId = 1;
     this.moodReactionId = 1;
@@ -264,9 +320,14 @@ export class MemStorage implements IStorage {
     this.matchId = 1;
     this.messageId = 1;
     this.recommendationId = 1;
+    this.reportId = 1;
+    this.blockId = 1;
+    this.availabilityWindowId = 1;
+    this.speedRollId = 1;
     this.sessionStore = new MemoryStore({
       checkPeriod: 86400000 // prune expired entries every 24h
     });
+    // Run async seed
     this.seedData();
   }
   
@@ -294,8 +355,9 @@ export class MemStorage implements IStorage {
     const newRecommendation: Recommendation = {
       ...recommendation,
       id,
+      reason: recommendation.reason ?? null,
       isViewed: false,
-      createdAt: now,
+      createdAt: now.toISOString(),
     };
     
     this.recommendations.set(id, newRecommendation);
@@ -318,7 +380,10 @@ export class MemStorage implements IStorage {
     return updatedRecommendation;
   }
 
-  private seedData() {
+  private async seedData() {
+    // Hash the default password once for all seed users
+    const hashedPassword = await hashPassword("password");
+
     // Seed with sample users for development
     const sampleUsers = [
       {
@@ -402,6 +467,7 @@ export class MemStorage implements IStorage {
       },
       {
         username: "noah",
+        email: "noah@example.com",
         password: "password",
         fullName: "Noah Turner",
         age: 30,
@@ -414,6 +480,7 @@ export class MemStorage implements IStorage {
       },
       {
         username: "sophia",
+        email: "sophia@example.com",
         password: "password",
         fullName: "Sophia Martinez",
         age: 25,
@@ -426,6 +493,7 @@ export class MemStorage implements IStorage {
       },
       {
         username: "ethan",
+        email: "ethan@example.com",
         password: "password",
         fullName: "Ethan Reynolds",
         age: 33,
@@ -438,6 +506,7 @@ export class MemStorage implements IStorage {
       },
       {
         username: "ava",
+        email: "ava@example.com",
         password: "password",
         fullName: "Ava Thompson",
         age: 28,
@@ -450,24 +519,29 @@ export class MemStorage implements IStorage {
       },
     ];
 
-    // Create sample users
-    sampleUsers.forEach((userData) => {
-      this.createUser(userData).then((user) => {
-        // Set some users as online for demo purposes
-        if (["michael", "sarah", "emma", "david", "olivia", "noah", "sophia", "ava"].includes(user.username)) {
-          this.updateUserOnlineStatus(user.id, { isOnline: true });
-        }
-
-        // Add interests for Michael
-        if (user.username === "michael") {
-          this.addUserInterest({ userId: user.id, name: "Hiking" });
-          this.addUserInterest({ userId: user.id, name: "Photography" });
-          this.addUserInterest({ userId: user.id, name: "Coding" });
-          this.addUserInterest({ userId: user.id, name: "Coffee" });
-          this.addUserInterest({ userId: user.id, name: "Travel" });
-        }
+    // Create sample users with hashed passwords
+    for (const userData of sampleUsers) {
+      const user = await this.createUser({
+        ...userData,
+        password: hashedPassword, // Use the pre-hashed password
       });
-    });
+
+      // Set some users as online for demo purposes
+      if (["michael", "sarah", "emma", "david", "olivia", "noah", "sophia", "ava"].includes(user.username)) {
+        await this.updateUserOnlineStatus(user.id, { isOnline: true });
+      }
+
+      // Add interests for Michael
+      if (user.username === "michael") {
+        await this.addUserInterest({ userId: user.id, name: "Hiking" });
+        await this.addUserInterest({ userId: user.id, name: "Photography" });
+        await this.addUserInterest({ userId: user.id, name: "Coding" });
+        await this.addUserInterest({ userId: user.id, name: "Coffee" });
+        await this.addUserInterest({ userId: user.id, name: "Travel" });
+      }
+    }
+
+    console.log("Seed data created with hashed passwords");
   }
 
   async getUser(id: number): Promise<User | undefined> {
@@ -482,9 +556,10 @@ export class MemStorage implements IStorage {
 
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = this.currentId++;
-    const user: User = { 
-      id, 
+    const user: User = {
+      id,
       username: insertUser.username,
+      email: insertUser.email,
       password: insertUser.password,
       fullName: insertUser.fullName,
       age: insertUser.age,
@@ -496,7 +571,8 @@ export class MemStorage implements IStorage {
       coverImage: insertUser.coverImage || null,
       latitude: insertUser.latitude || null,
       longitude: insertUser.longitude || null,
-      isOnline: false
+      isOnline: false,
+      isVerified: false
     };
     this.users.set(id, user);
     return user;
@@ -586,7 +662,7 @@ export class MemStorage implements IStorage {
       fromUserId: reaction.fromUserId,
       toUserId: reaction.toUserId,
       emoji: reaction.emoji,
-      createdAt: now
+      createdAt: now.toISOString()
     };
     
     this.moodReactions.set(id, newReaction);
@@ -606,6 +682,180 @@ export class MemStorage implements IStorage {
         (reaction.fromUserId === fromUserId && reaction.toUserId === toUserId) ||
         (reaction.fromUserId === toUserId && reaction.toUserId === fromUserId)
       );
+  }
+  // Report methods
+  async createReport(report: InsertReport): Promise<Report> {
+    const id = this.reportId++;
+    const newReport: Report = {
+      ...report,
+      id,
+      description: report.description ?? null,
+      videoConnectionId: report.videoConnectionId ?? null,
+      status: "pending",
+      createdAt: new Date().toISOString(),
+    };
+    this.reports_store.set(id, newReport);
+    return newReport;
+  }
+
+  async getReportsForUser(userId: number): Promise<Report[]> {
+    return Array.from(this.reports_store.values())
+      .filter(r => r.reportedUserId === userId);
+  }
+
+  // Block methods
+  async createBlock(block: InsertBlock): Promise<Block> {
+    // Check if already blocked
+    for (const b of this.blocks_store.values()) {
+      if (b.blockerUserId === block.blockerUserId && b.blockedUserId === block.blockedUserId) {
+        return b;
+      }
+    }
+    const id = this.blockId++;
+    const newBlock: Block = {
+      ...block,
+      id,
+      createdAt: new Date().toISOString(),
+    };
+    this.blocks_store.set(id, newBlock);
+    return newBlock;
+  }
+
+  async removeBlock(blockerUserId: number, blockedUserId: number): Promise<boolean> {
+    for (const [id, block] of this.blocks_store.entries()) {
+      if (block.blockerUserId === blockerUserId && block.blockedUserId === blockedUserId) {
+        this.blocks_store.delete(id);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  async isBlocked(userId1: number, userId2: number): Promise<boolean> {
+    for (const block of this.blocks_store.values()) {
+      if ((block.blockerUserId === userId1 && block.blockedUserId === userId2) ||
+          (block.blockerUserId === userId2 && block.blockedUserId === userId1)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  async getBlockedUserIds(userId: number): Promise<number[]> {
+    const blockedIds: number[] = [];
+    for (const block of this.blocks_store.values()) {
+      if (block.blockerUserId === userId) {
+        blockedIds.push(block.blockedUserId);
+      }
+    }
+    return blockedIds;
+  }
+
+  // Availability methods
+  async getUserAvailability(userId: number): Promise<AvailabilityWindow[]> {
+    return Array.from(this.availabilityWindows_store.values())
+      .filter(w => w.userId === userId);
+  }
+
+  async setUserAvailability(userId: number, windows: InsertAvailabilityWindow[]): Promise<AvailabilityWindow[]> {
+    // Remove existing windows for user
+    for (const [id, w] of this.availabilityWindows_store.entries()) {
+      if (w.userId === userId) {
+        this.availabilityWindows_store.delete(id);
+      }
+    }
+    // Add new windows
+    const result: AvailabilityWindow[] = [];
+    for (const window of windows) {
+      const id = this.availabilityWindowId++;
+      const newWindow: AvailabilityWindow = {
+        ...window,
+        id,
+        userId,
+        isRecurring: window.isRecurring ?? true,
+        specificDate: window.specificDate ?? null,
+        createdAt: new Date().toISOString(),
+      };
+      this.availabilityWindows_store.set(id, newWindow);
+      result.push(newWindow);
+    }
+    return result;
+  }
+
+  async deleteAvailabilityWindow(id: number): Promise<boolean> {
+    return this.availabilityWindows_store.delete(id);
+  }
+
+  async getAvailableUsersNow(): Promise<number[]> {
+    const now = new Date();
+    const currentDay = now.getDay(); // 0-6
+    const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+    const today = now.toISOString().split('T')[0];
+
+    const availableUserIds = new Set<number>();
+
+    for (const window of this.availabilityWindows_store.values()) {
+      const matchesDay = window.isRecurring
+        ? window.dayOfWeek === currentDay
+        : window.specificDate === today;
+
+      if (matchesDay && currentTime >= window.startTime && currentTime <= window.endTime) {
+        availableUserIds.add(window.userId);
+      }
+    }
+
+    return Array.from(availableUserIds);
+  }
+
+  // Speed Roll methods
+  async createSpeedRoll(roll: InsertSpeedRoll): Promise<SpeedRoll> {
+    const id = this.speedRollId++;
+    const newRoll: SpeedRoll = {
+      ...roll,
+      id,
+      matchReason: roll.matchReason ?? null,
+      status: "pending",
+      createdAt: new Date().toISOString(),
+      respondedAt: null,
+    };
+    this.speedRolls_store.set(id, newRoll);
+    return newRoll;
+  }
+
+  async getSpeedRoll(id: number): Promise<SpeedRoll | undefined> {
+    return this.speedRolls_store.get(id);
+  }
+
+  async updateSpeedRollStatus(id: number, status: string): Promise<SpeedRoll | undefined> {
+    const roll = this.speedRolls_store.get(id);
+    if (!roll) return undefined;
+    const updated: SpeedRoll = {
+      ...roll,
+      status,
+      respondedAt: status !== "pending" ? new Date().toISOString() : roll.respondedAt,
+    };
+    this.speedRolls_store.set(id, updated);
+    return updated;
+  }
+
+  async getUserSpeedRollsToday(userId: number): Promise<number> {
+    const today = new Date().toISOString().split('T')[0];
+    let count = 0;
+    for (const roll of this.speedRolls_store.values()) {
+      if (roll.userId === userId && roll.createdAt && roll.createdAt.startsWith(today)) {
+        count++;
+      }
+    }
+    return count;
+  }
+
+  async getPendingSpeedRollForUser(targetUserId: number): Promise<SpeedRoll | undefined> {
+    for (const roll of this.speedRolls_store.values()) {
+      if (roll.targetUserId === targetUserId && roll.status === "pending") {
+        return roll;
+      }
+    }
+    return undefined;
   }
 }
 

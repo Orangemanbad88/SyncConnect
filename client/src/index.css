@@ -111,61 +111,64 @@
 }
 
 :root {
-  --primary-blue: #3B82F6;
-  --primary-coral: #F87171;
-  --primary-salmon: #FA8072;
-  --secondary-white: #FFFFFF;
-  --neutral-offwhite: #F9FAFB;
-  --neutral-tan: #F5E8E0;
-  --neutral-gray: #E5E7EB;
-  --neutral-black: #121212;
-  --accent-green: #10B981;
-  --text-dark: #333333;
-  
-  /* shadcn variables */
-  --background: 0 0% 98%;
-  --foreground: 222 47% 33%;
-  --muted: 210 40% 96.1%;
-  --muted-foreground: 215.4 16.3% 46.9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 222 47% 33%;
-  --card: 0 0% 100%;
-  --card-foreground: 222 47% 33%;
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --primary: 217 91% 53%;
-  --primary-foreground: 210 40% 98%;
-  --secondary: 0 84% 73%;
-  --secondary-foreground: 210 40% 98%;
-  --accent: 142 71% 45%;
-  --accent-foreground: 210 40% 98%;
-  --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 210 40% 98%;
-  --ring: 222 47% 33%;
+  --primary-blue: #4A6FA5;
+  --primary-coral: #C17767;
+  --primary-salmon: #D4A574;
+  --secondary-white: #F5F5F0;
+  --neutral-offwhite: #E8E4DF;
+  --neutral-tan: #1A1D23;
+  --neutral-gray: #2D3139;
+  --neutral-black: #0D0F12;
+  --accent-green: #5B8A72;
+  --accent-gold: #C9A962;
+  --accent-amber: #D4A574;
+  --text-dark: #E8E4DF;
+  --text-light: #9CA3AF;
+
+  /* shadcn variables - Dark sophisticated theme */
+  --background: 220 15% 11%;
+  --foreground: 40 10% 92%;
+  --muted: 220 12% 18%;
+  --muted-foreground: 220 10% 55%;
+  --popover: 220 15% 13%;
+  --popover-foreground: 40 10% 92%;
+  --card: 220 14% 14%;
+  --card-foreground: 40 10% 92%;
+  --border: 220 12% 22%;
+  --input: 220 12% 22%;
+  --primary: 38 50% 60%;
+  --primary-foreground: 220 15% 11%;
+  --secondary: 15 35% 55%;
+  --secondary-foreground: 40 10% 95%;
+  --accent: 150 25% 45%;
+  --accent-foreground: 40 10% 95%;
+  --destructive: 0 55% 45%;
+  --destructive-foreground: 40 10% 95%;
+  --ring: 38 50% 60%;
 
   --radius: 0.5rem;
 }
 
 .dark {
-  --background: 224 71% 4%;
-  --foreground: 213 31% 91%;
-  --muted: 223 47% 11%;
-  --muted-foreground: 215.4 16.3% 56.9%;
-  --popover: 224 71% 4%;
-  --popover-foreground: 215 20.2% 65.1%;
-  --card: 224 71% 4%;
-  --card-foreground: 213 31% 91%;
-  --border: 216 34% 17%;
-  --input: 216 34% 17%;
-  --primary: 217 91% 53%;
-  --primary-foreground: 210 40% 98%;
-  --secondary: 25 95% 53%;
-  --secondary-foreground: 210 40% 98%;
-  --accent: 142 71% 45%;
-  --accent-foreground: 210 40% 98%;
-  --destructive: 0 63% 31%;
-  --destructive-foreground: 210 40% 98%;
-  --ring: 212.7 26.8% 83.9%;
+  --background: 220 18% 8%;
+  --foreground: 40 10% 92%;
+  --muted: 220 15% 14%;
+  --muted-foreground: 220 10% 50%;
+  --popover: 220 18% 10%;
+  --popover-foreground: 40 10% 90%;
+  --card: 220 16% 12%;
+  --card-foreground: 40 10% 92%;
+  --border: 220 12% 20%;
+  --input: 220 12% 20%;
+  --primary: 38 50% 60%;
+  --primary-foreground: 220 18% 8%;
+  --secondary: 15 35% 55%;
+  --secondary-foreground: 40 10% 95%;
+  --accent: 150 25% 45%;
+  --accent-foreground: 40 10% 95%;
+  --destructive: 0 55% 40%;
+  --destructive-foreground: 40 10% 95%;
+  --ring: 38 50% 60%;
 }
 
 @layer base {
@@ -173,13 +176,15 @@
     @apply border-border;
   }
   body {
-    font-family: 'Quicksand', sans-serif;
-    @apply bg-[var(--neutral-tan)] text-[var(--primary-blue)];
+    font-family: 'Barlow', sans-serif;
+    @apply bg-[var(--neutral-tan)] text-[var(--text-dark)];
+    font-weight: 400;
+    letter-spacing: 0.01em;
   }
-  
+
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display SC', serif;
-    @apply font-medium;
+    font-family: 'Cinzel', serif;
+    @apply font-semibold tracking-wide;
   }
   
   .app-title {
@@ -431,16 +436,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--neutral-offwhite);
+  background: #1A1D23;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #D1D5DB;
+  background: #3D4451;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #9CA3AF;
+  background: #4D5565;
 }
 
 .profile-card {
@@ -544,4 +549,167 @@
     transform: scaleX(0.8) translateY(10px);
     opacity: 0.4;
   }
+}
+
+/* Video Chat Animations */
+@keyframes call-ring {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes call-pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+  }
+  70% {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 15px rgba(34, 197, 94, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+  }
+}
+
+@keyframes connecting-dots {
+  0%, 20% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-bottom {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-call-ring {
+  animation: call-ring 1s ease-in-out infinite;
+}
+
+.animate-call-pulse {
+  animation: call-pulse 2s infinite;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out forwards;
+}
+
+.animate-fade-in-scale {
+  animation: fade-in-scale 0.3s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out forwards;
+}
+
+.animate-slide-in-bottom {
+  animation: slide-in-bottom 0.4s ease-out forwards;
+}
+
+/* Video chat control button hover effects */
+.video-control-btn {
+  @apply transition-all duration-200 ease-out;
+}
+
+.video-control-btn:hover {
+  @apply scale-110;
+}
+
+.video-control-btn:active {
+  @apply scale-95;
+}
+
+/* Glassmorphism effect for video overlays */
+.glass-overlay {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Self video pip animation */
+.self-video-pip {
+  transition: all 0.3s ease-out;
+}
+
+.self-video-pip:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Connection status badge */
+.connection-badge {
+  @apply px-3 py-1 rounded-full text-xs font-medium;
+  animation: fade-in-scale 0.3s ease-out;
+}
+
+.connection-badge.connected {
+  @apply bg-green-500/20 text-green-400 border border-green-500/30;
+}
+
+.connection-badge.connecting {
+  @apply bg-yellow-500/20 text-yellow-400 border border-yellow-500/30;
+}
+
+.connection-badge.failed {
+  @apply bg-red-500/20 text-red-400 border border-red-500/30;
+}
+
+/* Capacitor safe area insets — evaluates to 0 on non-notch devices */
+#root {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }

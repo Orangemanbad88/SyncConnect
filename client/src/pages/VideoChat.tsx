@@ -2,11 +2,15 @@ import { useEffect, useRef, useState } from "react";
 import { useParams, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useWebRTC } from "@/hooks/useWebRTC";
-import { Loader2, Mic, MicOff, Video as VideoIcon, VideoOff, ThumbsUp, ThumbsDown, X, Info, Lock, Play } from "lucide-react";
+import { Loader2, Mic, MicOff, Video as VideoIcon, VideoOff, ThumbsUp, ThumbsDown, X, Info, Lock, Play, Sparkles, Shield } from "lucide-react";
 import { useUser } from "@/context/UserContext";
 import { useToast } from "@/hooks/use-toast";
 import { useAmbient } from "@/context/AmbientContext";
 import ProfileVideoPreview from "@/components/ProfileVideoPreview";
+import ConnectionQualityIndicator from "@/components/ConnectionQualityIndicator";
+import SparkQuestions, { SparkQuestionBubble } from "@/components/SparkQuestions";
+import SafetyControls from "@/components/SafetyControls";
+import ReportModal from "@/components/ReportModal";
 
 export default function VideoChat() {
   const { id } = useParams<{ id: string }>();
@@ -14,7 +18,11 @@ export default function VideoChat() {
   const { currentUser, nearbyUsers } = useUser();
   const { toast } = useToast();
   const { background, highlight } = useAmbient();
-  
+
+  // Demo/simulation mode - enables testing without another user
+  const [isDemoMode, setIsDemoMode] = useState<boolean>(true);
+  const [demoStream, setDemoStream] = useState<MediaStream | null>(null);
+
   // Video chat states
   const [timeLeft, setTimeLeft] = useState<number>(120); // 2 minutes in seconds
   const [showDecision, setShowDecision] = useState<boolean>(false);
@@ -22,38 +30,59 @@ export default function VideoChat() {
   const [myDecision, setMyDecision] = useState<boolean | null>(null);
   const [matchComplete, setMatchComplete] = useState<boolean>(false);
   const [showProfileVideo, setShowProfileVideo] = useState<boolean>(false);
-  
+
+  // Safety states
+  const [showSafetyMenu, setShowSafetyMenu] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
+
+  // Icebreaker states
+  const [activeSparkQuestion, setActiveSparkQuestion] = useState<string | null>(null);
+  const [sparkQuestionTimer, setSparkQuestionTimer] = useState<NodeJS.Timeout | null>(null);
+
   // UI states
   const [activeTab, setActiveTab] = useState<'public' | 'private' | 'meeting'>('public');
   const [showPrivateTabInfo, setShowPrivateTabInfo] = useState<boolean>(false);
   const [showMeetingTabInfo, setShowMeetingTabInfo] = useState<boolean>(false);
   const [currentFilter, setCurrentFilter] = useState<'none' | 'warm' | 'cool' | 'dramatic' | 'vintage'>('none');
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
-  
+
   const localVideoRef = useRef<HTMLVideoElement>(null);
   const remoteVideoRef = useRef<HTMLVideoElement>(null);
+
+  // Get target user or create a demo user
+  const demoUser = {
+    id: parseInt(id || "0"),
+    fullName: "Demo Partner",
+    age: 28,
+    job: "Testing Mode",
+    isOnline: true,
+    profileImage: "https://randomuser.me/api/portraits/women/44.jpg"
+  };
+  const targetUser = nearbyUsers.find(user => user.id === parseInt(id || "0")) || (isDemoMode ? demoUser : null);
   
-  const targetUser = nearbyUsers.find(user => user.id === parseInt(id || "0"));
-  
+  // Demo mode audio/video controls
+  const [demoAudioEnabled, setDemoAudioEnabled] = useState(true);
+  const [demoVideoEnabled, setDemoVideoEnabled] = useState(true);
+
   const {
     localStream,
     remoteStream,
-    connectionState,
-    isCallInProgress,
-    toggleAudio,
-    toggleVideo,
-    isAudioEnabled,
-    isVideoEnabled,
+    connectionState: realConnectionState,
+    isCallInProgress: realIsCallInProgress,
+    toggleAudio: realToggleAudio,
+    toggleVideo: realToggleVideo,
+    isAudioEnabled: realIsAudioEnabled,
+    isVideoEnabled: realIsVideoEnabled,
     startCall,
-    endCall
+    endCall: realEndCall
   } = useWebRTC({
     onLocalStream: (stream) => {
-      if (localVideoRef.current) {
+      if (localVideoRef.current && !isDemoMode) {
         localVideoRef.current.srcObject = stream;
       }
     },
     onRemoteStream: (stream) => {
-      if (remoteVideoRef.current) {
+      if (remoteVideoRef.current && !isDemoMode) {
         remoteVideoRef.current.srcObject = stream;
       }
     },
@@ -67,6 +96,47 @@ export default function VideoChat() {
       }
     }
   });
+
+  // Use demo or real values based on mode
+  const connectionState = isDemoMode ? 'connected' : realConnectionState;
+  const isCallInProgress = isDemoMode ? true : realIsCallInProgress;
+  const isAudioEnabled = isDemoMode ? demoAudioEnabled : realIsAudioEnabled;
+  const isVideoEnabled = isDemoMode ? demoVideoEnabled : realIsVideoEnabled;
+
+  const toggleAudio = () => {
+    if (isDemoMode && demoStream) {
+      const audioTrack = demoStream.getAudioTracks()[0];
+      if (audioTrack) {
+        audioTrack.enabled = !audioTrack.enabled;
+        setDemoAudioEnabled(audioTrack.enabled);
+      }
+    } else {
+      realToggleAudio();
+    }
+  };
+
+  const toggleVideo = () => {
+    if (isDemoMode && demoStream) {
+      const videoTrack = demoStream.getVideoTracks()[0];
+      if (videoTrack) {
+        videoTrack.enabled = !videoTrack.enabled;
+        setDemoVideoEnabled(videoTrack.enabled);
+      }
+    } else {
+      realToggleVideo();
+    }
+  };
+
+  const endCall = () => {
+    if (isDemoMode) {
+      if (demoStream) {
+        demoStream.getTracks().forEach(track => track.stop());
+      }
+      setShowDecision(true);
+    } else {
+      realEndCall();
+    }
+  };
   
   // Timer functionality
   useEffect(() => {
@@ -97,8 +167,101 @@ export default function VideoChat() {
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
   
-  // Initialize call when component mounts
+  // Initialize demo mode with local camera
   useEffect(() => {
+    if (isDemoMode) {
+      const initDemoMode = async () => {
+        try {
+          console.log('Requesting camera access...');
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: true
+          });
+          console.log('Camera stream obtained:', stream);
+          console.log('Video tracks:', stream.getVideoTracks());
+          console.log('Audio tracks:', stream.getAudioTracks());
+          setDemoStream(stream);
+
+          // Set local video
+          if (localVideoRef.current) {
+            console.log('Setting local video stream');
+            localVideoRef.current.srcObject = stream;
+            localVideoRef.current.play().catch(e => console.error('Error playing local video:', e));
+          }
+          // Mirror the stream to remote video (simulating partner)
+          if (remoteVideoRef.current) {
+            console.log('Setting remote video stream');
+            remoteVideoRef.current.srcObject = stream;
+            remoteVideoRef.current.play().catch(e => console.error('Error playing remote video:', e));
+          }
+
+          // Start the timer for demo mode
+          startTimer();
+
+          toast({
+            title: "Demo Mode Active",
+            description: "Testing video chat with your camera as both streams"
+          });
+        } catch (error) {
+          console.error('Failed to get camera:', error);
+          toast({
+            title: "Camera Error",
+            description: "Please allow camera access to test video chat",
+            variant: "destructive"
+          });
+        }
+      };
+
+      initDemoMode();
+
+      return () => {
+        if (demoStream) {
+          demoStream.getTracks().forEach(track => track.stop());
+        }
+      };
+    }
+  }, [isDemoMode]);
+
+  // Auto-cycle spark questions every 30s during calls
+  useEffect(() => {
+    if (!isCallInProgress || showDecision) return;
+
+    const allQuestions = [
+      "What's the most spontaneous thing you've ever done?",
+      "If you could have dinner with anyone, who would it be?",
+      "What's your go-to karaoke song?",
+      "What does your ideal life look like in 5 years?",
+      "What makes you feel most alive?",
+      "What's your idea of a perfect date?",
+      "What do you find most attractive in a person?",
+      "Pineapple on pizza: yes or no?",
+      "What would your superpower be?",
+      "What's the best advice you've ever received?",
+    ];
+
+    let questionIndex = 0;
+    const showQuestion = () => {
+      setActiveSparkQuestion(allQuestions[questionIndex % allQuestions.length]);
+      questionIndex++;
+      // Auto-dismiss after 15 seconds
+      setTimeout(() => setActiveSparkQuestion(null), 15000);
+    };
+
+    // Show first question after 5s
+    const initialTimer = setTimeout(showQuestion, 5000);
+    // Then cycle every 30s
+    const cycleTimer = setInterval(showQuestion, 30000);
+
+    return () => {
+      clearTimeout(initialTimer);
+      clearInterval(cycleTimer);
+    };
+  }, [isCallInProgress, showDecision]);
+
+  // Initialize real call when component mounts (non-demo mode)
+  useEffect(() => {
+    if (isDemoMode) return;
+
     if (!targetUser || !targetUser.isOnline || !currentUser) {
       toast({
         title: "Unable to connect",
@@ -108,14 +271,14 @@ export default function VideoChat() {
       setLocation('/home');
       return;
     }
-    
+
     startCall(targetUser.id);
-    
+
     // Clean up when component unmounts
     return () => {
       endCall();
     };
-  }, [targetUser, currentUser, startCall, endCall, setLocation, toast]);
+  }, [targetUser, currentUser, startCall, endCall, setLocation, toast, isDemoMode]);
   
   // Handle decision making
   const makeDecision = async (decision: boolean) => {
@@ -202,9 +365,12 @@ export default function VideoChat() {
         </div>
         
         {isCallInProgress && !showDecision && (
-          <div className="bg-gradient-to-r from-red-600 to-red-500 text-white px-4 py-1.5 rounded-full font-mono shadow-lg flex items-center font-almarai">
-            <span className="w-2 h-2 bg-white rounded-full animate-pulse mr-2"></span>
-            {formatTime(timeLeft)}
+          <div className="flex items-center gap-3">
+            <ConnectionQualityIndicator connectionState={connectionState} />
+            <div className="bg-gradient-to-r from-red-600 to-red-500 text-white px-4 py-1.5 rounded-full font-mono shadow-lg flex items-center font-almarai">
+              <span className="w-2 h-2 bg-white rounded-full animate-pulse mr-2"></span>
+              {formatTime(timeLeft)}
+            </div>
           </div>
         )}
         
@@ -304,6 +470,11 @@ export default function VideoChat() {
                   {/* Edge highlight effect */}
                   <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-black/40 via-transparent to-black/20"></div>
                   
+                  {/* Spark question bubble overlay */}
+                  {activeSparkQuestion && (
+                    <SparkQuestionBubble question={activeSparkQuestion} />
+                  )}
+
                   {/* Mode indicator */}
                   <div className="absolute bottom-28 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-black/50 text-white text-xs rounded-full">
                     Public · Anyone can see this chat
@@ -342,7 +513,7 @@ export default function VideoChat() {
                   
                   {/* Decorative elements for meeting mode */}
                   <div className="absolute top-4 left-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xs px-3 py-1 rounded-full opacity-75">
-                    Sync Meeting
+                    SYNC Meeting
                   </div>
                   
                   {/* Meeting timer display */}
@@ -613,6 +784,32 @@ export default function VideoChat() {
         </div>
       )}
       
+      {/* Spark Questions - floating button during call */}
+      {isCallInProgress && !showDecision && (
+        <SparkQuestions
+          isOpen={false}
+          onClose={() => {}}
+          floating={true}
+          onSelectQuestion={(question) => {
+            setActiveSparkQuestion(question);
+            // Auto-dismiss after 15 seconds
+            setTimeout(() => setActiveSparkQuestion(null), 15000);
+            toast({
+              title: "Spark Question Sent",
+              description: question,
+            });
+          }}
+        />
+      )}
+
+      {/* Report modal */}
+      <ReportModal
+        isOpen={showReportModal}
+        onClose={() => setShowReportModal(false)}
+        reportedUserId={targetUser?.id || 0}
+        reportedUserName={targetUser?.fullName || 'User'}
+      />
+
       {/* Controls (only show during call) */}
       {isCallInProgress && !showDecision && (
         <div className="w-full p-4 flex justify-center gap-4 bg-gradient-to-t from-black/80 to-transparent">
@@ -621,8 +818,8 @@ export default function VideoChat() {
               variant="ghost"
               onClick={toggleAudio}
               className={`p-4 rounded-full transition-all duration-200 ${
-                !isAudioEnabled 
-                  ? 'bg-red-500 text-white hover:bg-red-600' 
+                !isAudioEnabled
+                  ? 'bg-red-500 text-white hover:bg-red-600'
                   : 'bg-gray-800/70 text-white hover:bg-gray-700'
               }`}
               title={isAudioEnabled ? "Mute microphone" : "Unmute microphone"}
@@ -645,6 +842,15 @@ export default function VideoChat() {
             
             <Button
               variant="ghost"
+              onClick={() => setShowSafetyMenu(!showSafetyMenu)}
+              className="p-4 rounded-full bg-gray-800/70 text-white hover:bg-gray-700 transition-all duration-200"
+              title="Safety controls"
+            >
+              <Shield className="w-6 h-6" />
+            </Button>
+
+            <Button
+              variant="ghost"
               onClick={() => {
                 endCall();
                 setShowDecision(true);
@@ -655,6 +861,32 @@ export default function VideoChat() {
               <X className="w-6 h-6" />
             </Button>
           </div>
+
+          {/* Safety menu dropdown */}
+          {showSafetyMenu && (
+            <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2 bg-gray-900 rounded-xl border border-gray-700 p-3 shadow-xl z-30 w-64">
+              <SafetyControls
+                targetUserId={targetUser?.id || 0}
+                targetUserName={targetUser?.fullName || 'User'}
+                compact={false}
+                onBlock={() => {
+                  endCall();
+                  setLocation('/home');
+                }}
+              />
+              <Button
+                variant="destructive"
+                className="w-full mt-2"
+                onClick={() => {
+                  endCall();
+                  setShowReportModal(true);
+                }}
+              >
+                <Shield className="w-4 h-4 mr-2" />
+                Emergency End + Report
+              </Button>
+            </div>
+          )}
         </div>
       )}
     </div>
