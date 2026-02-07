@@ -4,6 +4,9 @@
   "description": "SYNC - Video Speed Dating App",
   "type": "module",
   "license": "MIT",
+  "engines": {
+    "node": ">=21.2.0"
+  },
   "scripts": {
     "dev": "set NODE_ENV=development&& tsx server/index.ts",
     "dev:unix": "NODE_ENV=development tsx server/index.ts",
